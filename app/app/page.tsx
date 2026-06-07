@@ -11,6 +11,7 @@ type JobRow = {
   location: string | null;
   source_url: string;
   first_seen_at: string;
+  posted_at: string | null;
   ats_platform: string;
   ats_token: string;
   scores: {
@@ -24,15 +25,7 @@ type JobRow = {
   }[];
 };
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string }>;
-}) {
-  const params = await searchParams;
-  const page = Math.max(1, parseInt(params.page || "1", 10));
-  const pageSize = 25;
-  const offset = (page - 1) * pageSize;
+export default async function Home() {
 
   const { data: blacklist } = await supabase
     .from("blacklisted_companies")
@@ -41,7 +34,7 @@ export default async function Home({
     (blacklist || []).map((b) => b.company_name.toLowerCase())
   );
 
-  const jobFields = "id, title, company_name, location, source_url, first_seen_at, ats_platform, ats_token, scores(score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale)";
+  const jobFields = "id, title, company_name, location, source_url, first_seen_at, posted_at, ats_platform, ats_token, scores(score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale)";
 
   const [{ data: matchedJobs }, { data: scoredJobs }] = await Promise.all([
     supabase
@@ -77,9 +70,6 @@ export default async function Home({
   });
 
   const totalCount = filteredJobs.length;
-  const paginatedJobs = filteredJobs.slice(offset, offset + pageSize);
-
-  const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
     <main className="min-h-screen p-8">
@@ -102,31 +92,7 @@ export default async function Home({
           {totalCount} matches found
         </div>
 
-        <JobTable jobs={paginatedJobs} />
-
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-4 mt-6">
-            {page > 1 && (
-              <a
-                href={`/?page=${page - 1}`}
-                className="px-4 py-2 text-sm rounded border border-[#27272a] bg-[#18181b] text-[#fafafa] hover:bg-[#27272a] transition-colors"
-              >
-                Previous
-              </a>
-            )}
-            <span className="text-sm text-[#71717a]">
-              Page {page} of {totalPages}
-            </span>
-            {page < totalPages && (
-              <a
-                href={`/?page=${page + 1}`}
-                className="px-4 py-2 text-sm rounded border border-[#27272a] bg-[#18181b] text-[#fafafa] hover:bg-[#27272a] transition-colors"
-              >
-                Next
-              </a>
-            )}
-          </div>
-        )}
+        <JobTable jobs={filteredJobs} />
       </div>
     </main>
   );
