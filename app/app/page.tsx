@@ -41,13 +41,24 @@ export default async function Home({
     (blacklist || []).map((b) => b.company_name.toLowerCase())
   );
 
-  const { data: jobs } = await supabase
-    .from("jobs")
-    .select(
-      "id, title, company_name, location, source_url, first_seen_at, ats_platform, ats_token, scores(score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale)"
-    )
-    .in("status", ["matched", "scored"])
-    .order("first_seen_at", { ascending: false });
+  const jobFields = "id, title, company_name, location, source_url, first_seen_at, ats_platform, ats_token, scores(score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale)";
+
+  const [{ data: matchedJobs }, { data: scoredJobs }] = await Promise.all([
+    supabase
+      .from("jobs")
+      .select(jobFields)
+      .eq("status", "matched")
+      .order("first_seen_at", { ascending: false })
+      .limit(5000),
+    supabase
+      .from("jobs")
+      .select(jobFields)
+      .eq("status", "scored")
+      .order("first_seen_at", { ascending: false })
+      .limit(5000),
+  ]);
+
+  const jobs = [...(matchedJobs || []), ...(scoredJobs || [])];
 
   const TITLE_EXCLUDE = ["intern", "internship", "co-op", "coop", "co op"];
 
