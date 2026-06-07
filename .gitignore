@@ -1,0 +1,9 @@
+node_modules/
+.next/
+.env
+.env.local
+lambdas/layer/python/
+lambdas/*.zip
+__pycache__/
+*.pyc
+.DS_Store
