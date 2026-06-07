@@ -15,7 +15,7 @@ type Job = {
   title: string;
   company_name: string;
   location: string | null;
-  apply_url: string;
+  source_url: string;
   first_seen_at: string;
   ats_platform: string;
   ats_token: string;
@@ -105,7 +105,7 @@ export function JobTable({ jobs }: { jobs: Job[] }) {
                 </TableCell>
                 <TableCell className="text-right">
                   <a
-                    href={job.apply_url}
+                    href={job.source_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded bg-teal-600 text-white hover:bg-teal-500 transition-colors"

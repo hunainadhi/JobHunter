@@ -9,7 +9,7 @@ type JobRow = {
   title: string;
   company_name: string;
   location: string | null;
-  apply_url: string;
+  source_url: string;
   first_seen_at: string;
   ats_platform: string;
   ats_token: string;
@@ -44,7 +44,7 @@ export default async function Home({
   const { data: jobs } = await supabase
     .from("jobs")
     .select(
-      "id, title, company_name, location, apply_url, first_seen_at, ats_platform, ats_token, scores(score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale)"
+      "id, title, company_name, location, source_url, first_seen_at, ats_platform, ats_token, scores(score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale)"
     )
     .in("status", ["matched", "scored"])
     .order("first_seen_at", { ascending: false });
