@@ -3,6 +3,7 @@ import os
 import traceback
 from datetime import datetime, timezone
 
+import boto3
 import httpx
 from supabase import create_client
 
@@ -71,6 +72,7 @@ NEGATIVE_SIGNALS = {
     "head of", "lead architect", "distinguished",
     "10+ years", "10 years", "8+ years", "8 years",
     "7+ years", "7 years", "6+ years",
+    "intern", "internship", "co-op", "coop", "co op",
 }
 
 TECH_KEYWORDS = {
@@ -234,7 +236,26 @@ def lambda_handler(event, context):
             print(f"Scoring batch failed: {e}")
             traceback.print_exc()
 
+    # Self-chain if there are more unscored jobs
+    remaining = (
+        supabase.table("jobs")
+        .select("id", count="exact")
+        .eq("status", "new")
+        .not_.is_("description", "null")
+        .limit(1)
+        .execute()
+    )
+    remaining_count = remaining.count or 0
+    print(f"Scoring complete. matched={stats['matched']} scored={stats['scored']} remaining={remaining_count}")
+
+    if remaining_count > 0:
+        print(f"Re-invoking scoring for {remaining_count} remaining jobs")
+        boto3.client("lambda", region_name="ca-central-1").invoke(
+            FunctionName=os.environ.get("AWS_LAMBDA_FUNCTION_NAME", "jobhunter-scoring"),
+            InvocationType="Event",
+        )
+
     return {
         "statusCode": 200,
-        "body": json.dumps({"status": "complete", "stats": stats}, default=str),
+        "body": json.dumps({"status": "complete", "stats": stats, "remaining": remaining_count}, default=str),
     }

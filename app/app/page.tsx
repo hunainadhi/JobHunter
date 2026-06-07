@@ -41,21 +41,29 @@ export default async function Home({
     (blacklist || []).map((b) => b.company_name.toLowerCase())
   );
 
-  const { data: jobs, count } = await supabase
+  const { data: jobs } = await supabase
     .from("jobs")
     .select(
-      "id, title, company_name, location, apply_url, first_seen_at, ats_platform, ats_token, scores(score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale)",
-      { count: "exact" }
+      "id, title, company_name, location, apply_url, first_seen_at, ats_platform, ats_token, scores(score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale)"
     )
-    .eq("status", "matched")
-    .order("first_seen_at", { ascending: false })
-    .range(offset, offset + pageSize - 1);
+    .in("status", ["matched", "scored"])
+    .order("first_seen_at", { ascending: false });
 
-  const filteredJobs = ((jobs as JobRow[] | null) || []).filter(
-    (j) => !blacklistedNames.has(j.company_name.toLowerCase())
-  );
+  const filteredJobs = ((jobs as JobRow[] | null) || []).filter((j) => {
+    if (blacklistedNames.has(j.company_name.toLowerCase())) return false;
+    const s = j.scores?.[0];
+    if (!s) return false;
+    const computedScore =
+      (s.role_fit_score || 0) +
+      (s.seniority_fit_score || 0) +
+      (s.stack_overlap_score || 0) +
+      (s.keyword_score || 0);
+    return s.score >= 70 || computedScore >= 70;
+  });
 
-  const totalCount = count || 0;
+  const totalCount = filteredJobs.length;
+  const paginatedJobs = filteredJobs.slice(offset, offset + pageSize);
+
   const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
@@ -79,7 +87,7 @@ export default async function Home({
           {totalCount} matches found
         </div>
 
-        <JobTable jobs={filteredJobs} />
+        <JobTable jobs={paginatedJobs} />
 
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-4 mt-6">

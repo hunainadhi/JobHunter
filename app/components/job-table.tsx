@@ -55,15 +55,22 @@ export function JobTable({ jobs }: { jobs: Job[] }) {
           <TableRow className="border-[#27272a] bg-[#18181b] hover:bg-[#18181b]">
             <TableHead className="text-[#a1a1aa]">Title</TableHead>
             <TableHead className="text-[#a1a1aa]">Company</TableHead>
-            <TableHead className="text-[#a1a1aa] text-center">Score</TableHead>
+            <TableHead className="text-[#a1a1aa] text-center">MiniMax</TableHead>
+            <TableHead className="text-[#a1a1aa] text-center">Computed</TableHead>
             <TableHead className="text-[#a1a1aa]">Location</TableHead>
             <TableHead className="text-[#a1a1aa] text-right">Apply</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {jobs.map((job) => {
-            const score = job.scores?.[0]?.score ?? 0;
-            const rationale = job.scores?.[0]?.rationale;
+            const s = job.scores?.[0];
+            const score = s?.score ?? 0;
+            const computedScore =
+              (s?.role_fit_score || 0) +
+              (s?.seniority_fit_score || 0) +
+              (s?.stack_overlap_score || 0) +
+              (s?.keyword_score || 0);
+            const rationale = s?.rationale;
 
             return (
               <TableRow
@@ -89,6 +96,9 @@ export function JobTable({ jobs }: { jobs: Job[] }) {
                 </TableCell>
                 <TableCell className="text-center">
                   <ScoreBadge score={score} />
+                </TableCell>
+                <TableCell className="text-center">
+                  <ScoreBadge score={computedScore} />
                 </TableCell>
                 <TableCell className="text-[#a1a1aa]">
                   {job.location || "—"}

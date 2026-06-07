@@ -16,16 +16,20 @@ from location_filter import is_canadian_location
 SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_SERVICE_KEY = os.environ["SUPABASE_SERVICE_KEY"]
 SCORING_FUNCTION_NAME = os.environ.get("SCORING_FUNCTION_NAME", "jobhunter-scoring")
+INGESTION_FUNCTION_NAME = os.environ.get("AWS_LAMBDA_FUNCTION_NAME", "jobhunter-ingestion")
 SYNC_SECRET = os.environ.get("SYNC_SECRET", "")
 
 DATA_DIR = Path(__file__).parent / "data"
-SCRAPE_DELAY = 0.3  # seconds between companies — be polite
+SCRAPE_DELAY = 0.3
+BATCH_SIZE = 400
 
 ATS_SCRAPERS = {
     "greenhouse": "jobhive.scrapers.greenhouse.GreenhouseScraper",
     "lever": "jobhive.scrapers.lever.LeverScraper",
     "ashby": "jobhive.scrapers.ashby.AshbyScraper",
 }
+
+PLATFORMS = ["greenhouse", "lever", "ashby"]
 
 
 def get_scraper_class(ats_platform: str):
@@ -60,9 +64,8 @@ def load_blacklist(supabase) -> set:
     return blacklisted
 
 
-def scrape_platform(ats_platform: str, supabase, blacklist: set) -> dict:
+def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: set) -> dict:
     ScraperClass = get_scraper_class(ats_platform)
-    companies = load_company_slugs(ats_platform)
 
     stats = {
         "companies_scraped": 0,
@@ -138,51 +141,95 @@ def lambda_handler(event, context):
         if auth and auth != f"Bearer {SYNC_SECRET}":
             return {"statusCode": 401, "body": json.dumps({"error": "Unauthorized"})}
 
+    platform_idx = event.get("platform_idx", 0)
+    offset = event.get("offset", 0)
+    run_id = event.get("run_id")
+
     supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
     blacklist = load_blacklist(supabase)
+    lambda_client = boto3.client("lambda", region_name="ca-central-1")
 
-    all_stats = {}
-    for ats_platform in ["greenhouse", "lever", "ashby"]:
+    platform = PLATFORMS[platform_idx]
+    all_companies = load_company_slugs(platform)
+    batch = all_companies[offset:offset + BATCH_SIZE]
+
+    if not run_id:
         run_id = supabase.table("scrape_runs").insert({
-            "ats_platform": ats_platform,
+            "ats_platform": platform,
             "status": "running",
         }).execute().data[0]["id"]
 
-        try:
-            stats = scrape_platform(ats_platform, supabase, blacklist)
-            all_stats[ats_platform] = stats
+    print(f"[{platform}] batch offset={offset} size={len(batch)} total={len(all_companies)}")
 
-            status = "success"
-            if stats["errors"]:
-                status = "partial_failure" if stats["companies_scraped"] > 0 else "failure"
-
-            supabase.table("scrape_runs").update({
-                "completed_at": datetime.now(timezone.utc).isoformat(),
-                "status": status,
-                "companies_scraped": stats["companies_scraped"],
-                "jobs_found": stats["jobs_found"],
-                "jobs_new": stats["jobs_new"],
-                "error_log": "\n".join(stats["errors"][:50]) if stats["errors"] else None,
-            }).eq("id", run_id).execute()
-
-        except Exception as e:
-            supabase.table("scrape_runs").update({
-                "completed_at": datetime.now(timezone.utc).isoformat(),
-                "status": "failure",
-                "error_log": traceback.format_exc()[:2000],
-            }).eq("id", run_id).execute()
-            all_stats[ats_platform] = {"error": str(e)}
-
-    # Fire scoring Lambda async
     try:
-        boto3.client("lambda", region_name="ca-central-1").invoke(
-            FunctionName=SCORING_FUNCTION_NAME,
-            InvocationType="Event",
-        )
-    except Exception as e:
-        print(f"Failed to invoke scoring Lambda: {e}")
+        stats = scrape_batch(platform, batch, supabase, blacklist)
+        print(f"[{platform}] scraped={stats['companies_scraped']} found={stats['jobs_found']} new={stats['jobs_new']} errors={len(stats['errors'])}")
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps({"status": "complete", "stats": all_stats}, default=str),
-    }
+        next_offset = offset + BATCH_SIZE
+
+        if next_offset < len(all_companies):
+            # More companies in this platform — chain to next batch
+            lambda_client.invoke(
+                FunctionName=INGESTION_FUNCTION_NAME,
+                InvocationType="Event",
+                Payload=json.dumps({
+                    "platform_idx": platform_idx,
+                    "offset": next_offset,
+                    "run_id": run_id,
+                }),
+            )
+            return {"statusCode": 200, "body": json.dumps({
+                "status": "chained",
+                "platform": platform,
+                "offset": offset,
+                "next_offset": next_offset,
+                "stats": stats,
+            }, default=str)}
+
+        # Platform done — finalize scrape_run
+        status = "success"
+        if stats["errors"]:
+            status = "partial_failure" if stats["companies_scraped"] > 0 else "failure"
+
+        supabase.table("scrape_runs").update({
+            "completed_at": datetime.now(timezone.utc).isoformat(),
+            "status": status,
+            "companies_scraped": stats["companies_scraped"],
+            "jobs_found": stats["jobs_found"],
+            "jobs_new": stats["jobs_new"],
+            "error_log": "\n".join(stats["errors"][:50]) if stats["errors"] else None,
+        }).eq("id", run_id).execute()
+
+        # Move to next platform or fire scoring
+        next_platform_idx = platform_idx + 1
+        if next_platform_idx < len(PLATFORMS):
+            lambda_client.invoke(
+                FunctionName=INGESTION_FUNCTION_NAME,
+                InvocationType="Event",
+                Payload=json.dumps({
+                    "platform_idx": next_platform_idx,
+                    "offset": 0,
+                }),
+            )
+        else:
+            # All platforms done — fire scoring
+            lambda_client.invoke(
+                FunctionName=SCORING_FUNCTION_NAME,
+                InvocationType="Event",
+            )
+            print("All platforms done. Scoring Lambda invoked.")
+
+        return {"statusCode": 200, "body": json.dumps({
+            "status": "platform_complete",
+            "platform": platform,
+            "stats": stats,
+        }, default=str)}
+
+    except Exception as e:
+        supabase.table("scrape_runs").update({
+            "completed_at": datetime.now(timezone.utc).isoformat(),
+            "status": "failure",
+            "error_log": traceback.format_exc()[:2000],
+        }).eq("id", run_id).execute()
+
+        return {"statusCode": 500, "body": json.dumps({"error": str(e)}, default=str)}
