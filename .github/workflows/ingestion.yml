@@ -9,10 +9,67 @@ on:
 jobs:
   ingest:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
     strategy:
       matrix:
-        platform: [greenhouse, lever, ashby, icims, smartrecruiters, workable]
+        include:
+          # Greenhouse: 4966 companies, 5 chunks
+          - platform: greenhouse
+            chunk: 0
+            total_chunks: 5
+          - platform: greenhouse
+            chunk: 1
+            total_chunks: 5
+          - platform: greenhouse
+            chunk: 2
+            total_chunks: 5
+          - platform: greenhouse
+            chunk: 3
+            total_chunks: 5
+          - platform: greenhouse
+            chunk: 4
+            total_chunks: 5
+          # Lever: 2113 companies, 2 chunks
+          - platform: lever
+            chunk: 0
+            total_chunks: 2
+          - platform: lever
+            chunk: 1
+            total_chunks: 2
+          # Ashby: 2856 companies, 3 chunks
+          - platform: ashby
+            chunk: 0
+            total_chunks: 3
+          - platform: ashby
+            chunk: 1
+            total_chunks: 3
+          - platform: ashby
+            chunk: 2
+            total_chunks: 3
+          # iCIMS: 1363 companies, 1 chunk
+          - platform: icims
+            chunk: 0
+            total_chunks: 1
+          # SmartRecruiters: 2214 companies, 2 chunks
+          - platform: smartrecruiters
+            chunk: 0
+            total_chunks: 2
+          - platform: smartrecruiters
+            chunk: 1
+            total_chunks: 2
+          # Workable: 4269 companies, 4 chunks
+          - platform: workable
+            chunk: 0
+            total_chunks: 4
+          - platform: workable
+            chunk: 1
+            total_chunks: 4
+          - platform: workable
+            chunk: 2
+            total_chunks: 4
+          - platform: workable
+            chunk: 3
+            total_chunks: 4
       fail-fast: false
 
     steps:
@@ -27,11 +84,13 @@ jobs:
         run: |
           pip install httpx supabase "jobhive-py @ git+https://github.com/kalil0321/ats-scrapers.git"
 
-      - name: Run ingestion for ${{ matrix.platform }}
+      - name: Run ingestion for ${{ matrix.platform }} (chunk ${{ matrix.chunk }}/${{ matrix.total_chunks }})
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           ATS_PLATFORM: ${{ matrix.platform }}
+          CHUNK_INDEX: ${{ matrix.chunk }}
+          TOTAL_CHUNKS: ${{ matrix.total_chunks }}
         run: python scripts/ingest.py
 
   trigger-scoring:

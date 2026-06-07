@@ -17,6 +17,8 @@ from location_filter import is_canadian_location
 SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_SERVICE_KEY = os.environ["SUPABASE_SERVICE_KEY"]
 ATS_PLATFORM = os.environ["ATS_PLATFORM"]
+CHUNK_INDEX = int(os.environ.get("CHUNK_INDEX", "0"))
+TOTAL_CHUNKS = int(os.environ.get("TOTAL_CHUNKS", "1"))
 
 DATA_DIR = Path(__file__).parent.parent / "lambdas" / "ingestion" / "data"
 SCRAPE_DELAY = 0.3
@@ -67,11 +69,18 @@ def main():
     blacklist = load_blacklist(supabase)
 
     ScraperClass = get_scraper_class(ATS_PLATFORM)
-    companies = load_company_slugs(ATS_PLATFORM)
+    all_companies = load_company_slugs(ATS_PLATFORM)
 
-    if not companies:
+    if not all_companies:
         print(f"[{ATS_PLATFORM}] No company CSV found, skipping.")
         return
+
+    # Split into chunks
+    chunk_size = len(all_companies) // TOTAL_CHUNKS
+    start = CHUNK_INDEX * chunk_size
+    end = len(all_companies) if CHUNK_INDEX == TOTAL_CHUNKS - 1 else start + chunk_size
+    companies = all_companies[start:end]
+    print(f"[{ATS_PLATFORM}] Chunk {CHUNK_INDEX+1}/{TOTAL_CHUNKS}: companies {start}-{end} of {len(all_companies)}")
 
     run_id = supabase.table("scrape_runs").insert({
         "ats_platform": ATS_PLATFORM,
