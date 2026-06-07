@@ -49,8 +49,12 @@ export default async function Home({
     .in("status", ["matched", "scored"])
     .order("first_seen_at", { ascending: false });
 
+  const TITLE_EXCLUDE = ["intern", "internship", "co-op", "coop", "co op"];
+
   const filteredJobs = ((jobs as JobRow[] | null) || []).filter((j) => {
     if (blacklistedNames.has(j.company_name.toLowerCase())) return false;
+    const titleLower = j.title.toLowerCase();
+    if (TITLE_EXCLUDE.some((kw) => titleLower.includes(kw))) return false;
     const s = j.scores?.[0];
     if (!s) return false;
     const computedScore =
