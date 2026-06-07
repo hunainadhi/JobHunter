@@ -46,30 +46,60 @@ jobs:
           - platform: ashby
             chunk: 2
             total_chunks: 3
-          # iCIMS: 1363 companies, 1 chunk
+          # iCIMS: 1363 companies, 3 chunks
           - platform: icims
             chunk: 0
-            total_chunks: 1
-          # SmartRecruiters: 2214 companies, 2 chunks
+            total_chunks: 3
+          - platform: icims
+            chunk: 1
+            total_chunks: 3
+          - platform: icims
+            chunk: 2
+            total_chunks: 3
+          # SmartRecruiters: 2214 companies, 5 chunks
           - platform: smartrecruiters
             chunk: 0
-            total_chunks: 2
+            total_chunks: 5
           - platform: smartrecruiters
             chunk: 1
-            total_chunks: 2
-          # Workable: 4269 companies, 4 chunks
+            total_chunks: 5
+          - platform: smartrecruiters
+            chunk: 2
+            total_chunks: 5
+          - platform: smartrecruiters
+            chunk: 3
+            total_chunks: 5
+          - platform: smartrecruiters
+            chunk: 4
+            total_chunks: 5
+          # Workable: 4269 companies, 9 chunks
           - platform: workable
             chunk: 0
-            total_chunks: 4
+            total_chunks: 9
           - platform: workable
             chunk: 1
-            total_chunks: 4
+            total_chunks: 9
           - platform: workable
             chunk: 2
-            total_chunks: 4
+            total_chunks: 9
           - platform: workable
             chunk: 3
-            total_chunks: 4
+            total_chunks: 9
+          - platform: workable
+            chunk: 4
+            total_chunks: 9
+          - platform: workable
+            chunk: 5
+            total_chunks: 9
+          - platform: workable
+            chunk: 6
+            total_chunks: 9
+          - platform: workable
+            chunk: 7
+            total_chunks: 9
+          - platform: workable
+            chunk: 8
+            total_chunks: 9
       fail-fast: false
 
     steps:
