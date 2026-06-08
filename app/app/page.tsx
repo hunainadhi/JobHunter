@@ -34,40 +34,44 @@ export default async function Home() {
     (blacklist || []).map((b) => b.company_name.toLowerCase())
   );
 
-  const jobFields = "id, title, company_name, location, source_url, first_seen_at, posted_at, ats_platform, ats_token, scores(score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale)";
+  const scoreFields = "score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale, job_id, jobs!inner(id, title, company_name, location, source_url, first_seen_at, posted_at, ats_platform, ats_token)";
 
-  const [{ data: matchedJobs }, { data: scoredJobs }] = await Promise.all([
-    supabase
-      .from("jobs")
-      .select(jobFields)
-      .eq("status", "matched")
-      .order("first_seen_at", { ascending: false })
-      .limit(5000),
-    supabase
-      .from("jobs")
-      .select(jobFields)
-      .eq("status", "scored")
-      .order("first_seen_at", { ascending: false })
-      .limit(5000),
-  ]);
-
-  const jobs = [...(matchedJobs || []), ...(scoredJobs || [])];
+  const { data: scoreRows } = await supabase
+    .from("scores")
+    .select(scoreFields)
+    .eq("model", "MiniMax-M3")
+    .gte("score", 40)
+    .limit(10000);
 
   const TITLE_EXCLUDE = ["intern", "internship", "co-op", "coop", "co op"];
 
-  const filteredJobs = ((jobs as JobRow[] | null) || []).filter((j) => {
-    if (blacklistedNames.has(j.company_name.toLowerCase())) return false;
-    const titleLower = j.title.toLowerCase();
-    if (TITLE_EXCLUDE.some((kw) => titleLower.includes(kw))) return false;
-    const s = j.scores?.[0];
-    if (!s) return false;
+  const filteredJobs: JobRow[] = [];
+  for (const row of scoreRows || []) {
+    const job = (row as any).jobs;
+    if (!job) continue;
+    if (blacklistedNames.has(job.company_name.toLowerCase())) continue;
+    const titleLower = job.title.toLowerCase();
+    if (TITLE_EXCLUDE.some((kw: string) => titleLower.includes(kw))) continue;
     const computedScore =
-      (s.role_fit_score || 0) +
-      (s.seniority_fit_score || 0) +
-      (s.stack_overlap_score || 0) +
-      (s.keyword_score || 0);
-    return s.score >= 70 || computedScore >= 70;
-  });
+      (row.role_fit_score || 0) +
+      (row.seniority_fit_score || 0) +
+      (row.stack_overlap_score || 0) +
+      (row.keyword_score || 0);
+    if (row.score >= 70 || computedScore >= 70) {
+      filteredJobs.push({
+        ...job,
+        scores: [{
+          score: row.score,
+          role_fit_score: row.role_fit_score,
+          seniority_fit_score: row.seniority_fit_score,
+          stack_overlap_score: row.stack_overlap_score,
+          keyword_score: row.keyword_score,
+          matched_skills: row.matched_skills,
+          rationale: row.rationale,
+        }],
+      });
+    }
+  }
 
   const totalCount = filteredJobs.length;
 
