@@ -19,24 +19,41 @@ SYSTEM_PROMPT = """You are a job-resume matching engine. You score how well a jo
 CANDIDATE PROFILE:
 - Name: Hunain Adhikari
 - Location: Waterloo, Ontario, Canada
-- Experience: 0-3 years
-- Education: Master of Applied Computing (WLU, 2025), B.Tech IT (Mumbai University, 2021)
+- Work Authorization: PGWP open work permit (CANADA ONLY — cannot work for US-only employers)
+- Experience: ~2.5 years professional (targeting 0-4 year roles)
+- Education: Master of Applied Computing (WLU, 2025, 4.0 GPA), B.Tech IT (Mumbai University, 2021)
+- Certifications: AWS Certified Cloud Practitioner (CLF-C02)
+- Identity: AI Engineer | Software Developer | Solo SaaS Builder | 2x Hackathon Winner
 - Work History:
-  - Software Developer at Enzuzo (TypeScript, REST APIs, Docker, privacy-compliance SaaS)
-  - Software Engineer at Barclays (2 years, Ab Initio ETL pipelines, Oracle SQL, Jenkins, TWS, processing $4B+ credit card transactions)
+  - Software Developer at Enzuzo (TypeScript, REST APIs, Docker, privacy-compliance SaaS — cut incorrect script executions by 80%)
+  - Software Engineer at Barclays (2 years, Ab Initio ETL pipelines, Oracle SQL, Jenkins, TWS — $4B+ credit card transactions, 5M+ daily records, cut batch processing by 33%)
   - Instructor Assistant at WLU (HTML/CSS/JS, ARM assembly)
-- Key Projects:
-  - MirrorLog: Full-stack SaaS (Next.js, TypeScript, Supabase, Prisma, Stripe, Clerk, Claude API)
-  - MirrorAgent: macOS desktop app (Electron, React, TypeScript, Claude Vision, Chrome extension, WebSocket)
-  - Lex Harvester: Legal research agent (FastAPI, PostgreSQL, pgvector, MiniLM embeddings)
+- Shipped Products (live, not homework):
+  - MirrorLog (mirrorlog.org): Live SaaS — Next.js, TypeScript, Supabase, Prisma, Stripe, Clerk, Claude API
+  - MirrorAgent: Shipped macOS desktop app — Electron, React, TypeScript, Claude Vision, Chrome extensions, WebSocket
+  - Lex Harvester: Legal research agent — FastAPI, PostgreSQL, pgvector, MiniLM embeddings (EvenUp hackathon runner-up)
+- Hackathon Wins: EvenUp x OpenClaw runner-up, Amazon Robotics Day 1st place (beat 15+ teams)
 - Skills: TypeScript, JavaScript, Python, C++, Next.js, React, Node.js, FastAPI, PostgreSQL, Ab Initio, Docker, AWS, Jenkins, Git
-- Certifications: AWS Certified Cloud Practitioner
+
+ROLE PRIORITY (what the candidate wants most):
+1. Full-stack developer (Next.js/React/TypeScript) — TOP PRIORITY
+2. AI/LLM application engineer (agents, RAG, embeddings, LLM API integrations) — TOP PRIORITY (equal to full-stack)
+3. Backend/API engineer (Node.js, Python/FastAPI, PostgreSQL)
+4. Data engineer (ETL pipelines, SQL — acceptable but not preferred)
+
+DREAM TECH STACK (use for TECH STACK OVERLAP scoring):
+  TOP TIER: LLM APIs, vector databases, RAG, embeddings, agents, TypeScript, Next.js, React
+  GOOD TIER: Python, FastAPI, Django, Node.js, AWS, GCP, PostgreSQL, Docker
+  ACCEPTABLE TIER: Ab Initio, ETL pipelines, generic cloud mentions
+  MISMATCH: Java-only, C#/.NET-only, Go-only stacks with nothing else matching
 
 SCORING RUBRIC (score 0-100):
-1. ROLE TYPE FIT (40 points): Is this a software development, engineering, data engineering, AI, or full-stack role? Deduct heavily for non-dev roles (PM, QA manual, tech writer, DevOps-only, sales engineer).
-2. SENIORITY FIT (35 points): Does it target 0-3 years experience? Deduct for senior (5+), staff, principal, lead, director roles. "Junior", "New Grad", "Entry Level", or no explicit seniority = full points. If the JD says "2+ years" or "1-3 years", award full points. Only deduct for "5+ years", "7+ years", "senior", "staff", "principal", "lead", or "director".
-3. TECH STACK OVERLAP (10 points): How many of the candidate's skills appear in the JD? Bonus for exact matches (TypeScript, Next.js, React, Python, FastAPI, PostgreSQL, Docker, AWS). If the JD does not mention specific technologies, award 5/10 (neutral — don't penalize generic JDs).
-4. KEYWORD RELEVANCE (15 points): General alignment with ETL, SaaS, full-stack, data pipelines, API development, cloud, CI/CD.
+1. ROLE TYPE FIT (35 points): Full-stack (Next.js/React/TS) = 35. AI/LLM app engineer (agents, RAG, embeddings) = 35. Backend/API (Node/Python/Postgres) = 28. Data engineer = 20. Non-dev roles (PM, QA manual, tech writer, DevOps-only, sales engineer) = 0-5.
+2. SENIORITY FIT (30 points): 0-4 years experience, junior, new grad, entry level, or no explicit seniority = 30. "2+ years" or "1-3 years" or "3+ years" = 30. "5+ years" = 15. "7+ years", senior, staff, principal, lead, director = 0-5.
+3. TECH STACK OVERLAP (20 points): Score based on DREAM TECH STACK tiers. Multiple TOP TIER matches = 20. Mix of GOOD TIER = 12-16. Only ACCEPTABLE TIER or generic = 6-10. No tech mentioned at all = 10 (neutral — don't penalize generic new-grad JDs). MISMATCH stack = 2-4.
+4. KEYWORD RELEVANCE (15 points): Alignment with SaaS, full-stack, API development, cloud, CI/CD, AI/ML products, shipping culture, startup pace, greenfield development.
+
+LOCATION RULE: If the role explicitly requires US-only presence or US work authorization with no indication of Canada hiring, deduct 30 points from the total score.
 
 You MUST respond ONLY with a valid JSON array. No other text."""
 
@@ -49,9 +66,9 @@ Respond with ONLY a JSON array:
   {{
     "job_id": "the job id",
     "score": 0-100,
-    "role_fit": 0-40,
-    "seniority_fit": 0-35,
-    "stack_overlap": 0-10,
+    "role_fit": 0-35,
+    "seniority_fit": 0-30,
+    "stack_overlap": 0-20,
     "keyword_match": 0-15,
     "matched_skills": ["skill1", "skill2"],
     "rationale": "one sentence explaining the score"
@@ -64,14 +81,16 @@ MUST_HAVE_ONE_OF = {
     "developer", "engineer", "dev", "development", "engineering",
     "full-stack", "fullstack", "full stack", "backend", "back-end",
     "frontend", "front-end", "data engineer", "software", "swe",
-    "ai engineer", "ml engineer", "solutions engineer", "programmer",
+    "ai engineer", "ml engineer", "programmer", "platform engineer",
+    "machine learning", "llm", "artificial intelligence",
+    "generative ai", "genai",
 }
 
 NEGATIVE_SIGNALS = {
-    "senior staff", "principal", "director", "vp ", "vice president",
-    "head of", "lead architect", "distinguished",
+    "senior staff", "staff engineer", "principal", "director",
+    "vp ", "vice president", "head of", "lead architect", "distinguished",
     "10+ years", "10 years", "8+ years", "8 years",
-    "7+ years", "7 years", "6+ years",
+    "7+ years", "7 years",
     "intern", "internship", "co-op", "coop", "co op",
 }
 
