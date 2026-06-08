@@ -12,7 +12,7 @@ SUPABASE_SERVICE_KEY = os.environ["SUPABASE_SERVICE_KEY"]
 MINIMAX_API_KEY = os.environ["MINIMAX_API_KEY"]
 MINIMAX_API_URL = "https://api.minimax.io/v1/chat/completions"
 BATCH_SIZE = 10
-MATCH_THRESHOLD = 70
+MATCH_THRESHOLD = 60
 
 SYSTEM_PROMPT = """You are a job-resume matching engine. You score how well a job posting matches a candidate's profile.
 

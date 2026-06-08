@@ -14,7 +14,7 @@ CHUNK_INDEX = int(os.environ.get("CHUNK_INDEX", "0"))
 TOTAL_CHUNKS = int(os.environ.get("TOTAL_CHUNKS", "1"))
 
 BATCH_SIZE = 10
-MATCH_THRESHOLD = 70
+MATCH_THRESHOLD = 60
 
 SYSTEM_PROMPT = """You are a job-resume matching engine. You score how well a job posting matches a candidate's profile.
 

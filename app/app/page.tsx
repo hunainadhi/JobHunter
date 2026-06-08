@@ -51,6 +51,8 @@ export default async function Home() {
   const scoreRows = allScoreRows;
 
   const TITLE_EXCLUDE = ["intern", "internship", "co-op", "coop", "co op"];
+  const cutoffDate = new Date();
+  cutoffDate.setMonth(cutoffDate.getMonth() - 2);
 
   const filteredJobs: JobRow[] = [];
   for (const row of scoreRows || []) {
@@ -64,7 +66,9 @@ export default async function Home() {
       (row.seniority_fit_score || 0) +
       (row.stack_overlap_score || 0) +
       (row.keyword_score || 0);
-    if (row.score >= 70 || computedScore >= 70) {
+    const jobDate = new Date(job.posted_at || job.first_seen_at);
+    if (jobDate < cutoffDate) continue;
+    if (row.score >= 60 || computedScore >= 60) {
       filteredJobs.push({
         ...job,
         scores: [{

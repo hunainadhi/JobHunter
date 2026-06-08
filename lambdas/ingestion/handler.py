@@ -114,6 +114,12 @@ def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: 
                     "status": "new",
                 }
 
+                purge_check = supabase.table("purged_jobs").select("external_id").eq(
+                    "ats_platform", ats_platform
+                ).eq("external_id", job.ats_id).limit(1).execute()
+                if purge_check.data:
+                    continue
+
                 resp = supabase.table("jobs").upsert(
                     row,
                     on_conflict="ats_platform,external_id",
