@@ -93,12 +93,20 @@ export default async function Home() {
           <h1 className="text-2xl font-bold tracking-widest uppercase text-[#fafafa]">
             JobHunter
           </h1>
-          <a
-            href="/blacklist"
-            className="text-sm text-[#71717a] hover:text-[#fafafa] transition-colors"
-          >
-            Blacklist
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href="/stats"
+              className="text-sm text-[#71717a] hover:text-[#fafafa] transition-colors"
+            >
+              Stats
+            </a>
+            <a
+              href="/blacklist"
+              className="text-sm text-[#71717a] hover:text-[#fafafa] transition-colors"
+            >
+              Blacklist
+            </a>
+          </div>
         </div>
 
         <HealthBanner />

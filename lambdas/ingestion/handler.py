@@ -27,9 +27,11 @@ ATS_SCRAPERS = {
     "greenhouse": "jobhive.scrapers.greenhouse.GreenhouseScraper",
     "lever": "jobhive.scrapers.lever.LeverScraper",
     "ashby": "jobhive.scrapers.ashby.AshbyScraper",
+    "smartrecruiters": "jobhive.scrapers.smartrecruiters.SmartRecruitersScraper",
+    "workable": "jobhive.scrapers.workable.WorkableScraper",
 }
 
-PLATFORMS = ["greenhouse", "lever", "ashby"]
+PLATFORMS = ["greenhouse", "lever", "ashby", "smartrecruiters", "workable"]
 
 
 def get_scraper_class(ats_platform: str):
@@ -147,13 +149,86 @@ def lambda_handler(event, context):
         if auth and auth != f"Bearer {SYNC_SECRET}":
             return {"statusCode": 401, "body": json.dumps({"error": "Unauthorized"})}
 
-    platform_idx = event.get("platform_idx", 0)
-    offset = event.get("offset", 0)
-    run_id = event.get("run_id")
-
     supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
     blacklist = load_blacklist(supabase)
     lambda_client = boto3.client("lambda", region_name="ca-central-1")
+
+    # Parallel mode: orchestrator passes ats_platform + chunk_index + total_chunks
+    # Sequential mode (legacy): uses platform_idx + offset
+    ats_platform = event.get("ats_platform")
+
+    if ats_platform:
+        chunk_index = event.get("chunk_index", 0)
+        total_chunks = event.get("total_chunks", 1)
+        offset = event.get("offset", 0)
+        run_id = event.get("run_id")
+
+        all_companies = load_company_slugs(ats_platform)
+        chunk_size = len(all_companies) // total_chunks
+        chunk_start = chunk_index * chunk_size
+        chunk_end = len(all_companies) if chunk_index == total_chunks - 1 else chunk_start + chunk_size
+        my_companies = all_companies[chunk_start:chunk_end]
+
+        batch = my_companies[offset:offset + BATCH_SIZE]
+        if not batch:
+            return {"statusCode": 200, "body": json.dumps({"status": "empty_chunk"})}
+
+        if not run_id:
+            run_id = supabase.table("scrape_runs").insert({
+                "ats_platform": ats_platform,
+                "status": "running",
+            }).execute().data[0]["id"]
+
+        tag = f"[{ats_platform} chunk {chunk_index}/{total_chunks}]"
+        print(f"{tag} offset={offset} batch={len(batch)} chunk_total={len(my_companies)}")
+
+        try:
+            stats = scrape_batch(ats_platform, batch, supabase, blacklist)
+            print(f"{tag} scraped={stats['companies_scraped']} found={stats['jobs_found']} new={stats['jobs_new']} errors={len(stats['errors'])}")
+
+            next_offset = offset + BATCH_SIZE
+            if next_offset < len(my_companies):
+                lambda_client.invoke(
+                    FunctionName=INGESTION_FUNCTION_NAME,
+                    InvocationType="Event",
+                    Payload=json.dumps({
+                        "ats_platform": ats_platform,
+                        "chunk_index": chunk_index,
+                        "total_chunks": total_chunks,
+                        "offset": next_offset,
+                        "run_id": run_id,
+                    }),
+                )
+                return {"statusCode": 200, "body": json.dumps({"status": "chained", "next_offset": next_offset, "stats": stats}, default=str)}
+
+            run_status = "success"
+            if stats["errors"]:
+                run_status = "partial_failure" if stats["companies_scraped"] > 0 else "failure"
+
+            supabase.table("scrape_runs").update({
+                "completed_at": datetime.now(timezone.utc).isoformat(),
+                "status": run_status,
+                "companies_scraped": stats["companies_scraped"],
+                "jobs_found": stats["jobs_found"],
+                "jobs_new": stats["jobs_new"],
+                "error_log": "\n".join(stats["errors"][:50]) if stats["errors"] else None,
+            }).eq("id", run_id).execute()
+
+            print(f"{tag} complete")
+            return {"statusCode": 200, "body": json.dumps({"status": "chunk_complete", "stats": stats}, default=str)}
+
+        except Exception as e:
+            supabase.table("scrape_runs").update({
+                "completed_at": datetime.now(timezone.utc).isoformat(),
+                "status": "failure",
+                "error_log": traceback.format_exc()[:2000],
+            }).eq("id", run_id).execute()
+            return {"statusCode": 500, "body": json.dumps({"error": str(e)}, default=str)}
+
+    # Legacy sequential mode (platform_idx + offset)
+    platform_idx = event.get("platform_idx", 0)
+    offset = event.get("offset", 0)
+    run_id = event.get("run_id")
 
     platform = PLATFORMS[platform_idx]
     all_companies = load_company_slugs(platform)
@@ -174,7 +249,6 @@ def lambda_handler(event, context):
         next_offset = offset + BATCH_SIZE
 
         if next_offset < len(all_companies):
-            # More companies in this platform — chain to next batch
             lambda_client.invoke(
                 FunctionName=INGESTION_FUNCTION_NAME,
                 InvocationType="Event",
@@ -187,12 +261,10 @@ def lambda_handler(event, context):
             return {"statusCode": 200, "body": json.dumps({
                 "status": "chained",
                 "platform": platform,
-                "offset": offset,
                 "next_offset": next_offset,
                 "stats": stats,
             }, default=str)}
 
-        # Platform done — finalize scrape_run
         status = "success"
         if stats["errors"]:
             status = "partial_failure" if stats["companies_scraped"] > 0 else "failure"
@@ -206,7 +278,6 @@ def lambda_handler(event, context):
             "error_log": "\n".join(stats["errors"][:50]) if stats["errors"] else None,
         }).eq("id", run_id).execute()
 
-        # Move to next platform or fire scoring
         next_platform_idx = platform_idx + 1
         if next_platform_idx < len(PLATFORMS):
             lambda_client.invoke(
@@ -218,7 +289,6 @@ def lambda_handler(event, context):
                 }),
             )
         else:
-            # All platforms done — fire scoring
             lambda_client.invoke(
                 FunctionName=SCORING_FUNCTION_NAME,
                 InvocationType="Event",
