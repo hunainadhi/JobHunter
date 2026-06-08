@@ -28,7 +28,19 @@ CANADIAN_PROVINCES = {
 
 CANADIAN_PROVINCE_ABBREVS = {"on", "qc", "bc", "ab", "mb", "sk", "ns", "nb", "nl", "pe", "nt", "nu", "yt"}
 
-NON_CANADIAN_INDICATORS = {"uk", "england", "australia", "new zealand", "united kingdom", "nigeria"}
+NON_CANADIAN_INDICATORS = {
+    "uk", "england", "australia", "new zealand", "united kingdom", "nigeria",
+    ", pe", ", mx", ", br", ", ar", ", co", ", cl", ", in", ", de", ", fr",
+    ", es", ", it", ", nl", ", se", ", no", ", dk", ", fi", ", pl", ", cz",
+    ", at", ", ch", ", ie", ", pt", ", jp", ", kr", ", sg", ", ph", ", id",
+    ", za", ", ke", ", eg", ", il", ", ae", ", sa", ", tr", ", ro", ", hu",
+    ", bg", ", hr", ", rs", ", ua", ", th", ", vn", ", tw", ", hk", ", cn",
+    "peru", "mexico", "brazil", "argentina", "colombia", "chile", "india",
+    "germany", "france", "spain", "italy", "netherlands", "sweden",
+    "norway", "denmark", "finland", "poland", "japan", "south korea",
+    "singapore", "philippines", "indonesia", "south africa", "israel",
+    "united arab emirates", "turkey",
+}
 
 
 def is_canadian_location(location_str: str | None, country_iso: str | None = None) -> bool:
@@ -66,8 +78,6 @@ def is_canadian_location(location_str: str | None, country_iso: str | None = Non
             return True
 
     if "us & canada" in normalized or "us/canada" in normalized or "u.s. & canada" in normalized:
-        return True
-    if "remote - global" in normalized or "remote (global)" in normalized:
         return True
 
     return False
