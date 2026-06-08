@@ -40,7 +40,6 @@ export default async function Home() {
     .from("scores")
     .select(scoreFields)
     .eq("model", "MiniMax-M3")
-    .gte("score", 40)
     .limit(10000);
 
   const TITLE_EXCLUDE = ["intern", "internship", "co-op", "coop", "co op"];
