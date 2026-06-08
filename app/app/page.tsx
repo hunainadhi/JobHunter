@@ -36,11 +36,19 @@ export default async function Home() {
 
   const scoreFields = "score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale, job_id, jobs!inner(id, title, company_name, location, source_url, first_seen_at, posted_at, ats_platform, ats_token)";
 
-  const { data: scoreRows } = await supabase
-    .from("scores")
-    .select(scoreFields)
-    .eq("model", "MiniMax-M3")
-    .limit(10000);
+  const allScoreRows: any[] = [];
+  const PAGE_SIZE = 1000;
+  for (let offset = 0; ; offset += PAGE_SIZE) {
+    const { data } = await supabase
+      .from("scores")
+      .select(scoreFields)
+      .eq("model", "MiniMax-M3")
+      .range(offset, offset + PAGE_SIZE - 1);
+    if (!data || data.length === 0) break;
+    allScoreRows.push(...data);
+    if (data.length < PAGE_SIZE) break;
+  }
+  const scoreRows = allScoreRows;
 
   const TITLE_EXCLUDE = ["intern", "internship", "co-op", "coop", "co op"];
 
