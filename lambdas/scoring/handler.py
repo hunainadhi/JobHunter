@@ -102,6 +102,47 @@ TECH_KEYWORDS = {
 }
 
 
+SENIOR_TITLE_SIGNALS = {
+    "senior", "staff", "principal", "director", "vp", "vice president",
+    "head of", "lead", "distinguished", "manager", "architect",
+}
+
+JUNIOR_TITLE_SIGNALS = {
+    "intern", "internship", "co-op", "coop", "co op",
+}
+
+CANADIAN_LOCATIONS = {
+    "canada", "toronto", "vancouver", "montreal", "ottawa", "calgary",
+    "edmonton", "winnipeg", "waterloo", "kitchener", "quebec",
+    "ontario", "british columbia", "alberta", "halifax", "hamilton",
+    "london, on", "mississauga", "brampton", "markham", "richmond hill",
+    "scarborough", "remote - canada", "canada remote",
+}
+
+
+def score_title_only(title: str, location: str) -> dict:
+    t = title.lower()
+    loc = (location or "").lower()
+
+    has_role = any(kw in t for kw in MUST_HAVE_ONE_OF)
+    if not has_role:
+        return {"score": 0, "rationale": "Title not a dev/eng role"}
+
+    is_senior = any(kw in t for kw in SENIOR_TITLE_SIGNALS)
+    is_junior = any(kw in t for kw in JUNIOR_TITLE_SIGNALS)
+    if is_junior:
+        return {"score": 0, "rationale": "Intern/co-op role"}
+
+    is_canadian = any(kw in loc for kw in CANADIAN_LOCATIONS)
+    if not is_canadian:
+        return {"score": 0, "rationale": "Location not clearly Canadian"}
+
+    if is_senior:
+        return {"score": 30, "rationale": f"Title '{title}' suggests senior-level"}
+
+    return {"score": 60, "rationale": f"Title+location match (no description available)"}
+
+
 def passes_keyword_filter(title: str, description: str) -> bool:
     text = (title + " " + description).lower()
 
@@ -175,7 +216,40 @@ def lambda_handler(event, context):
     )
 
     all_jobs = resp.data
-    if not all_jobs:
+
+    # Score null-description jobs by title+location only
+    null_desc_resp = (
+        supabase.table("jobs")
+        .select("id, title, company_name, location")
+        .eq("status", "new")
+        .is_("description", "null")
+        .limit(500)
+        .execute()
+    )
+    title_only_count = 0
+    title_only_matched = 0
+    for job in null_desc_resp.data:
+        result = score_title_only(job["title"], job.get("location"))
+        score = result["score"]
+        new_status = "matched" if score >= MATCH_THRESHOLD else "scored"
+
+        supabase.table("scores").upsert({
+            "job_id": job["id"],
+            "model": "title-only",
+            "score": score,
+            "rationale": result["rationale"],
+            "scored_at": datetime.now(timezone.utc).isoformat(),
+        }, on_conflict="job_id,model").execute()
+
+        supabase.table("jobs").update({"status": new_status}).eq("id", job["id"]).execute()
+        title_only_count += 1
+        if score >= MATCH_THRESHOLD:
+            title_only_matched += 1
+
+    if title_only_count > 0:
+        print(f"Title-only scoring: {title_only_count} scored, {title_only_matched} matched")
+
+    if not all_jobs and not null_desc_resp.data:
         return {"statusCode": 200, "body": json.dumps({"status": "no unscored jobs"})}
 
     # Keyword pre-filter
@@ -260,12 +334,11 @@ def lambda_handler(event, context):
         supabase.table("jobs")
         .select("id", count="exact")
         .eq("status", "new")
-        .not_.is_("description", "null")
         .limit(1)
         .execute()
     )
     remaining_count = remaining.count or 0
-    print(f"Scoring complete. matched={stats['matched']} scored={stats['scored']} remaining={remaining_count}")
+    print(f"Scoring complete. matched={stats['matched']} scored={stats['scored']} title_only={title_only_count} remaining={remaining_count}")
 
     if remaining_count > 0:
         print(f"Re-invoking scoring for {remaining_count} remaining jobs")
