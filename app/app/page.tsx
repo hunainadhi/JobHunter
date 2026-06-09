@@ -42,7 +42,7 @@ export default async function Home() {
     const { data } = await supabase
       .from("scores")
       .select(scoreFields)
-      .eq("model", "MiniMax-M3")
+      .in("model", ["MiniMax-M3", "title-only"])
       .range(offset, offset + PAGE_SIZE - 1);
     if (!data || data.length === 0) break;
     allScoreRows.push(...data);
