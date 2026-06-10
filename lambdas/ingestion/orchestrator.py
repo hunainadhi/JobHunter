@@ -20,10 +20,8 @@ MATRIX = [
     {"ats_platform": "ycombinator", "board_scraper": True},
     {"ats_platform": "themuse", "board_scraper": True},
     {"ats_platform": "weworkremotely", "board_scraper": True},
-    # Workday (25 companies split into 3 parallel chunks)
-    {"ats_platform": "workday", "chunk_index": 0, "total_chunks": 3},
-    {"ats_platform": "workday", "chunk_index": 1, "total_chunks": 3},
-    {"ats_platform": "workday", "chunk_index": 2, "total_chunks": 3},
+    # Rippling
+    {"ats_platform": "rippling", "chunk_index": 0, "total_chunks": 1},
 ]
 
 

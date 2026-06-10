@@ -29,6 +29,7 @@ ATS_SCRAPERS = {
     "ashby": "jobhive.scrapers.ashby.AshbyScraper",
     "smartrecruiters": "jobhive.scrapers.smartrecruiters.SmartRecruitersScraper",
     "workable": "jobhive.scrapers.workable.WorkableScraper",
+    "rippling": "jobhive.scrapers.rippling.RipplingScraper",
 }
 
 BOARD_SCRAPERS = {
@@ -37,35 +38,7 @@ BOARD_SCRAPERS = {
     "weworkremotely": "jobhive.scrapers.weworkremotely.WeWorkRemotelyScraper",
 }
 
-WORKDAY_COMPANIES = [
-    {"name": "RBC", "slug": "https://rbc.wd3.myworkdayjobs.com/RBCGLOBAL1"},
-    {"name": "RBC Early Talent", "slug": "https://rbc.wd3.myworkdayjobs.com/RBCEARLYTALENT1"},
-    {"name": "TD Bank", "slug": "https://td.wd3.myworkdayjobs.com/TD_Bank_Careers"},
-    {"name": "BMO", "slug": "https://bmo.wd3.myworkdayjobs.com/External"},
-    {"name": "CIBC", "slug": "https://cibc.wd3.myworkdayjobs.com/search"},
-    {"name": "Desjardins", "slug": "https://desjardins.wd10.myworkdayjobs.com/Desjardins"},
-    {"name": "BDC", "slug": "https://bdc.wd10.myworkdayjobs.com/BDC_Careers"},
-    {"name": "Manulife", "slug": "https://manulife.wd3.myworkdayjobs.com/MFCJH_Jobs"},
-    {"name": "Intact Financial", "slug": "https://intactfc.wd3.myworkdayjobs.com/intactfc"},
-    {"name": "iA Financial", "slug": "https://ia.wd3.myworkdayjobs.com/Professional"},
-    {"name": "Sun Life", "slug": "https://sunlife.wd3.myworkdayjobs.com/Experienced"},
-    {"name": "CPP Investments", "slug": "https://cppib.wd10.myworkdayjobs.com/cppinvestments"},
-    {"name": "Ontario Teachers", "slug": "https://otppb.wd3.myworkdayjobs.com/OntarioTeachers_Careers"},
-    {"name": "HOOPP", "slug": "https://hoopp.wd10.myworkdayjobs.com/HOOPP"},
-    {"name": "TELUS Health", "slug": "https://lifeworks.wd3.myworkdayjobs.com/External"},
-    {"name": "Canadian Tire", "slug": "https://canadiantirecorporation.wd3.myworkdayjobs.com/Enterprise_External_Careers_Site"},
-    {"name": "CAE", "slug": "https://cae.wd3.myworkdayjobs.com/career"},
-    {"name": "Brookfield", "slug": "https://brookfield.wd5.myworkdayjobs.com/brookfield"},
-    {"name": "Enbridge", "slug": "https://enbridge.wd3.myworkdayjobs.com/enbridge_careers"},
-    {"name": "Autodesk", "slug": "https://autodesk.wd1.myworkdayjobs.com/Ext"},
-    {"name": "Salesforce", "slug": "https://salesforce.wd12.myworkdayjobs.com/External_Career_Site"},
-    {"name": "Netflix", "slug": "https://netflix.wd108.myworkdayjobs.com/Netflix"},
-    {"name": "Workday", "slug": "https://workday.wd5.myworkdayjobs.com/Workday"},
-    {"name": "Gartner", "slug": "https://gartner.wd5.myworkdayjobs.com/EXT"},
-    {"name": "Intel", "slug": "https://intel.wd1.myworkdayjobs.com/External"},
-]
-
-PLATFORMS = ["greenhouse", "lever", "ashby", "smartrecruiters", "workable"]
+PLATFORMS = ["greenhouse", "lever", "ashby", "smartrecruiters", "workable", "rippling"]
 
 
 def get_scraper_class(scraper_path: str):
@@ -232,69 +205,6 @@ def scrape_board(ats_platform: str, supabase, blacklist: set) -> dict:
     return stats
 
 
-def scrape_workday(companies: list[dict], supabase, blacklist: set) -> dict:
-    ScraperClass = get_scraper_class("jobhive.scrapers.workday.WorkdayScraper")
-    stats = {"companies_scraped": 0, "jobs_found": 0, "jobs_new": 0, "errors": []}
-
-    for company in companies:
-        slug = company["slug"]
-        name = company["name"]
-
-        if name.lower().strip() in blacklist:
-            continue
-
-        try:
-            scraper = ScraperClass(company_slug=slug, timeout=30.0)
-            jobs = scraper.fetch()
-            stats["companies_scraped"] += 1
-
-            canadian_jobs = []
-            for job in jobs:
-                country_iso = getattr(job, "country_iso", None)
-                if is_canadian_location(job.location, country_iso):
-                    canadian_jobs.append(job)
-
-            stats["jobs_found"] += len(canadian_jobs)
-
-            for job in canadian_jobs:
-                description = job.description or ""
-                content_hash = compute_content_hash(description) if description else None
-
-                row = {
-                    "ats_platform": "workday",
-                    "ats_token": name,
-                    "external_id": job.ats_id,
-                    "title": job.title,
-                    "company_name": job.company or name,
-                    "location": job.location,
-                    "is_remote": job.is_remote or False,
-                    "description": description if description else None,
-                    "apply_url": str(job.apply_url) if job.apply_url else str(job.url),
-                    "source_url": str(job.url),
-                    "posted_at": job.posted_at.isoformat() if job.posted_at else None,
-                    "content_hash": content_hash,
-                    "status": "new",
-                }
-
-                purge_check = supabase.table("purged_jobs").select("external_id").eq(
-                    "ats_platform", "workday"
-                ).eq("external_id", job.ats_id).limit(1).execute()
-                if purge_check.data:
-                    continue
-
-                resp = supabase.table("jobs").upsert(
-                    row, on_conflict="ats_platform,external_id", ignore_duplicates=True,
-                ).execute()
-                if resp.data:
-                    stats["jobs_new"] += 1
-
-        except Exception as e:
-            stats["errors"].append(f"workday/{name}: {str(e)[:200]}")
-
-        time.sleep(SCRAPE_DELAY)
-
-    return stats
-
 
 def lambda_handler(event, context):
     if SYNC_SECRET:
@@ -336,48 +246,6 @@ def lambda_handler(event, context):
             }).eq("id", run_id).execute()
 
             return {"statusCode": 200, "body": json.dumps({"status": "board_complete", "stats": stats}, default=str)}
-        except Exception as e:
-            supabase.table("scrape_runs").update({
-                "completed_at": datetime.now(timezone.utc).isoformat(),
-                "status": "failure", "error_log": traceback.format_exc()[:2000],
-            }).eq("id", run_id).execute()
-            return {"statusCode": 500, "body": json.dumps({"error": str(e)}, default=str)}
-
-    # Workday mode: chunked scraping of hardcoded company URLs
-    if ats_platform == "workday":
-        chunk_index = event.get("chunk_index", 0)
-        total_chunks = event.get("total_chunks", 1)
-
-        chunk_size = len(WORKDAY_COMPANIES) // total_chunks
-        chunk_start = chunk_index * chunk_size
-        chunk_end = len(WORKDAY_COMPANIES) if chunk_index == total_chunks - 1 else chunk_start + chunk_size
-        my_companies = WORKDAY_COMPANIES[chunk_start:chunk_end]
-
-        tag = f"[workday chunk {chunk_index}/{total_chunks}]"
-        print(f"{tag} companies={len(my_companies)}")
-
-        run_id = supabase.table("scrape_runs").insert({
-            "ats_platform": "workday", "status": "running",
-        }).execute().data[0]["id"]
-
-        try:
-            stats = scrape_workday(my_companies, supabase, blacklist)
-            print(f"{tag} scraped={stats['companies_scraped']} found={stats['jobs_found']} new={stats['jobs_new']} errors={len(stats['errors'])}")
-
-            run_status = "success"
-            if stats["errors"]:
-                run_status = "partial_failure" if stats["companies_scraped"] > 0 else "failure"
-
-            supabase.table("scrape_runs").update({
-                "completed_at": datetime.now(timezone.utc).isoformat(),
-                "status": run_status,
-                "companies_scraped": stats["companies_scraped"],
-                "jobs_found": stats["jobs_found"],
-                "jobs_new": stats["jobs_new"],
-                "error_log": "\n".join(stats["errors"][:50]) if stats["errors"] else None,
-            }).eq("id", run_id).execute()
-
-            return {"statusCode": 200, "body": json.dumps({"status": "workday_complete", "stats": stats}, default=str)}
         except Exception as e:
             supabase.table("scrape_runs").update({
                 "completed_at": datetime.now(timezone.utc).isoformat(),
