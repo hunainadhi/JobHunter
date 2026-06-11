@@ -118,7 +118,7 @@ def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: 
                     "description": description if description else None,
                     "apply_url": str(job.apply_url) if job.apply_url else str(job.url),
                     "source_url": str(job.url),
-                    "posted_at": job.posted_at.isoformat() if job.posted_at else None,
+                    "posted_at": job.posted_at.isoformat() if job.posted_at else datetime.now(timezone.utc).isoformat(),
                     "content_hash": content_hash,
                     "status": "new",
                 }
@@ -182,7 +182,7 @@ def scrape_board(ats_platform: str, supabase, blacklist: set) -> dict:
                 "description": description if description else None,
                 "apply_url": str(job.apply_url) if job.apply_url else str(job.url),
                 "source_url": str(job.url),
-                "posted_at": job.posted_at.isoformat() if job.posted_at else None,
+                "posted_at": job.posted_at.isoformat() if job.posted_at else datetime.now(timezone.utc).isoformat(),
                 "content_hash": content_hash,
                 "status": "new",
             }
