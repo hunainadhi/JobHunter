@@ -1,45 +1,66 @@
+import csv
 import json
+from pathlib import Path
+
 import boto3
 
 WORKER_FUNCTION = "jobhunter-ingestion"
+SCORING_FUNCTION = "jobhunter-scoring"
+DATA_DIR = Path(__file__).parent / "data"
+BATCH_SIZE = 75
 
-MATRIX = [
-    {"ats_platform": "greenhouse", "chunk_index": 0, "total_chunks": 3},
-    {"ats_platform": "greenhouse", "chunk_index": 1, "total_chunks": 3},
-    {"ats_platform": "greenhouse", "chunk_index": 2, "total_chunks": 3},
-    {"ats_platform": "ashby", "chunk_index": 0, "total_chunks": 2},
-    {"ats_platform": "ashby", "chunk_index": 1, "total_chunks": 2},
-    {"ats_platform": "lever", "chunk_index": 0, "total_chunks": 2},
-    {"ats_platform": "lever", "chunk_index": 1, "total_chunks": 2},
-    {"ats_platform": "workable", "chunk_index": 0, "total_chunks": 3},
-    {"ats_platform": "workable", "chunk_index": 1, "total_chunks": 3},
-    {"ats_platform": "workable", "chunk_index": 2, "total_chunks": 3},
-    {"ats_platform": "smartrecruiters", "chunk_index": 0, "total_chunks": 2},
-    {"ats_platform": "smartrecruiters", "chunk_index": 1, "total_chunks": 2},
-    # Board scrapers
-    {"ats_platform": "ycombinator", "board_scraper": True},
-    {"ats_platform": "themuse", "board_scraper": True},
-    {"ats_platform": "weworkremotely", "board_scraper": True},
-    # Rippling
-    {"ats_platform": "rippling", "chunk_index": 0, "total_chunks": 1},
-]
+ATS_PLATFORMS = {
+    "greenhouse": None,
+    "lever": None,
+    "ashby": None,
+    "smartrecruiters": None,
+    "workable": None,
+    "rippling": None,
+}
+
+BOARD_SCRAPERS = ["ycombinator", "themuse", "weworkremotely"]
+
+
+def load_company_count(ats_platform: str) -> int:
+    csv_path = DATA_DIR / f"{ats_platform}.csv"
+    if not csv_path.exists():
+        return 0
+    with open(csv_path) as f:
+        return sum(1 for _ in csv.reader(f)) - 1
 
 
 def lambda_handler(event, context):
     client = boto3.client("lambda", region_name="ca-central-1")
 
-    for job in MATRIX:
+    jobs = []
+
+    for platform in ATS_PLATFORMS:
+        count = load_company_count(platform)
+        for offset in range(0, count, BATCH_SIZE):
+            jobs.append({
+                "ats_platform": platform,
+                "offset": offset,
+                "batch_size": BATCH_SIZE,
+            })
+
+    for board in BOARD_SCRAPERS:
+        jobs.append({"ats_platform": board, "board_scraper": True})
+
+    for job in jobs:
         client.invoke(
             FunctionName=WORKER_FUNCTION,
             InvocationType="Event",
             Payload=json.dumps(job),
         )
-        if job.get("board_scraper"):
-            print(f"Launched: {job['ats_platform']} (board)")
-        else:
-            print(f"Launched: {job['ats_platform']} chunk {job.get('chunk_index', 0)}/{job.get('total_chunks', 1)}")
+
+    client.invoke(
+        FunctionName=SCORING_FUNCTION,
+        InvocationType="Event",
+    )
+
+    print(f"Launched {len(jobs)} ingestion workers + 1 scoring invocation")
 
     return {
         "statusCode": 200,
-        "body": json.dumps({"status": "launched", "workers": len(MATRIX)}),
+        "body": json.dumps({"status": "launched", "workers": len(jobs)}),
     }
