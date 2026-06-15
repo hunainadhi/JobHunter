@@ -5,7 +5,6 @@ from pathlib import Path
 import boto3
 
 WORKER_FUNCTION = "jobhunter-ingestion"
-SCORING_FUNCTION = "jobhunter-scoring"
 DATA_DIR = Path(__file__).parent / "data"
 BATCH_SIZE = 75
 
@@ -53,12 +52,7 @@ def lambda_handler(event, context):
             Payload=json.dumps(job),
         )
 
-    client.invoke(
-        FunctionName=SCORING_FUNCTION,
-        InvocationType="Event",
-    )
-
-    print(f"Launched {len(jobs)} ingestion workers + 1 scoring invocation")
+    print(f"Launched {len(jobs)} ingestion workers")
 
     return {
         "statusCode": 200,

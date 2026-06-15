@@ -89,10 +89,13 @@ def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: 
         try:
             scraper = ScraperClass(company_slug=slug, timeout=15.0)
             jobs = scraper.fetch()
+            jobs = scraper.enrich_descriptions(jobs)
             stats["companies_scraped"] += 1
 
             canadian_jobs = []
             for job in jobs:
+                if not job.description:
+                    continue
                 country_iso = getattr(job, "country_iso", None)
                 if is_canadian_location(job.location, country_iso):
                     canadian_jobs.append(job)
@@ -150,9 +153,12 @@ def scrape_board(ats_platform: str, supabase, blacklist: set) -> dict:
     try:
         scraper = ScraperClass(company_slug="any", timeout=30.0)
         jobs = scraper.fetch()
+        jobs = scraper.enrich_descriptions(jobs)
 
         canadian_jobs = []
         for job in jobs:
+            if not job.description:
+                continue
             country_iso = getattr(job, "country_iso", None)
             if is_canadian_location(job.location, country_iso):
                 canadian_jobs.append(job)
