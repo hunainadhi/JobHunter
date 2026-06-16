@@ -18,7 +18,7 @@ SYNC_SECRET = os.environ.get("SYNC_SECRET", "")
 
 DATA_DIR = Path(__file__).parent / "data"
 SCRAPE_DELAY = 0.3
-BATCH_SIZE = 75
+BATCH_SIZE = 40
 
 ATS_SCRAPERS = {
     "greenhouse": "jobhive.scrapers.greenhouse.GreenhouseScraper",

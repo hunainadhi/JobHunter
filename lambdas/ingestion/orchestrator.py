@@ -6,7 +6,7 @@ import boto3
 
 WORKER_FUNCTION = "jobhunter-ingestion"
 DATA_DIR = Path(__file__).parent / "data"
-BATCH_SIZE = 75
+BATCH_SIZE = 40
 
 ATS_PLATFORMS = {
     "greenhouse": None,
