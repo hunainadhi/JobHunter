@@ -12,7 +12,7 @@ SUPABASE_SERVICE_KEY = os.environ["SUPABASE_SERVICE_KEY"]
 MINIMAX_API_KEY = os.environ["MINIMAX_API_KEY"]
 MINIMAX_API_URL = "https://api.minimax.io/v1/chat/completions"
 BATCH_SIZE = 10
-MATCH_THRESHOLD = 60
+MATCH_THRESHOLD = 25
 
 SYSTEM_PROMPT = """You are a job-resume matching engine. You score how well a job posting matches a candidate's profile.
 
@@ -45,12 +45,13 @@ DREAM TECH STACK (use for TECH STACK OVERLAP scoring):
   TOP TIER: LLM APIs, vector databases, RAG, embeddings, agents, TypeScript, Next.js, React
   GOOD TIER: Python, FastAPI, Django, Node.js, AWS, GCP, PostgreSQL, Docker
   ACCEPTABLE TIER: Ab Initio, ETL pipelines, generic cloud mentions
+  TRANSFERABLE: Vue.js, Angular, Svelte, Flask, Ruby on Rails, PHP/Laravel (similar paradigms to candidate's stack)
   MISMATCH: Java-only, C#/.NET-only, Go-only stacks with nothing else matching
 
 SCORING RUBRIC (score 0-100):
-1. ROLE TYPE FIT (35 points): Full-stack (Next.js/React/TS) = 35. AI/LLM app engineer (agents, RAG, embeddings) = 35. Backend/API (Node/Python/Postgres) = 28. Data engineer = 20. Non-dev roles (PM, QA manual, tech writer, DevOps-only, sales engineer) = 0-5.
+1. ROLE TYPE FIT (35 points): Full-stack (Next.js/React/TS) = 35. AI/LLM app engineer (agents, RAG, embeddings) = 35. Backend/API (Node/Python/Postgres) = 28. Data engineer = 20. QA/test developer or SDET (writes code, automates tests) = 18-22. Non-dev roles (PM, tech writer, DevOps-only, sales engineer, pure manual QA with no coding) = 0-5.
 2. SENIORITY FIT (30 points): 0-4 years experience, junior, new grad, entry level, or no explicit seniority = 30. "2+ years" or "1-3 years" or "3+ years" = 30. "5+ years" = 15. "7+ years", senior, staff, principal, lead, director = 0-5.
-3. TECH STACK OVERLAP (20 points): Score based on DREAM TECH STACK tiers. Multiple TOP TIER matches = 20. Mix of GOOD TIER = 12-16. Only ACCEPTABLE TIER or generic = 6-10. No tech mentioned at all = 10 (neutral — don't penalize generic new-grad JDs). MISMATCH stack = 2-4.
+3. TECH STACK OVERLAP (20 points): Score based on DREAM TECH STACK tiers. Multiple TOP TIER matches = 20. Mix of GOOD TIER = 12-16. TRANSFERABLE frameworks (Vue.js, Angular, etc.) = 10-14 (skills transfer easily). Only ACCEPTABLE TIER or generic = 6-10. No tech mentioned at all = 10 (neutral — don't penalize generic new-grad JDs). MISMATCH stack = 2-4.
 4. KEYWORD RELEVANCE (15 points): Alignment with SaaS, full-stack, API development, cloud, CI/CD, AI/ML products, shipping culture, startup pace, greenfield development.
 
 LOCATION RULE: If the role explicitly requires US-only presence or US work authorization with no indication of Canada hiring, deduct 30 points from the total score.
