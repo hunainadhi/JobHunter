@@ -76,46 +76,6 @@ Respond with ONLY a JSON array:
   }}
 ]"""
 
-# --- Keyword Pre-Filter ---
-
-MUST_HAVE_ONE_OF = {
-    "developer", "engineer", "dev", "development", "engineering",
-    "full-stack", "fullstack", "full stack", "backend", "back-end",
-    "frontend", "front-end", "data engineer", "software", "swe",
-    "ai engineer", "ml engineer", "programmer", "platform engineer",
-    "machine learning", "llm", "artificial intelligence",
-    "generative ai", "genai",
-}
-
-NEGATIVE_SIGNALS = {
-    "senior staff", "staff engineer", "principal", "director",
-    "vp ", "vice president", "head of", "lead architect", "distinguished",
-    "10+ years", "10 years", "8+ years", "8 years",
-    "intern", "internship", "co-op", "coop", "co op",
-}
-
-TECH_KEYWORDS = {
-    "typescript", "javascript", "python", "react", "next.js", "nextjs",
-    "node.js", "nodejs", "fastapi", "postgresql", "postgres", "docker",
-    "aws", "c++", "cpp", "etl", "data pipeline", "full-stack",
-    "rest api", "graphql", "prisma", "supabase", "electron",
-}
-
-
-def passes_keyword_filter(title: str, description: str) -> bool:
-    text = (title + " " + description).lower()
-
-    has_role = any(kw in text for kw in MUST_HAVE_ONE_OF)
-    if not has_role:
-        return False
-
-    has_negative = any(kw in text for kw in NEGATIVE_SIGNALS)
-    if has_negative:
-        return False
-
-    return True
-
-
 def build_jobs_block(jobs: list[dict]) -> str:
     block = ""
     for job in jobs:
@@ -195,42 +155,15 @@ def lambda_handler(event, context):
     if not all_jobs and not null_desc_resp.data:
         return {"statusCode": 200, "body": json.dumps({"status": "no unscored jobs"})}
 
-    # Keyword pre-filter
-    filtered_jobs = []
-    filtered_out_ids = []
-    for job in all_jobs:
-        if passes_keyword_filter(job["title"], job.get("description") or ""):
-            filtered_jobs.append(job)
-        else:
-            filtered_out_ids.append(job["id"])
-
-    # Mark filtered-out jobs as scored with score 0, null description
-    for job_id in filtered_out_ids:
-        supabase.table("scores").upsert({
-            "job_id": job_id,
-            "model": "keyword-filter",
-            "score": 0,
-            "rationale": "Failed keyword pre-filter",
-            "scored_at": datetime.now(timezone.utc).isoformat(),
-        }, on_conflict="job_id,model").execute()
-
-        supabase.table("jobs").update({
-            "status": "scored",
-            "description": None,
-        }).eq("id", job_id).execute()
-
     stats = {
         "total_unscored": len(all_jobs),
-        "passed_filter": len(filtered_jobs),
-        "filtered_out": len(filtered_out_ids),
         "scored": 0,
         "matched": 0,
         "errors": [],
     }
 
-    # Batch score filtered jobs
-    for i in range(0, len(filtered_jobs), BATCH_SIZE):
-        batch = filtered_jobs[i : i + BATCH_SIZE]
+    for i in range(0, len(all_jobs), BATCH_SIZE):
+        batch = all_jobs[i : i + BATCH_SIZE]
         try:
             results = score_batch(batch)
 
