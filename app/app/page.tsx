@@ -68,7 +68,7 @@ export default async function Home() {
       (row.keyword_score || 0);
     const jobDate = new Date(job.posted_at || job.first_seen_at);
     if (jobDate < cutoffDate) continue;
-    if (row.score >= 25 || computedScore >= 25) {
+    if (row.score > 50) {
       filteredJobs.push({
         ...job,
         scores: [{
