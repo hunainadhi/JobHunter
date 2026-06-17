@@ -43,7 +43,7 @@ export default async function Home() {
       .from("scores")
       .select(scoreFields)
       .eq("model", "MiniMax-M3")
-      .gt("score", 50)
+      .gt("score", 60)
       .range(offset, offset + PAGE_SIZE - 1);
     if (!data || data.length === 0) break;
     allScoreRows.push(...data);
@@ -64,7 +64,7 @@ export default async function Home() {
     if (TITLE_EXCLUDE.some((kw: string) => titleLower.includes(kw))) continue;
     const jobDate = new Date(job.posted_at || job.first_seen_at);
     if (jobDate < cutoffDate) continue;
-    if (row.score > 50) {
+    if (row.score > 60) {
       filteredJobs.push({
         ...job,
         scores: [{
