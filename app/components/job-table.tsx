@@ -108,20 +108,20 @@ export function JobTable({ jobs }: { jobs: Job[] }) {
         <SortButton label="Date Posted" value="posted" />
       </div>
 
-      <div className="rounded-lg border border-[#27272a] overflow-hidden">
+      <div className="rounded-lg border border-[#27272a] overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow className="border-[#27272a] bg-[#18181b] hover:bg-[#18181b]">
-              <TableHead className="text-[#a1a1aa]">Title</TableHead>
+              <TableHead className="text-[#a1a1aa] min-w-[200px]">Title</TableHead>
               <TableHead className="text-[#a1a1aa]">Company</TableHead>
-              <TableHead className="text-[#a1a1aa] text-center">Overall</TableHead>
-              <TableHead className="text-[#a1a1aa] text-center">Role</TableHead>
-              <TableHead className="text-[#a1a1aa] text-center">Seniority</TableHead>
-              <TableHead className="text-[#a1a1aa] text-center">Stack</TableHead>
-              <TableHead className="text-[#a1a1aa] text-center">Keywords</TableHead>
-              <TableHead className="text-[#a1a1aa]">Posted</TableHead>
+              <TableHead className="text-[#a1a1aa] text-center w-16">Overall</TableHead>
+              <TableHead className="text-[#a1a1aa] text-center w-14">Role</TableHead>
+              <TableHead className="text-[#a1a1aa] text-center w-14">Sen.</TableHead>
+              <TableHead className="text-[#a1a1aa] text-center w-14">Stack</TableHead>
+              <TableHead className="text-[#a1a1aa] text-center w-14">Kw.</TableHead>
+              <TableHead className="text-[#a1a1aa] w-16">Posted</TableHead>
               <TableHead className="text-[#a1a1aa]">Location</TableHead>
-              <TableHead className="text-[#a1a1aa] text-right">Apply</TableHead>
+              <TableHead className="text-[#a1a1aa] text-right w-20">Apply</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
