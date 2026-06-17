@@ -43,6 +43,7 @@ export default async function Home() {
       .from("scores")
       .select(scoreFields)
       .eq("model", "MiniMax-M3")
+      .gt("score", 50)
       .range(offset, offset + PAGE_SIZE - 1);
     if (!data || data.length === 0) break;
     allScoreRows.push(...data);
@@ -61,11 +62,6 @@ export default async function Home() {
     if (blacklistedNames.has(job.company_name.toLowerCase())) continue;
     const titleLower = job.title.toLowerCase();
     if (TITLE_EXCLUDE.some((kw: string) => titleLower.includes(kw))) continue;
-    const computedScore =
-      (row.role_fit_score || 0) +
-      (row.seniority_fit_score || 0) +
-      (row.stack_overlap_score || 0) +
-      (row.keyword_score || 0);
     const jobDate = new Date(job.posted_at || job.first_seen_at);
     if (jobDate < cutoffDate) continue;
     if (row.score > 50) {
