@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Job Board — Canadian Tech Jobs",
+  title: "Job Board — Canadian Jobs",
   description: "Browse open positions across Canada",
 };
 
