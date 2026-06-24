@@ -145,11 +145,6 @@ def score_batch(jobs: list[dict]) -> list[dict]:
 def lambda_handler(event, context):
     supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
-    # Reset any jobs stuck in 'scoring' for over 20 minutes (crashed instances)
-    supabase.table("jobs").update({"status": "new"}).eq(
-        "status", "scoring"
-    ).lt("created_at", (datetime.now(timezone.utc) - __import__("datetime").timedelta(minutes=20)).isoformat()).execute()
-
     # Fetch unscored jobs
     resp = (
         supabase.table("jobs")
@@ -235,12 +230,17 @@ def lambda_handler(event, context):
                     stats["matched"] += 1
 
         except Exception as e:
-            batch_ids = [j["id"] for j in batch]
+            for j in batch:
+                supabase.table("jobs").update({"status": "new"}).eq("id", j["id"]).eq("status", "scoring").execute()
             stats["errors"].append(f"Batch {i//BATCH_SIZE}: {str(e)[:200]}")
             print(f"Scoring batch failed: {e}")
             traceback.print_exc()
 
-    # Self-chain if there are more unscored jobs (exclude 'scoring' — other instances have those)
+    # Reset any jobs we claimed but didn't process (e.g. if loop exited early)
+    for job in all_jobs:
+        supabase.table("jobs").update({"status": "new"}).eq("id", job["id"]).eq("status", "scoring").execute()
+
+    # Self-chain if there are more unscored jobs
     remaining = (
         supabase.table("jobs")
         .select("id", count="exact")
