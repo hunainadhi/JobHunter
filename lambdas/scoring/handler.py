@@ -145,6 +145,11 @@ def score_batch(jobs: list[dict]) -> list[dict]:
 def lambda_handler(event, context):
     supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
+    # Reset any jobs stuck in 'scoring' for over 20 minutes (crashed instances)
+    supabase.table("jobs").update({"status": "new"}).eq(
+        "status", "scoring"
+    ).lt("created_at", (datetime.now(timezone.utc) - __import__("datetime").timedelta(minutes=20)).isoformat()).execute()
+
     # Fetch unscored jobs
     resp = (
         supabase.table("jobs")
@@ -157,6 +162,12 @@ def lambda_handler(event, context):
     )
 
     all_jobs = resp.data
+
+    # Claim this batch by marking as 'scoring' so other instances skip them
+    if all_jobs:
+        claimed_ids = [job["id"] for job in all_jobs]
+        for job_id in claimed_ids:
+            supabase.table("jobs").update({"status": "scoring"}).eq("id", job_id).eq("status", "new").execute()
 
     # Discard jobs with no description — mark as scored so they get purged
     null_desc_resp = (
@@ -229,11 +240,12 @@ def lambda_handler(event, context):
             print(f"Scoring batch failed: {e}")
             traceback.print_exc()
 
-    # Self-chain if there are more unscored jobs
+    # Self-chain if there are more unscored jobs (exclude 'scoring' — other instances have those)
     remaining = (
         supabase.table("jobs")
         .select("id", count="exact")
         .eq("status", "new")
+        .not_.is_("description", "null")
         .limit(1)
         .execute()
     )
