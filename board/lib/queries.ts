@@ -40,19 +40,18 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
   let query;
   if (needsScores) {
     query = supabase
-      .from("scores")
+      .from("jobs")
       .select(
-        `category, level, jobs!inner(${JOB_COLUMNS})`,
+        `${JOB_COLUMNS}, scores!inner(category, level)`,
         { count: "exact" }
-      );
-
-    query = query.neq("jobs.status", "expired");
+      )
+      .neq("status", "expired");
 
     if (params.category) {
-      query = query.eq("category", params.category);
+      query = query.eq("scores.category", params.category);
     }
     if (params.level) {
-      query = query.eq("level", params.level);
+      query = query.eq("scores.level", params.level);
     }
   } else {
     query = supabase
@@ -61,51 +60,43 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
       .neq("status", "expired");
   }
 
-  const prefix = needsScores ? "jobs." : "";
-
   if (params.q) {
     const escaped = escapeIlike(params.q.trim());
-    query = query.or(`${prefix}title.ilike.%${escaped}%,${prefix}company_name.ilike.%${escaped}%`);
+    query = query.or(`title.ilike.%${escaped}%,company_name.ilike.%${escaped}%`);
   }
 
   if (params.location) {
     const escaped = escapeIlike(params.location.trim());
     const locationLower = params.location.trim().toLowerCase();
     if (locationLower === "remote") {
-      query = query.or(`${prefix}location.ilike.%${escaped}%,${prefix}is_remote.eq.true`);
+      query = query.or(`location.ilike.%${escaped}%,is_remote.eq.true`);
     } else {
-      query = query.ilike(`${prefix}location`, `%${escaped}%`);
+      query = query.ilike("location", `%${escaped}%`);
     }
   }
 
   if (params.company) {
     const escaped = escapeIlike(params.company.trim());
-    query = query.ilike(`${prefix}company_name`, `%${escaped}%`);
+    query = query.ilike("company_name", `%${escaped}%`);
   }
 
   if (params.platform) {
-    query = query.eq(`${prefix}ats_platform`, params.platform);
+    query = query.eq("ats_platform", params.platform);
   }
 
   const cutoff = getDateCutoff(dateFilter);
   if (cutoff) {
     query = query.or(
-      `${prefix}posted_at.gte.${cutoff},and(${prefix}posted_at.is.null,${prefix}first_seen_at.gte.${cutoff})`
+      `posted_at.gte.${cutoff},and(posted_at.is.null,first_seen_at.gte.${cutoff})`
     );
   }
 
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
 
-  if (needsScores) {
-    query = query
-      .order("posted_at", { referencedTable: "jobs", ascending: sortAsc, nullsFirst: false })
-      .range(from, to);
-  } else {
-    query = query
-      .order(sortField, { ascending: sortAsc, nullsFirst: false })
-      .range(from, to);
-  }
+  query = query
+    .order(sortField, { ascending: sortAsc, nullsFirst: false })
+    .range(from, to);
 
   const { data, count, error } = await query;
 
@@ -116,10 +107,10 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
 
   let jobs: JobRow[];
   if (needsScores) {
-    jobs = ((data as any[]) || []).map((row) => ({
-      ...row.jobs,
-      category: row.category,
-    }));
+    jobs = ((data as any[]) || []).map((row) => {
+      const { scores, ...jobFields } = row as any;
+      return { ...jobFields, category: scores?.category } as JobRow;
+    });
   } else {
     jobs = (data as JobRow[]) || [];
   }
