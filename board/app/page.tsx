@@ -51,7 +51,7 @@ export default async function BoardPage({
             Job Board
           </h1>
           <p style={{ fontSize: 16, color: "var(--text-body)", lineHeight: 1.7 }}>
-            Browse {totalCount.toLocaleString()} open tech positions across Canada
+            Browse {totalCount.toLocaleString()} open positions across Canada
           </p>
         </div>
 

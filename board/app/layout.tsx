@@ -9,7 +9,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Job Board — Canadian Tech Jobs",
-  description: "Browse open tech positions across Canada",
+  description: "Browse open positions across Canada",
 };
 
 export default function RootLayout({

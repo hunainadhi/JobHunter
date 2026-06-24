@@ -68,12 +68,12 @@ export function JobBoardTable({ jobs }: { jobs: JobRow[] }) {
       <table style={{ width: "100%", textAlign: "left", fontSize: 14, borderCollapse: "collapse" }}>
         <thead>
           <tr style={{ background: "var(--bg-neutral-secondary-soft)" }}>
+            <th style={thStyle}>Apply</th>
             <th style={thStyle}>Title</th>
             <th style={thStyle}>Company</th>
             <th style={thStyle}>Location</th>
             <th style={thStyle}>Posted</th>
             <th style={thStyle}>Source</th>
-            <th style={{ ...thStyle, textAlign: "right" }}>Apply</th>
           </tr>
         </thead>
         <tbody>
@@ -92,7 +92,39 @@ export function JobBoardTable({ jobs }: { jobs: JobRow[] }) {
               }}
             >
               <td style={tdStyle}>
-                <span style={{ color: "var(--text-heading)", fontWeight: 500, whiteSpace: "nowrap" }}>
+                <a
+                  href={job.apply_url || job.source_url || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: "8px 12px",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    borderRadius: 8,
+                    background: "var(--bg-brand)",
+                    color: "var(--text-white)",
+                    border: "1px solid transparent",
+                    boxShadow: "var(--shadow-xs), inset var(--color-1-400) 0 6px 0px -5px, var(--color-1-700) 0 4px 10px -5px",
+                    textDecoration: "none",
+                    whiteSpace: "nowrap",
+                    transition: "background 200ms",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "var(--bg-brand-strong)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "var(--bg-brand)";
+                  }}
+                >
+                  Apply
+                  <ExternalLink size={14} />
+                </a>
+              </td>
+              <td style={tdStyle}>
+                <span style={{ color: "var(--text-heading)", fontWeight: 500 }}>
                   {job.title}
                 </span>
               </td>
@@ -141,38 +173,6 @@ export function JobBoardTable({ jobs }: { jobs: JobRow[] }) {
                 >
                   {formatPlatform(job.ats_platform)}
                 </span>
-              </td>
-              <td style={{ ...tdStyle, textAlign: "right" }}>
-                <a
-                  href={job.apply_url || job.source_url || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    padding: "8px 12px",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    borderRadius: 8,
-                    background: "var(--bg-brand)",
-                    color: "var(--text-white)",
-                    border: "1px solid transparent",
-                    boxShadow: "var(--shadow-xs), inset var(--color-1-400) 0 6px 0px -5px, var(--color-1-700) 0 4px 10px -5px",
-                    textDecoration: "none",
-                    whiteSpace: "nowrap",
-                    transition: "background 200ms",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "var(--bg-brand-strong)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "var(--bg-brand)";
-                  }}
-                >
-                  Apply
-                  <ExternalLink size={14} />
-                </a>
               </td>
             </tr>
           ))}
