@@ -26,32 +26,6 @@ function getDateCutoff(filter: DateFilter): string | null {
   }
 }
 
-const LEVEL_PATTERNS: Record<string, string[]> = {
-  entry: [
-    "junior", "jr.", "jr ", "entry", "new grad", "graduate",
-    "intern", "co-op", "coop", "associate", "entry-level", "entry level",
-  ],
-  senior: [
-    "senior", "sr.", "sr ", "lead", "principal", "staff",
-    "director", "head of", "vp ", "vice president", "manager",
-    "architect",
-  ],
-};
-
-function buildLevelFilter(level: string): string | null {
-  if (level === "entry") {
-    return LEVEL_PATTERNS.entry.map((p) => `title.ilike.%${p}%`).join(",");
-  }
-  if (level === "senior") {
-    return LEVEL_PATTERNS.senior.map((p) => `title.ilike.%${p}%`).join(",");
-  }
-  if (level === "mid") {
-    const exclude = [...LEVEL_PATTERNS.entry, ...LEVEL_PATTERNS.senior];
-    return exclude.map((p) => `title.not.ilike.%${p}%`).join(",");
-  }
-  return null;
-}
-
 export async function fetchJobs(params: BoardSearchParams): Promise<{
   jobs: JobRow[];
   totalCount: number;
@@ -61,24 +35,30 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
   const sortAsc = params.sort === "title" ? true : false;
   const dateFilter = (params.date || "all") as DateFilter;
 
-  const useCategory = !!params.category;
+  const needsScores = !!params.category || !!params.level;
 
   let query;
-  if (useCategory) {
+  if (needsScores) {
     query = supabase
       .from("scores")
       .select(
-        `category, jobs!inner(${JOB_COLUMNS})`,
+        `category, level, jobs!inner(${JOB_COLUMNS})`,
         { count: "exact" }
-      )
-      .eq("category", params.category);
+      );
+
+    if (params.category) {
+      query = query.eq("category", params.category);
+    }
+    if (params.level) {
+      query = query.eq("level", params.level);
+    }
   } else {
     query = supabase
       .from("jobs")
       .select(JOB_COLUMNS, { count: "exact" });
   }
 
-  const prefix = useCategory ? "jobs." : "";
+  const prefix = needsScores ? "jobs." : "";
 
   if (params.q) {
     const escaped = escapeIlike(params.q.trim());
@@ -111,24 +91,10 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
     );
   }
 
-  if (params.level && !useCategory) {
-    const levelFilter = buildLevelFilter(params.level);
-    if (levelFilter) {
-      if (params.level === "mid") {
-        const exclude = [...LEVEL_PATTERNS.entry, ...LEVEL_PATTERNS.senior];
-        for (const p of exclude) {
-          query = query.not("title", "ilike", `%${p}%`);
-        }
-      } else {
-        query = query.or(levelFilter);
-      }
-    }
-  }
-
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
 
-  if (useCategory) {
+  if (needsScores) {
     query = query
       .order("posted_at", { referencedTable: "jobs", ascending: sortAsc, nullsFirst: false })
       .range(from, to);
@@ -146,7 +112,7 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
   }
 
   let jobs: JobRow[];
-  if (useCategory) {
+  if (needsScores) {
     jobs = ((data as any[]) || []).map((row) => ({
       ...row.jobs,
       category: row.category,

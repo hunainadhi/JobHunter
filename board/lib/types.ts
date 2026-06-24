@@ -57,6 +57,7 @@ export const PLATFORMS = [
 ] as const;
 
 export const LEVELS = [
+  { value: "intern", label: "Intern / Co-op" },
   { value: "entry", label: "Entry / Junior" },
   { value: "mid", label: "Mid-level" },
   { value: "senior", label: "Senior+" },

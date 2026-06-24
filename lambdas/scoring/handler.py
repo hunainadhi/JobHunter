@@ -70,6 +70,12 @@ JOB CATEGORY — Classify each job into exactly ONE of these categories based on
 - Education & Research
 - Other
 
+EXPERIENCE LEVEL — Classify each job into exactly ONE level based on title, description, and years of experience required:
+- intern (internship, co-op, work term, practicum)
+- entry (new grad, junior, 0-2 years, entry-level, associate, no experience required)
+- mid (intermediate, 2-5 years, no explicit seniority mentioned but requires some experience)
+- senior (senior, staff, lead, principal, architect, director, head, VP, 5+ years, manager-level IC or above)
+
 You MUST respond ONLY with a valid JSON array. No other text."""
 
 BATCH_USER_PROMPT = """Score these job postings:
@@ -87,7 +93,8 @@ Respond with ONLY a JSON array:
     "keyword_match": 0-15,
     "matched_skills": ["skill1", "skill2"],
     "rationale": "one sentence explaining the score",
-    "category": "one of the 12 categories from JOB CATEGORY list"
+    "category": "one of the 12 categories from JOB CATEGORY list",
+    "level": "one of: intern, entry, mid, senior"
   }}
 ]"""
 
@@ -203,6 +210,7 @@ def lambda_handler(event, context):
                     "matched_skills": result.get("matched_skills", []),
                     "rationale": result.get("rationale"),
                     "category": result.get("category"),
+                    "level": result.get("level"),
                     "scored_at": datetime.now(timezone.utc).isoformat(),
                 }, on_conflict="job_id,model").execute()
 
