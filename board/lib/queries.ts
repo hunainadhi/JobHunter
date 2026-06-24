@@ -46,6 +46,8 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
         { count: "exact" }
       );
 
+    query = query.neq("jobs.status", "expired");
+
     if (params.category) {
       query = query.eq("category", params.category);
     }
@@ -55,7 +57,8 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
   } else {
     query = supabase
       .from("jobs")
-      .select(JOB_COLUMNS, { count: "exact" });
+      .select(JOB_COLUMNS, { count: "exact" })
+      .neq("status", "expired");
   }
 
   const prefix = needsScores ? "jobs." : "";

@@ -128,14 +128,23 @@ def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: 
                 if purge_check.data:
                     continue
 
-                resp = supabase.table("jobs").upsert(
-                    row,
-                    on_conflict="ats_platform,external_id",
-                    ignore_duplicates=True,
-                ).execute()
+                existing = supabase.table("jobs").select("id").eq(
+                    "ats_platform", ats_platform
+                ).eq("external_id", job.ats_id).limit(1).execute()
 
-                if resp.data:
-                    stats["jobs_new"] += 1
+                if existing.data:
+                    supabase.table("jobs").update({
+                        "last_seen_at": datetime.now(timezone.utc).isoformat(),
+                    }).eq("id", existing.data[0]["id"]).execute()
+                else:
+                    row["last_seen_at"] = datetime.now(timezone.utc).isoformat()
+                    resp = supabase.table("jobs").upsert(
+                        row,
+                        on_conflict="ats_platform,external_id",
+                        ignore_duplicates=True,
+                    ).execute()
+                    if resp.data:
+                        stats["jobs_new"] += 1
 
         except Exception as e:
             error_msg = f"{ats_platform}/{slug}: {str(e)[:200]}"
@@ -195,11 +204,21 @@ def scrape_board(ats_platform: str, supabase, blacklist: set) -> dict:
             if purge_check.data:
                 continue
 
-            resp = supabase.table("jobs").upsert(
-                row, on_conflict="ats_platform,external_id", ignore_duplicates=True,
-            ).execute()
-            if resp.data:
-                stats["jobs_new"] += 1
+            existing = supabase.table("jobs").select("id").eq(
+                "ats_platform", ats_platform
+            ).eq("external_id", job.ats_id).limit(1).execute()
+
+            if existing.data:
+                supabase.table("jobs").update({
+                    "last_seen_at": datetime.now(timezone.utc).isoformat(),
+                }).eq("id", existing.data[0]["id"]).execute()
+            else:
+                row["last_seen_at"] = datetime.now(timezone.utc).isoformat()
+                resp = supabase.table("jobs").upsert(
+                    row, on_conflict="ats_platform,external_id", ignore_duplicates=True,
+                ).execute()
+                if resp.data:
+                    stats["jobs_new"] += 1
 
     except Exception as e:
         stats["errors"].append(f"{ats_platform}: {str(e)[:200]}")
