@@ -230,15 +230,14 @@ def lambda_handler(event, context):
                     stats["matched"] += 1
 
         except Exception as e:
-            for j in batch:
-                supabase.table("jobs").update({"status": "new"}).eq("id", j["id"]).eq("status", "scoring").execute()
             stats["errors"].append(f"Batch {i//BATCH_SIZE}: {str(e)[:200]}")
             print(f"Scoring batch failed: {e}")
             traceback.print_exc()
 
-    # Reset any jobs we claimed but didn't process (e.g. if loop exited early)
-    for job in all_jobs:
-        supabase.table("jobs").update({"status": "new"}).eq("id", job["id"]).eq("status", "scoring").execute()
+    # Reset any claimed jobs that weren't scored (failed batches or early exit)
+    claimed_ids = [job["id"] for job in all_jobs]
+    if claimed_ids:
+        supabase.table("jobs").update({"status": "new"}).eq("status", "scoring").in_("id", claimed_ids).execute()
 
     # Self-chain if there are more unscored jobs
     remaining = (
