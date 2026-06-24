@@ -56,6 +56,20 @@ SCORING RUBRIC (score 0-100):
 
 LOCATION RULE: If the role explicitly requires US-only presence or US work authorization with no indication of Canada hiring, deduct 30 points from the total score.
 
+JOB CATEGORY — Classify each job into exactly ONE of these categories based on the title and description:
+- Software & Engineering
+- Data & Analytics
+- Design & Creative
+- Product & Project Management
+- Business & Operations
+- Sales & Marketing
+- Finance & Accounting
+- Healthcare
+- Human Resources
+- Skilled Trades & Labor
+- Education & Research
+- Other
+
 You MUST respond ONLY with a valid JSON array. No other text."""
 
 BATCH_USER_PROMPT = """Score these job postings:
@@ -72,7 +86,8 @@ Respond with ONLY a JSON array:
     "stack_overlap": 0-20,
     "keyword_match": 0-15,
     "matched_skills": ["skill1", "skill2"],
-    "rationale": "one sentence explaining the score"
+    "rationale": "one sentence explaining the score",
+    "category": "one of the 12 categories from JOB CATEGORY list"
   }}
 ]"""
 
@@ -187,6 +202,7 @@ def lambda_handler(event, context):
                     "keyword_score": result.get("keyword_match"),
                     "matched_skills": result.get("matched_skills", []),
                     "rationale": result.get("rationale"),
+                    "category": result.get("category"),
                     "scored_at": datetime.now(timezone.utc).isoformat(),
                 }, on_conflict="job_id,model").execute()
 

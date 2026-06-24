@@ -9,6 +9,7 @@ export type JobRow = {
   posted_at: string | null;
   first_seen_at: string;
   ats_platform: string;
+  category?: string | null;
 };
 
 export type DateFilter = "24h" | "7d" | "30d" | "all";
@@ -23,4 +24,40 @@ export type BoardSearchParams = {
   sort?: string;
   order?: string;
   page?: string;
+  category?: string;
+  level?: string;
+  platform?: string;
 };
+
+export const CATEGORIES = [
+  "Software & Engineering",
+  "Data & Analytics",
+  "Design & Creative",
+  "Product & Project Management",
+  "Business & Operations",
+  "Sales & Marketing",
+  "Finance & Accounting",
+  "Healthcare",
+  "Human Resources",
+  "Skilled Trades & Labor",
+  "Education & Research",
+  "Other",
+] as const;
+
+export const PLATFORMS = [
+  { value: "greenhouse", label: "Greenhouse" },
+  { value: "lever", label: "Lever" },
+  { value: "ashby", label: "Ashby" },
+  { value: "smartrecruiters", label: "SmartRecruiters" },
+  { value: "workable", label: "Workable" },
+  { value: "rippling", label: "Rippling" },
+  { value: "ycombinator", label: "YC" },
+  { value: "themuse", label: "The Muse" },
+  { value: "weworkremotely", label: "WWR" },
+] as const;
+
+export const LEVELS = [
+  { value: "entry", label: "Entry / Junior" },
+  { value: "mid", label: "Mid-level" },
+  { value: "senior", label: "Senior+" },
+] as const;

@@ -3,18 +3,24 @@
 import type { JobRow } from "@/lib/types";
 import { ExternalLink } from "lucide-react";
 
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 function formatRelativeDate(dateStr: string | null, fallback: string): string {
   const date = new Date(dateStr || fallback);
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-  if (diffDays === 0) return "Today";
-  if (diffDays === 1) return "Yesterday";
-  if (diffDays < 7) return `${diffDays}d ago`;
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
-  if (diffDays < 365) return `${Math.floor(diffDays / 30)}mo ago`;
-  return `${Math.floor(diffDays / 365)}y ago`;
+  const month = MONTH_NAMES[date.getMonth()];
+  const day = date.getDate();
+  const prefix = `${month} ${day}`;
+
+  if (diffDays === 0) return `${prefix} (Today)`;
+  if (diffDays === 1) return `${prefix} (Yesterday)`;
+  if (diffDays < 7) return `${prefix} (${diffDays}d ago)`;
+  if (diffDays < 30) return `${prefix} (${Math.floor(diffDays / 7)}w ago)`;
+  if (diffDays < 365) return `${prefix} (${Math.floor(diffDays / 30)}mo ago)`;
+  return `${prefix} (${Math.floor(diffDays / 365)}y ago)`;
 }
 
 function formatPlatform(platform: string): string {

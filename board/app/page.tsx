@@ -36,6 +36,9 @@ export default async function BoardPage({
     sort: typeof raw.sort === "string" ? raw.sort : undefined,
     order: typeof raw.order === "string" ? raw.order : undefined,
     page: typeof raw.page === "string" ? raw.page : undefined,
+    category: typeof raw.category === "string" ? raw.category : undefined,
+    level: typeof raw.level === "string" ? raw.level : undefined,
+    platform: typeof raw.platform === "string" ? raw.platform : undefined,
   };
 
   const [{ jobs, totalCount }, lastScrape] = await Promise.all([
