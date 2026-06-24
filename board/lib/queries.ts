@@ -84,4 +84,16 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
   };
 }
 
+export async function fetchLastScrape(): Promise<string | null> {
+  const { data } = await supabase
+    .from("scrape_runs")
+    .select("completed_at")
+    .eq("status", "success")
+    .order("completed_at", { ascending: false, nullsFirst: false })
+    .limit(1)
+    .single();
+
+  return data?.completed_at || null;
+}
+
 export { PAGE_SIZE };

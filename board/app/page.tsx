@@ -1,11 +1,25 @@
 import { Suspense } from "react";
-import { fetchJobs, PAGE_SIZE } from "@/lib/queries";
+import { fetchJobs, fetchLastScrape, PAGE_SIZE } from "@/lib/queries";
 import type { BoardSearchParams } from "@/lib/types";
 import { SearchFilters } from "@/components/search-filters";
 import { JobBoardTable } from "@/components/job-board-table";
 import { Pagination } from "@/components/pagination";
 
 export const dynamic = "force-dynamic";
+
+function formatLastScrape(iso: string): string {
+  const date = new Date(iso);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+
+  if (diffMins < 1) return "just now";
+  if (diffMins < 60) return `${diffMins}m ago`;
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours}h ago`;
+  const diffDays = Math.floor(diffHours / 24);
+  return `${diffDays}d ago`;
+}
 
 export default async function BoardPage({
   searchParams,
@@ -24,7 +38,10 @@ export default async function BoardPage({
     page: typeof raw.page === "string" ? raw.page : undefined,
   };
 
-  const { jobs, totalCount } = await fetchJobs(params);
+  const [{ jobs, totalCount }, lastScrape] = await Promise.all([
+    fetchJobs(params),
+    fetchLastScrape(),
+  ]);
   const currentPage = Math.max(1, parseInt(params.page || "1", 10) || 1);
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
@@ -53,6 +70,11 @@ export default async function BoardPage({
           <p style={{ fontSize: 16, color: "var(--text-body)", lineHeight: 1.7 }}>
             Browse {totalCount.toLocaleString()} open positions across Canada
           </p>
+          {lastScrape && (
+            <p style={{ fontSize: 14, color: "var(--text-body-subtle)", marginTop: 8 }}>
+              Last updated {formatLastScrape(lastScrape)}
+            </p>
+          )}
         </div>
 
         {/* Filters */}
