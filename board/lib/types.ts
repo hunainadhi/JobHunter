@@ -55,6 +55,9 @@ export const PLATFORMS = [
   { value: "themuse", label: "The Muse" },
   { value: "weworkremotely", label: "WWR" },
   { value: "icims", label: "iCIMS" },
+  { value: "pinpoint", label: "Pinpoint" },
+  { value: "teamtailor", label: "Teamtailor" },
+  { value: "breezy", label: "Breezy" },
 ] as const;
 
 export const LEVELS = [

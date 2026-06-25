@@ -28,6 +28,9 @@ ATS_SCRAPERS = {
     "workable": "jobhive.scrapers.workable.WorkableScraper",
     "rippling": "jobhive.scrapers.rippling.RipplingScraper",
     "icims": "jobhive.scrapers.icims.iCIMSScraper",
+    "pinpoint": "jobhive.scrapers.pinpoint.PinpointScraper",
+    "teamtailor": "jobhive.scrapers.teamtailor.TeamtailorScraper",
+    "breezy": "jobhive.scrapers.breezy.BreezyScraper",
 }
 
 BOARD_SCRAPERS = {

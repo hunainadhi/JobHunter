@@ -16,6 +16,9 @@ ATS_PLATFORMS = {
     "workable": None,
     "rippling": None,
     "icims": None,
+    "pinpoint": None,
+    "teamtailor": None,
+    "breezy": None,
 }
 
 BOARD_SCRAPERS = ["ycombinator", "themuse", "weworkremotely"]
