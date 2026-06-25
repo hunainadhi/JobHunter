@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Search, X } from "lucide-react";
 import { CATEGORIES, LEVELS, PLATFORMS } from "@/lib/types";
 
@@ -60,12 +60,11 @@ export function SearchFilters() {
   const [location, setLocation] = useState(currentLocation);
   const [company, setCompany] = useState(currentCompany);
 
-  useEffect(() => { setQ(currentQ); }, [currentQ]);
-  useEffect(() => { setLocation(currentLocation); }, [currentLocation]);
-  useEffect(() => { setCompany(currentCompany); }, [currentCompany]);
+  const searchParamsRef = useRef(searchParams);
+  searchParamsRef.current = searchParams;
 
   const updateParams = useCallback((updates: Record<string, string>) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParamsRef.current.toString());
     for (const [key, value] of Object.entries(updates)) {
       if (value) {
         params.set(key, value);
@@ -75,28 +74,28 @@ export function SearchFilters() {
     }
     params.delete("page");
     router.replace(`?${params.toString()}`);
-  }, [searchParams, router]);
+  }, [router]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (q !== currentQ) updateParams({ q });
+      updateParams({ q });
     }, 300);
     return () => clearTimeout(timer);
-  }, [q, currentQ, updateParams]);
+  }, [q, updateParams]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (location !== currentLocation) updateParams({ location });
+      updateParams({ location });
     }, 300);
     return () => clearTimeout(timer);
-  }, [location, currentLocation, updateParams]);
+  }, [location, updateParams]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (company !== currentCompany) updateParams({ company });
+      updateParams({ company });
     }, 300);
     return () => clearTimeout(timer);
-  }, [company, currentCompany, updateParams]);
+  }, [company, updateParams]);
 
   const hasFilters =
     currentQ || currentLocation || currentCompany ||
