@@ -68,7 +68,7 @@ export default async function BoardPage({
               marginBottom: 16,
             }}
           >
-            Job Board
+            JobHunter
           </h1>
           <p style={{ fontSize: 16, color: "var(--text-body)", lineHeight: 1.7 }}>
             Browse {totalCount.toLocaleString()} open positions across Canada
