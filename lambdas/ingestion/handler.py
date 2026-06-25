@@ -27,6 +27,7 @@ ATS_SCRAPERS = {
     "smartrecruiters": "jobhive.scrapers.smartrecruiters.SmartRecruitersScraper",
     "workable": "jobhive.scrapers.workable.WorkableScraper",
     "rippling": "jobhive.scrapers.rippling.RipplingScraper",
+    "icims": "jobhive.scrapers.icims.iCIMSScraper",
 }
 
 BOARD_SCRAPERS = {

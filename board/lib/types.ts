@@ -54,6 +54,7 @@ export const PLATFORMS = [
   { value: "ycombinator", label: "YC" },
   { value: "themuse", label: "The Muse" },
   { value: "weworkremotely", label: "WWR" },
+  { value: "icims", label: "iCIMS" },
 ] as const;
 
 export const LEVELS = [

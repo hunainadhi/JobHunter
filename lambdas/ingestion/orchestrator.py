@@ -15,6 +15,7 @@ ATS_PLATFORMS = {
     "smartrecruiters": None,
     "workable": None,
     "rippling": None,
+    "icims": None,
 }
 
 BOARD_SCRAPERS = ["ycombinator", "themuse", "weworkremotely"]
