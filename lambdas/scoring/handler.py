@@ -152,7 +152,7 @@ def lambda_handler(event, context):
         .eq("status", "new")
         .not_.is_("description", "null")
         .order("first_seen_at", desc=True)
-        .limit(500)
+        .limit(100)
         .execute()
     )
 
@@ -161,8 +161,7 @@ def lambda_handler(event, context):
     # Claim this batch by marking as 'scoring' so other instances skip them
     if all_jobs:
         claimed_ids = [job["id"] for job in all_jobs]
-        for job_id in claimed_ids:
-            supabase.table("jobs").update({"status": "scoring"}).eq("id", job_id).eq("status", "new").execute()
+        supabase.table("jobs").update({"status": "scoring"}).eq("status", "new").in_("id", claimed_ids).execute()
 
     # Discard jobs with no description — mark as scored so they get purged
     null_desc_resp = (
