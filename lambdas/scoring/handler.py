@@ -11,6 +11,7 @@ SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_SERVICE_KEY = os.environ["SUPABASE_SERVICE_KEY"]
 MINIMAX_API_KEY = os.environ["MINIMAX_API_KEY"]
 MINIMAX_API_URL = "https://api.minimax.io/v1/chat/completions"
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 BATCH_SIZE = 10
 MATCH_THRESHOLD = 25
 
@@ -98,6 +99,32 @@ Respond with ONLY a JSON array:
   }}
 ]"""
 
+def build_embed_text(job: dict) -> str:
+    parts = [job["title"]]
+    if job.get("company_name"):
+        parts.append(f"at {job['company_name']}")
+    if job.get("location"):
+        parts.append(f"in {job['location']}")
+    return " ".join(parts)
+
+
+def generate_embeddings(jobs: list[dict]) -> dict[str, list[float]]:
+    texts = [build_embed_text(j) for j in jobs]
+    with httpx.Client(timeout=60) as client:
+        resp = client.post(
+            "https://api.openai.com/v1/embeddings",
+            headers={
+                "Authorization": f"Bearer {OPENAI_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={"model": "text-embedding-3-small", "input": texts, "dimensions": 256},
+        )
+        resp.raise_for_status()
+    data = resp.json()["data"]
+    sorted_embeddings = [item["embedding"] for item in sorted(data, key=lambda x: x["index"])]
+    return {str(job["id"]): emb for job, emb in zip(jobs, sorted_embeddings)}
+
+
 def build_jobs_block(jobs: list[dict]) -> str:
     block = ""
     for job in jobs:
@@ -142,10 +169,10 @@ def score_batch(jobs: list[dict]) -> list[dict]:
     return json.loads(clean)
 
 
-def lambda_handler(event, context):
-    supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+MAX_RUNTIME_SECONDS = 14 * 60
 
-    # Fetch unscored jobs
+
+def score_round(supabase) -> dict:
     resp = (
         supabase.table("jobs")
         .select("id, title, company_name, location, description")
@@ -157,13 +184,12 @@ def lambda_handler(event, context):
     )
 
     all_jobs = resp.data
+    if not all_jobs:
+        return {"scored": 0, "matched": 0, "errors": [], "discarded": 0}
 
-    # Claim this batch by marking as 'scoring' so other instances skip them
-    if all_jobs:
-        claimed_ids = [job["id"] for job in all_jobs]
-        supabase.table("jobs").update({"status": "scoring"}).eq("status", "new").in_("id", claimed_ids).execute()
+    claimed_ids = [job["id"] for job in all_jobs]
+    supabase.table("jobs").update({"status": "scoring"}).eq("status", "new").in_("id", claimed_ids).execute()
 
-    # Discard jobs with no description — mark as scored so they get purged
     null_desc_resp = (
         supabase.table("jobs")
         .select("id")
@@ -172,27 +198,22 @@ def lambda_handler(event, context):
         .limit(500)
         .execute()
     )
-    discarded_count = len(null_desc_resp.data)
+    discarded = len(null_desc_resp.data)
     for job in null_desc_resp.data:
         supabase.table("jobs").update({"status": "scored"}).eq("id", job["id"]).execute()
 
-    if discarded_count > 0:
-        print(f"Discarded {discarded_count} jobs with no description")
-
-    if not all_jobs and not null_desc_resp.data:
-        return {"statusCode": 200, "body": json.dumps({"status": "no unscored jobs"})}
-
-    stats = {
-        "total_unscored": len(all_jobs),
-        "scored": 0,
-        "matched": 0,
-        "errors": [],
-    }
+    stats = {"scored": 0, "matched": 0, "errors": [], "discarded": discarded}
 
     for i in range(0, len(all_jobs), BATCH_SIZE):
         batch = all_jobs[i : i + BATCH_SIZE]
         try:
             results = score_batch(batch)
+
+            try:
+                embeddings = generate_embeddings(batch)
+            except Exception as e:
+                print(f"Embedding generation failed (non-fatal): {e}")
+                embeddings = {}
 
             job_id_map = {str(j["id"]): j for j in batch}
 
@@ -219,10 +240,10 @@ def lambda_handler(event, context):
                     "scored_at": datetime.now(timezone.utc).isoformat(),
                 }, on_conflict="job_id,model").execute()
 
-                supabase.table("jobs").update({
-                    "status": new_status,
-                    "description": None,
-                }).eq("id", job_id).execute()
+                job_update = {"status": new_status, "description": None}
+                if job_id in embeddings:
+                    job_update["embedding"] = embeddings[job_id]
+                supabase.table("jobs").update(job_update).eq("id", job_id).execute()
 
                 stats["scored"] += 1
                 if score >= MATCH_THRESHOLD:
@@ -233,12 +254,35 @@ def lambda_handler(event, context):
             print(f"Scoring batch failed: {e}")
             traceback.print_exc()
 
-    # Reset any claimed jobs that weren't scored (failed batches or early exit)
-    claimed_ids = [job["id"] for job in all_jobs]
-    if claimed_ids:
-        supabase.table("jobs").update({"status": "new"}).eq("status", "scoring").in_("id", claimed_ids).execute()
+    supabase.table("jobs").update({"status": "new"}).eq("status", "scoring").in_("id", claimed_ids).execute()
 
-    # Self-chain if there are more unscored jobs
+    return stats
+
+
+def lambda_handler(event, context):
+    import time
+    start_time = time.time()
+    supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+
+    total_stats = {"scored": 0, "matched": 0, "errors": [], "discarded": 0, "rounds": 0}
+
+    while True:
+        elapsed = time.time() - start_time
+        if elapsed >= MAX_RUNTIME_SECONDS:
+            break
+
+        round_stats = score_round(supabase)
+        if round_stats["scored"] == 0 and round_stats["discarded"] == 0:
+            break
+
+        total_stats["scored"] += round_stats["scored"]
+        total_stats["matched"] += round_stats["matched"]
+        total_stats["discarded"] += round_stats["discarded"]
+        total_stats["errors"].extend(round_stats["errors"])
+        total_stats["rounds"] += 1
+
+        print(f"Round {total_stats['rounds']}: scored={round_stats['scored']} matched={round_stats['matched']} errors={len(round_stats['errors'])} elapsed={int(elapsed)}s")
+
     remaining = (
         supabase.table("jobs")
         .select("id", count="exact")
@@ -248,10 +292,11 @@ def lambda_handler(event, context):
         .execute()
     )
     remaining_count = remaining.count or 0
-    print(f"Scoring complete. matched={stats['matched']} scored={stats['scored']} discarded_no_desc={discarded_count} remaining={remaining_count}")
+    elapsed = int(time.time() - start_time)
+    print(f"Scoring complete. rounds={total_stats['rounds']} scored={total_stats['scored']} matched={total_stats['matched']} discarded={total_stats['discarded']} remaining={remaining_count} elapsed={elapsed}s")
 
     if remaining_count > 0:
-        print(f"Re-invoking scoring for {remaining_count} remaining jobs")
+        print(f"Self-chaining for {remaining_count} remaining jobs")
         boto3.client("lambda", region_name="ca-central-1").invoke(
             FunctionName=os.environ.get("AWS_LAMBDA_FUNCTION_NAME", "jobhunter-scoring"),
             InvocationType="Event",
@@ -259,5 +304,5 @@ def lambda_handler(event, context):
 
     return {
         "statusCode": 200,
-        "body": json.dumps({"status": "complete", "stats": stats, "remaining": remaining_count}, default=str),
+        "body": json.dumps({"status": "complete", "stats": total_stats, "remaining": remaining_count}, default=str),
     }

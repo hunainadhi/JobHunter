@@ -2,15 +2,15 @@
 CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA extensions;
 
 -- Add embedding column (768 dimensions for Google text-embedding-005)
-ALTER TABLE jobs ADD COLUMN IF NOT EXISTS embedding vector(1536);
+ALTER TABLE jobs ADD COLUMN IF NOT EXISTS embedding vector(256);
 
 -- HNSW index for cosine similarity
 CREATE INDEX IF NOT EXISTS idx_jobs_embedding
-ON jobs USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
+ON jobs USING ivfflat (embedding vector_cosine_ops) WITH (lists = 25);
 
 -- Semantic search RPC function
 CREATE OR REPLACE FUNCTION match_jobs(
-  query_embedding vector(1536),
+  query_embedding vector(256),
   match_threshold float DEFAULT 0.3,
   match_count int DEFAULT 30,
   offset_val int DEFAULT 0,
@@ -58,7 +58,7 @@ BEGIN
     AND (filter_level IS NULL OR s.level = filter_level)
     AND (filter_date_cutoff IS NULL OR j.posted_at >= filter_date_cutoff
          OR (j.posted_at IS NULL AND j.first_seen_at >= filter_date_cutoff))
-  ORDER BY similarity DESC
+  ORDER BY j.posted_at DESC NULLS LAST
   LIMIT match_count
   OFFSET offset_val;
 END;
@@ -66,7 +66,7 @@ $$;
 
 -- Count companion for pagination
 CREATE OR REPLACE FUNCTION count_matched_jobs(
-  query_embedding vector(1536),
+  query_embedding vector(256),
   match_threshold float DEFAULT 0.3,
   filter_location text DEFAULT NULL,
   filter_company text DEFAULT NULL,

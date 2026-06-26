@@ -33,7 +33,7 @@ async function embedQuery(text: string): Promise<number[]> {
       "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ model: "text-embedding-3-small", input: [text] }),
+    body: JSON.stringify({ model: "text-embedding-3-small", input: [text], dimensions: 256 }),
   });
   if (!res.ok) throw new Error(`Embedding API error: ${res.status}`);
   const data = await res.json();
