@@ -15,6 +15,7 @@ function formatRelativeDate(dateStr: string | null, fallback: string): string {
   const day = date.getDate();
   const prefix = `${month} ${day}`;
 
+  if (diffDays < 0) return `${prefix}`;
   if (diffDays === 0) return `${prefix} (Today)`;
   if (diffDays === 1) return `${prefix} (Yesterday)`;
   if (diffDays < 7) return `${prefix} (${diffDays}d ago)`;
