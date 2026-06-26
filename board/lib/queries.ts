@@ -42,7 +42,8 @@ async function embedQuery(text: string): Promise<number[]> {
 
 async function fetchJobsSemantic(
   params: BoardSearchParams,
-  cutoff: string | null
+  cutoff: string | null,
+  sortField: string
 ): Promise<{ jobs: JobRow[]; totalCount: number }> {
   const page = Math.max(1, parseInt(params.page || "1", 10) || 1);
   const embedding = await embedQuery(params.q!.trim());
@@ -94,6 +95,16 @@ async function fetchJobsSemantic(
     category: row.category,
   }));
 
+  if (sortField === "posted_at") {
+    jobs.sort((a, b) => {
+      const dateA = a.posted_at || a.first_seen_at || "";
+      const dateB = b.posted_at || b.first_seen_at || "";
+      return dateB.localeCompare(dateA);
+    });
+  } else if (sortField === "title") {
+    jobs.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+  }
+
   return { jobs, totalCount: countData ?? 0 };
 }
 
@@ -109,7 +120,7 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
 
   if (params.q?.trim() && process.env.OPENAI_API_KEY) {
     try {
-      return await fetchJobsSemantic(params, cutoff);
+      return await fetchJobsSemantic(params, cutoff, sortField);
     } catch (e) {
       console.error("Semantic search failed, falling back to ILIKE:", e);
     }
