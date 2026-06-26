@@ -26,6 +26,77 @@ function getDateCutoff(filter: DateFilter): string | null {
   }
 }
 
+async function embedQuery(text: string): Promise<number[]> {
+  const res = await fetch("https://api.openai.com/v1/embeddings", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ model: "text-embedding-3-small", input: [text] }),
+  });
+  if (!res.ok) throw new Error(`Embedding API error: ${res.status}`);
+  const data = await res.json();
+  return data.data[0].embedding;
+}
+
+async function fetchJobsSemantic(
+  params: BoardSearchParams,
+  cutoff: string | null
+): Promise<{ jobs: JobRow[]; totalCount: number }> {
+  const page = Math.max(1, parseInt(params.page || "1", 10) || 1);
+  const embedding = await embedQuery(params.q!.trim());
+
+  const rpcParams: Record<string, any> = {
+    query_embedding: embedding,
+    match_threshold: 0.3,
+    match_count: PAGE_SIZE,
+    offset_val: (page - 1) * PAGE_SIZE,
+    filter_location: params.location?.trim() || null,
+    filter_company: params.company?.trim() || null,
+    filter_platform: params.platform || null,
+    filter_category: params.category || null,
+    filter_level: params.level || null,
+    filter_date_cutoff: cutoff,
+  };
+
+  const [{ data, error }, { data: countData, error: countError }] =
+    await Promise.all([
+      supabase.rpc("match_jobs", rpcParams),
+      supabase.rpc("count_matched_jobs", {
+        query_embedding: embedding,
+        match_threshold: 0.3,
+        filter_location: rpcParams.filter_location,
+        filter_company: rpcParams.filter_company,
+        filter_platform: rpcParams.filter_platform,
+        filter_category: rpcParams.filter_category,
+        filter_level: rpcParams.filter_level,
+        filter_date_cutoff: cutoff,
+      }),
+    ]);
+
+  if (error) {
+    console.error("Semantic search error:", error);
+    return { jobs: [], totalCount: 0 };
+  }
+
+  const jobs: JobRow[] = ((data as any[]) || []).map((row) => ({
+    id: row.id,
+    title: row.title,
+    company_name: row.company_name,
+    location: row.location,
+    is_remote: row.is_remote,
+    apply_url: row.apply_url,
+    source_url: row.source_url,
+    posted_at: row.posted_at,
+    first_seen_at: row.first_seen_at,
+    ats_platform: row.ats_platform,
+    category: row.category,
+  }));
+
+  return { jobs, totalCount: countData ?? 0 };
+}
+
 export async function fetchJobs(params: BoardSearchParams): Promise<{
   jobs: JobRow[];
   totalCount: number;
@@ -34,6 +105,15 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
   const sortField = params.sort === "title" ? "title" : "posted_at";
   const sortAsc = params.sort === "title" ? true : false;
   const dateFilter = (params.date || "all") as DateFilter;
+  const cutoff = getDateCutoff(dateFilter);
+
+  if (params.q?.trim() && process.env.OPENAI_API_KEY) {
+    try {
+      return await fetchJobsSemantic(params, cutoff);
+    } catch (e) {
+      console.error("Semantic search failed, falling back to ILIKE:", e);
+    }
+  }
 
   const needsScores = !!params.category || !!params.level;
 
@@ -84,7 +164,6 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
     query = query.eq("ats_platform", params.platform);
   }
 
-  const cutoff = getDateCutoff(dateFilter);
   if (cutoff) {
     query = query.or(
       `posted_at.gte.${cutoff},and(posted_at.is.null,first_seen_at.gte.${cutoff})`
