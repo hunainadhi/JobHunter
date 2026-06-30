@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { getSupabase } from "./supabase";
 import type { JobRow, BoardSearchParams, DateFilter } from "./types";
 
 const PAGE_SIZE = 30;
@@ -63,8 +63,8 @@ async function fetchJobsSemantic(
 
   const [{ data, error }, { data: countData, error: countError }] =
     await Promise.all([
-      supabase.rpc("match_jobs", rpcParams),
-      supabase.rpc("count_matched_jobs", {
+      getSupabase().rpc("match_jobs", rpcParams),
+      getSupabase().rpc("count_matched_jobs", {
         query_embedding: embedding,
         match_threshold: 0.3,
         filter_location: rpcParams.filter_location,
@@ -130,7 +130,7 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
 
   let query;
   if (needsScores) {
-    query = supabase
+    query = getSupabase()
       .from("jobs")
       .select(
         `${JOB_COLUMNS}, scores!inner(category, level)`,
@@ -145,7 +145,7 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
       query = query.eq("scores.level", params.level);
     }
   } else {
-    query = supabase
+    query = getSupabase()
       .from("jobs")
       .select(JOB_COLUMNS, { count: "exact" })
       .neq("status", "expired");
@@ -212,7 +212,7 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
 }
 
 export async function fetchLastScrape(): Promise<string | null> {
-  const { data } = await supabase
+  const { data } = await getSupabase()
     .from("scrape_runs")
     .select("completed_at")
     .eq("status", "success")
