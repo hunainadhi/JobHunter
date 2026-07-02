@@ -9,6 +9,18 @@ function escapeIlike(value: string): string {
   return value.replace(/%/g, "\\%").replace(/_/g, "\\_");
 }
 
+async function withRetry<T>(fn: () => Promise<T>, retries = 1, delayMs = 1500): Promise<T> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await fn();
+    } catch (e) {
+      if (attempt === retries) throw e;
+      await new Promise((r) => setTimeout(r, delayMs));
+    }
+  }
+  throw new Error("unreachable");
+}
+
 function getDateCutoff(filter: DateFilter): string | null {
   const now = new Date();
   switch (filter) {
@@ -112,6 +124,13 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
   jobs: JobRow[];
   totalCount: number;
 }> {
+  return withRetry(() => fetchJobsInner(params));
+}
+
+async function fetchJobsInner(params: BoardSearchParams): Promise<{
+  jobs: JobRow[];
+  totalCount: number;
+}> {
   const page = Math.max(1, parseInt(params.page || "1", 10) || 1);
   const sortField = params.sort === "title" ? "title" : "posted_at";
   const sortAsc = params.sort === "title" ? true : false;
@@ -134,7 +153,7 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
       .from("jobs")
       .select(
         `${JOB_COLUMNS}, scores!inner(category, level)`,
-        { count: "exact" }
+        { count: "estimated" }
       )
       .neq("status", "expired");
 
@@ -147,7 +166,7 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
   } else {
     query = getSupabase()
       .from("jobs")
-      .select(JOB_COLUMNS, { count: "exact" })
+      .select(JOB_COLUMNS, { count: "estimated" })
       .neq("status", "expired");
   }
 
@@ -191,8 +210,7 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
   const { data, count, error } = await query;
 
   if (error) {
-    console.error("Supabase query error:", error);
-    return { jobs: [], totalCount: 0 };
+    throw error;
   }
 
   let jobs: JobRow[];
