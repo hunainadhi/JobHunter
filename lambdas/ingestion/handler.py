@@ -5,11 +5,12 @@ import os
 import re
 import time
 import traceback
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from supabase import create_client
 
+from jobhive.exceptions import CompanyNotFoundError
 from location_filter import is_canadian_location
 
 SUPABASE_URL = os.environ["SUPABASE_URL"]
@@ -62,6 +63,68 @@ def compute_content_hash(description: str) -> str:
     return hashlib.sha256(normalized.encode()).hexdigest()
 
 
+def load_dead_companies(supabase, ats_platform: str) -> tuple[set, set]:
+    """Returns (skip, known): companies to skip this run, and every company
+    with a dead_companies row (so a successful fetch can heal its record
+    without issuing a DELETE for the ~99% of companies that were never dead)."""
+    now = datetime.now(timezone.utc)
+    resp = supabase.table("dead_companies").select("ats_token, error_type, fail_count, retry_after").eq(
+        "ats_platform", ats_platform
+    ).execute()
+    skip = set()
+    known = set()
+    for row in resp.data:
+        known.add(row["ats_token"])
+        if row["error_type"] == "not_found" and row["fail_count"] >= 3:
+            skip.add(row["ats_token"])
+        elif row["error_type"] == "server_error" and row.get("retry_after"):
+            # Compare as datetimes: ISO strings from PostgREST vary in
+            # precision/offset format, so lexicographic comparison is unsafe.
+            try:
+                retry_after = datetime.fromisoformat(row["retry_after"])
+            except ValueError:
+                continue
+            if retry_after > now:
+                skip.add(row["ats_token"])
+    return skip, known
+
+
+def record_dead_company(supabase, ats_platform: str, ats_token: str, error_type: str, error_msg: str):
+    now = datetime.now(timezone.utc).isoformat()
+    retry_after = None
+    if error_type == "server_error":
+        retry_after = (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat()
+
+    existing = supabase.table("dead_companies").select("id, fail_count").eq(
+        "ats_platform", ats_platform
+    ).eq("ats_token", ats_token).limit(1).execute()
+
+    if existing.data:
+        supabase.table("dead_companies").update({
+            "error_type": error_type,
+            "fail_count": existing.data[0]["fail_count"] + 1,
+            "last_error": error_msg[:500],
+            "last_failed_at": now,
+            "retry_after": retry_after,
+        }).eq("id", existing.data[0]["id"]).execute()
+    else:
+        supabase.table("dead_companies").insert({
+            "ats_platform": ats_platform,
+            "ats_token": ats_token,
+            "error_type": error_type,
+            "fail_count": 1,
+            "last_error": error_msg[:500],
+            "last_failed_at": now,
+            "retry_after": retry_after,
+        }).execute()
+
+
+def heal_dead_company(supabase, ats_platform: str, ats_token: str):
+    supabase.table("dead_companies").delete().eq(
+        "ats_platform", ats_platform
+    ).eq("ats_token", ats_token).execute()
+
+
 def load_blacklist(supabase) -> set:
     resp = supabase.table("blacklisted_companies").select("company_name, ats_token").execute()
     blacklisted = set()
@@ -73,11 +136,12 @@ def load_blacklist(supabase) -> set:
     return blacklisted
 
 
-def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: set) -> dict:
+def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: set, dead_companies: set = None, known_dead: set = None) -> dict:
     ScraperClass = get_scraper_class(ATS_SCRAPERS[ats_platform])
 
     stats = {
         "companies_scraped": 0,
+        "companies_skipped": 0,
         "jobs_found": 0,
         "jobs_new": 0,
         "errors": [],
@@ -90,11 +154,17 @@ def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: 
         if slug.lower() in blacklist or name.lower().strip() in blacklist:
             continue
 
+        if dead_companies and slug in dead_companies:
+            stats["companies_skipped"] += 1
+            continue
+
         try:
             scraper = ScraperClass(company_slug=slug, timeout=15.0)
             jobs = scraper.fetch()
             jobs = scraper.enrich_descriptions(jobs)
             stats["companies_scraped"] += 1
+            if known_dead and slug in known_dead:
+                heal_dead_company(supabase, ats_platform, slug)
 
             canadian_jobs = []
             for job in jobs:
@@ -150,9 +220,20 @@ def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: 
                     if resp.data:
                         stats["jobs_new"] += 1
 
+        except CompanyNotFoundError as e:
+            error_msg = f"{ats_platform}/{slug}: {str(e)[:200]}"
+            stats["errors"].append(error_msg)
+            record_dead_company(supabase, ats_platform, slug, "not_found", str(e))
         except Exception as e:
             error_msg = f"{ats_platform}/{slug}: {str(e)[:200]}"
             stats["errors"].append(error_msg)
+            # Prefer the structured status code (httpx.HTTPStatusError et al.)
+            # over string matching, which misses plain 500s and formatted errors.
+            status_code = getattr(getattr(e, "response", None), "status_code", None)
+            err_str = str(e).lower()
+            if (status_code is not None and status_code >= 500) or \
+                    "521" in err_str or "cloudflare" in err_str or "503" in err_str or "502" in err_str:
+                record_dead_company(supabase, ats_platform, slug, "server_error", str(e))
 
         time.sleep(SCRAPE_DELAY)
 
@@ -232,18 +313,19 @@ def scrape_board(ats_platform: str, supabase, blacklist: set) -> dict:
 
 
 def lambda_handler(event, context):
-    if SYNC_SECRET:
-        auth = None
-        if isinstance(event, dict):
-            headers = event.get("headers", {})
-            auth = headers.get("authorization", headers.get("Authorization", ""))
-        if auth and auth != f"Bearer {SYNC_SECRET}":
+    # Auth-gate HTTP-shaped events (Function URL / API Gateway). Direct invokes
+    # from the orchestrator carry no headers/requestContext and are IAM-gated.
+    is_http_event = isinstance(event, dict) and ("headers" in event or "requestContext" in event)
+    if SYNC_SECRET and is_http_event:
+        headers = event.get("headers") or {}
+        auth = headers.get("authorization", headers.get("Authorization", ""))
+        if auth != f"Bearer {SYNC_SECRET}":
             return {"statusCode": 401, "body": json.dumps({"error": "Unauthorized"})}
 
     supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
     blacklist = load_blacklist(supabase)
-
     ats_platform = event.get("ats_platform")
+    dead, known_dead = load_dead_companies(supabase, ats_platform) if ats_platform else (set(), set())
 
     # Board scraper mode: single-source scrapers (no company list)
     if ats_platform and event.get("board_scraper"):
@@ -296,8 +378,8 @@ def lambda_handler(event, context):
         print(f"{tag} batch={len(batch)} total={len(all_companies)}")
 
         try:
-            stats = scrape_batch(ats_platform, batch, supabase, blacklist)
-            print(f"{tag} scraped={stats['companies_scraped']} found={stats['jobs_found']} new={stats['jobs_new']} errors={len(stats['errors'])}")
+            stats = scrape_batch(ats_platform, batch, supabase, blacklist, dead, known_dead)
+            print(f"{tag} scraped={stats['companies_scraped']} skipped={stats['companies_skipped']} found={stats['jobs_found']} new={stats['jobs_new']} errors={len(stats['errors'])}")
 
             run_status = "success"
             if stats["errors"]:

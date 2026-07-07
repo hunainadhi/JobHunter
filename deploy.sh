@@ -19,18 +19,32 @@ pip install \
 pip install \
   --target lambdas/layer/python \
   --no-deps \
-  "jobhive-py @ git+https://github.com/kalil0321/ats-scrapers.git"
+  "jobhive-py @ git+https://github.com/kalil0321/ats-scrapers.git@d825caefc8e97c3533efe1707b4daddfeed58706"
+
+# Strip bytecode caches and bundled test suites — pandas/numpy tests alone are
+# tens of MB and push the zip past Lambda's 70MB direct-upload limit.
+find lambdas/layer/python -type d -name "__pycache__" -prune -exec rm -rf {} +
+rm -rf lambdas/layer/python/pandas/tests \
+       lambdas/layer/python/numpy/tests \
+       lambdas/layer/python/numpy/_core/tests \
+       lambdas/layer/python/numpy/*/tests
 
 cd lambdas/layer
-zip -r ../layer.zip python/
+zip -rq ../layer.zip python/
 cd ../..
-echo "Layer built: lambdas/layer.zip"
+echo "Layer built: lambdas/layer.zip ($(du -h lambdas/layer.zip | cut -f1))"
+
+# Publish via S3: the zip exceeds the ~52MB effective direct-upload limit
+# (the API base64-encodes the payload against a 70MB request cap).
+DEPLOY_BUCKET="jobhunter-deploy-ca"
+echo "Uploading layer to s3://$DEPLOY_BUCKET/layer.zip..."
+aws s3 cp lambdas/layer.zip "s3://$DEPLOY_BUCKET/layer.zip" --region $REGION --no-cli-pager
 
 echo "Publishing Lambda layer..."
 LAYER_ARN=$(aws lambda publish-layer-version \
   --layer-name $LAYER_NAME \
-  --zip-file fileb://lambdas/layer.zip \
-  --compatible-runtimes python3.14 \
+  --content S3Bucket=$DEPLOY_BUCKET,S3Key=layer.zip \
+  --compatible-runtimes python3.12 \
   --region $REGION \
   --query 'LayerVersionArn' \
   --output text \
@@ -46,6 +60,9 @@ aws lambda update-function-code \
   --zip-file fileb://lambdas/ingestion.zip \
   --region $REGION \
   --no-cli-pager
+aws lambda wait function-updated \
+  --function-name $INGESTION_FUNCTION \
+  --region $REGION
 aws lambda update-function-configuration \
   --function-name $INGESTION_FUNCTION \
   --handler handler.lambda_handler \
@@ -63,6 +80,9 @@ aws lambda update-function-code \
   --zip-file fileb://lambdas/scoring.zip \
   --region $REGION \
   --no-cli-pager
+aws lambda wait function-updated \
+  --function-name $SCORING_FUNCTION \
+  --region $REGION
 aws lambda update-function-configuration \
   --function-name $SCORING_FUNCTION \
   --handler handler.lambda_handler \

@@ -14,6 +14,12 @@ MINIMAX_API_URL = "https://api.minimax.io/v1/chat/completions"
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 BATCH_SIZE = 10
 MATCH_THRESHOLD = 25
+# 10 jobs x (scores + skills + rationale + category) can exceed 2000 tokens and
+# truncate the JSON array, failing the whole batch — keep generous headroom.
+MAX_COMPLETION_TOKENS = 4000
+# Safety valve: stop self-chaining after this many chained invocations even if
+# jobs remain, so a persistent failure can't re-bill MiniMax + Lambda forever.
+MAX_CHAIN_DEPTH = 30
 
 SYSTEM_PROMPT = """You are a job-resume matching engine. You score how well a job posting matches a candidate's profile.
 
@@ -144,7 +150,7 @@ def score_batch(jobs: list[dict]) -> list[dict]:
     jobs_block = build_jobs_block(jobs)
     payload = {
         "model": "MiniMax-M3",
-        "max_tokens": 2000,
+        "max_tokens": MAX_COMPLETION_TOKENS,
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": BATCH_USER_PROMPT.format(jobs_block=jobs_block)},
@@ -172,23 +178,44 @@ def score_batch(jobs: list[dict]) -> list[dict]:
 MAX_RUNTIME_SECONDS = 14 * 60
 
 
-def score_round(supabase) -> dict:
+def claim_jobs(supabase, count: int = 100) -> list[dict]:
+    """Atomically flip up to `count` new jobs to 'scoring' and return them.
+
+    Uses the claim_jobs_for_scoring RPC (migration 014) so overlapping
+    invocations claim disjoint sets. Falls back to the legacy non-atomic
+    select+update if the RPC isn't deployed yet.
+    """
+    try:
+        resp = supabase.rpc("claim_jobs_for_scoring", {"claim_count": count}).execute()
+        return resp.data or []
+    except Exception as e:
+        print(f"claim_jobs_for_scoring RPC unavailable, falling back to legacy claim: {e}")
+
     resp = (
         supabase.table("jobs")
         .select("id, title, company_name, location, description")
         .eq("status", "new")
         .not_.is_("description", "null")
         .order("first_seen_at", desc=True)
-        .limit(100)
+        .limit(count)
         .execute()
     )
-
     all_jobs = resp.data
-    if not all_jobs:
-        return {"scored": 0, "matched": 0, "errors": [], "discarded": 0}
+    if all_jobs:
+        claimed_ids = [job["id"] for job in all_jobs]
+        supabase.table("jobs").update({"status": "scoring"}).eq("status", "new").in_("id", claimed_ids).execute()
+    return all_jobs
 
-    claimed_ids = [job["id"] for job in all_jobs]
-    supabase.table("jobs").update({"status": "scoring"}).eq("status", "new").in_("id", claimed_ids).execute()
+
+def score_round(supabase, failed_ids: set) -> dict:
+    claimed = claim_jobs(supabase, 100)
+
+    # Skip jobs that already failed this invocation — retrying them in a tight
+    # loop just re-bills the same failure. They're reset to 'new' at round end
+    # and get another shot on the next scheduled/chained invocation.
+    all_jobs = [j for j in claimed if str(j["id"]) not in failed_ids]
+
+    claimed_ids = [job["id"] for job in claimed]
 
     null_desc_resp = (
         supabase.table("jobs")
@@ -199,13 +226,22 @@ def score_round(supabase) -> dict:
         .execute()
     )
     discarded = len(null_desc_resp.data)
-    for job in null_desc_resp.data:
-        supabase.table("jobs").update({"status": "scored"}).eq("id", job["id"]).execute()
+    if null_desc_resp.data:
+        null_ids = [job["id"] for job in null_desc_resp.data]
+        supabase.table("jobs").update({"status": "scored"}).in_("id", null_ids).execute()
 
     stats = {"scored": 0, "matched": 0, "errors": [], "discarded": discarded}
 
+    if not all_jobs:
+        # Release anything claimed but skipped (all-failed claim). Scope to our
+        # claim so we don't release jobs held by a concurrent invocation.
+        if claimed_ids:
+            supabase.table("jobs").update({"status": "new"}).eq("status", "scoring").in_("id", claimed_ids).execute()
+        return stats
+
     for i in range(0, len(all_jobs), BATCH_SIZE):
         batch = all_jobs[i : i + BATCH_SIZE]
+        batch_ids = {str(j["id"]) for j in batch}
         try:
             results = score_batch(batch)
 
@@ -216,13 +252,20 @@ def score_round(supabase) -> dict:
                 embeddings = {}
 
             job_id_map = {str(j["id"]): j for j in batch}
+            returned_ids = set()
 
             for result in results:
                 job_id = result.get("job_id")
                 if job_id not in job_id_map:
                     continue
 
-                score = result.get("score", 0)
+                score = result.get("score")
+                if not isinstance(score, (int, float)):
+                    # Don't persist a fake 0 for a job the model didn't score —
+                    # leave it unreturned so it's retried later with its description intact.
+                    continue
+                returned_ids.add(job_id)
+
                 new_status = "matched" if score >= MATCH_THRESHOLD else "scored"
 
                 supabase.table("scores").upsert({
@@ -249,7 +292,14 @@ def score_round(supabase) -> dict:
                 if score >= MATCH_THRESHOLD:
                     stats["matched"] += 1
 
+            missing = batch_ids - returned_ids
+            if missing:
+                failed_ids.update(missing)
+                stats["errors"].append(f"Batch {i//BATCH_SIZE}: model omitted {len(missing)} job(s)")
+                print(f"Batch {i//BATCH_SIZE}: {len(missing)} claimed job(s) missing from model response, will retry next invocation")
+
         except Exception as e:
+            failed_ids.update(batch_ids)
             stats["errors"].append(f"Batch {i//BATCH_SIZE}: {str(e)[:200]}")
             print(f"Scoring batch failed: {e}")
             traceback.print_exc()
@@ -264,14 +314,16 @@ def lambda_handler(event, context):
     start_time = time.time()
     supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
+    chain_depth = (event or {}).get("chain_depth", 0)
     total_stats = {"scored": 0, "matched": 0, "errors": [], "discarded": 0, "rounds": 0}
+    failed_ids: set = set()
 
     while True:
         elapsed = time.time() - start_time
         if elapsed >= MAX_RUNTIME_SECONDS:
             break
 
-        round_stats = score_round(supabase)
+        round_stats = score_round(supabase, failed_ids)
         if round_stats["scored"] == 0 and round_stats["discarded"] == 0:
             break
 
@@ -295,12 +347,18 @@ def lambda_handler(event, context):
     elapsed = int(time.time() - start_time)
     print(f"Scoring complete. rounds={total_stats['rounds']} scored={total_stats['scored']} matched={total_stats['matched']} discarded={total_stats['discarded']} remaining={remaining_count} elapsed={elapsed}s")
 
-    if remaining_count > 0:
-        print(f"Self-chaining for {remaining_count} remaining jobs")
+    made_progress = total_stats["scored"] > 0 or total_stats["discarded"] > 0
+    if remaining_count > 0 and made_progress and chain_depth < MAX_CHAIN_DEPTH:
+        print(f"Self-chaining (depth {chain_depth + 1}) for {remaining_count} remaining jobs")
         boto3.client("lambda", region_name="ca-central-1").invoke(
             FunctionName=os.environ.get("AWS_LAMBDA_FUNCTION_NAME", "jobhunter-scoring"),
             InvocationType="Event",
+            Payload=json.dumps({"chain_depth": chain_depth + 1}),
         )
+    elif remaining_count > 0:
+        # Zero progress or depth cap hit: stop chaining so a poisoned batch or
+        # persistent API failure can't loop forever. Next scheduled run retries.
+        print(f"NOT self-chaining: remaining={remaining_count} progress={made_progress} depth={chain_depth} failed={len(failed_ids)}")
 
     return {
         "statusCode": 200,

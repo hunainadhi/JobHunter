@@ -33,7 +33,7 @@ def generate_embeddings(texts: list[str]) -> list[list[float]]:
                 "Authorization": f"Bearer {OPENAI_API_KEY}",
                 "Content-Type": "application/json",
             },
-            json={"model": "text-embedding-3-small", "input": texts},
+            json={"model": "text-embedding-3-small", "input": texts, "dimensions": 256},
         )
         resp.raise_for_status()
     data = resp.json()["data"]

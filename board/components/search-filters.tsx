@@ -151,7 +151,7 @@ export function SearchFilters() {
 
         <div className="flex" style={{ gap: 0 }}>
           <button
-            onClick={() => updateParams({ sort: "" })}
+            onClick={() => updateParams({ sort: "posted_at" })}
             style={{
               padding: "10px 16px",
               fontSize: 14,

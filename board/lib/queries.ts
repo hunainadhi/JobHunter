@@ -9,6 +9,13 @@ function escapeIlike(value: string): string {
   return value.replace(/%/g, "\\%").replace(/_/g, "\\_");
 }
 
+// Values embedded in .or() filter strings are parsed by PostgREST's grammar,
+// where , ( ) . split tokens — unquoted user input like "foo, bar" corrupts
+// the filter. Double-quoting the value makes it a single literal.
+function quoteOrValue(value: string): string {
+  return `"${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+}
+
 async function withRetry<T>(fn: () => Promise<T>, retries = 1, delayMs = 1500): Promise<T> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
@@ -60,40 +67,31 @@ async function fetchJobsSemantic(
   const page = Math.max(1, parseInt(params.page || "1", 10) || 1);
   const embedding = await embedQuery(params.q!.trim());
 
-  const rpcParams: Record<string, any> = {
+  // Sorting happens in the RPC so ordering is consistent across pages
+  // (page-local re-sorting made page 2 overlap/invert page 1). total_count
+  // comes back on every row via a window function, replacing the second
+  // count RPC that re-ran the whole similarity scan.
+  const { data, error } = await getSupabase().rpc("match_jobs", {
     query_embedding: embedding,
     match_threshold: 0.3,
     match_count: PAGE_SIZE,
     offset_val: (page - 1) * PAGE_SIZE,
+    sort_by: sortField,
     filter_location: params.location?.trim() || null,
     filter_company: params.company?.trim() || null,
     filter_platform: params.platform || null,
     filter_category: params.category || null,
     filter_level: params.level || null,
     filter_date_cutoff: cutoff,
-  };
-
-  const [{ data, error }, { data: countData, error: countError }] =
-    await Promise.all([
-      getSupabase().rpc("match_jobs", rpcParams),
-      getSupabase().rpc("count_matched_jobs", {
-        query_embedding: embedding,
-        match_threshold: 0.3,
-        filter_location: rpcParams.filter_location,
-        filter_company: rpcParams.filter_company,
-        filter_platform: rpcParams.filter_platform,
-        filter_category: rpcParams.filter_category,
-        filter_level: rpcParams.filter_level,
-        filter_date_cutoff: cutoff,
-      }),
-    ]);
+  });
 
   if (error) {
     console.error("Semantic search error:", error);
     return { jobs: [], totalCount: 0 };
   }
 
-  const jobs: JobRow[] = ((data as any[]) || []).map((row) => ({
+  const rows = (data as any[]) || [];
+  const jobs: JobRow[] = rows.map((row) => ({
     id: row.id,
     title: row.title,
     company_name: row.company_name,
@@ -107,17 +105,7 @@ async function fetchJobsSemantic(
     category: row.category,
   }));
 
-  if (sortField === "posted_at") {
-    jobs.sort((a, b) => {
-      const dateA = a.posted_at || a.first_seen_at || "";
-      const dateB = b.posted_at || b.first_seen_at || "";
-      return dateB.localeCompare(dateA);
-    });
-  } else if (sortField === "title") {
-    jobs.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
-  }
-
-  return { jobs, totalCount: countData ?? 0 };
+  return { jobs, totalCount: Number(rows[0]?.total_count ?? 0) };
 }
 
 export async function fetchJobs(params: BoardSearchParams): Promise<{
@@ -139,7 +127,12 @@ async function fetchJobsInner(params: BoardSearchParams): Promise<{
 
   if (params.q?.trim() && process.env.OPENAI_API_KEY) {
     try {
-      return await fetchJobsSemantic(params, cutoff, sortField);
+      // No explicit sort → rank by vector similarity (relevance); an explicit
+      // user choice (title / posted_at) still overrides it.
+      const semanticSort = params.sort === "title" || params.sort === "posted_at"
+        ? params.sort
+        : "similarity";
+      return await fetchJobsSemantic(params, cutoff, semanticSort);
     } catch (e) {
       console.error("Semantic search failed, falling back to ILIKE:", e);
     }
@@ -157,6 +150,9 @@ async function fetchJobsInner(params: BoardSearchParams): Promise<{
       )
       .neq("status", "expired");
 
+    // Pin the join to one model: jobs can have multiple scores rows
+    // (MiniMax-M3, keyword-filter), which would duplicate job rows.
+    query = query.eq("scores.model", "MiniMax-M3");
     if (params.category) {
       query = query.eq("scores.category", params.category);
     }
@@ -171,15 +167,15 @@ async function fetchJobsInner(params: BoardSearchParams): Promise<{
   }
 
   if (params.q) {
-    const escaped = escapeIlike(params.q.trim());
-    query = query.or(`title.ilike.%${escaped}%,company_name.ilike.%${escaped}%`);
+    const pattern = quoteOrValue(`%${escapeIlike(params.q.trim())}%`);
+    query = query.or(`title.ilike.${pattern},company_name.ilike.${pattern}`);
   }
 
   if (params.location) {
     const escaped = escapeIlike(params.location.trim());
     const locationLower = params.location.trim().toLowerCase();
     if (locationLower === "remote") {
-      query = query.or(`location.ilike.%${escaped}%,is_remote.eq.true`);
+      query = query.or(`location.ilike.${quoteOrValue(`%${escaped}%`)},is_remote.eq.true`);
     } else {
       query = query.ilike("location", `%${escaped}%`);
     }

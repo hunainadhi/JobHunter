@@ -49,16 +49,24 @@ def lambda_handler(event, context):
     for board in BOARD_SCRAPERS:
         jobs.append({"ats_platform": board, "board_scraper": True})
 
+    # One throttled/failed invoke must not abort the remaining fan-out.
+    launched = 0
+    failed = 0
     for job in jobs:
-        client.invoke(
-            FunctionName=WORKER_FUNCTION,
-            InvocationType="Event",
-            Payload=json.dumps(job),
-        )
+        try:
+            client.invoke(
+                FunctionName=WORKER_FUNCTION,
+                InvocationType="Event",
+                Payload=json.dumps(job),
+            )
+            launched += 1
+        except Exception as e:
+            failed += 1
+            print(f"Failed to launch worker {job}: {e}")
 
-    print(f"Launched {len(jobs)} ingestion workers")
+    print(f"Launched {launched}/{len(jobs)} ingestion workers ({failed} failed)")
 
     return {
         "statusCode": 200,
-        "body": json.dumps({"status": "launched", "workers": len(jobs)}),
+        "body": json.dumps({"status": "launched", "workers": launched, "failed": failed}),
     }
