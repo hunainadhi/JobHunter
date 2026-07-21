@@ -36,9 +36,10 @@ ATS_SCRAPERS = {
 
 BOARD_SCRAPERS = {
     "ycombinator": "jobhive.scrapers.ycombinator.YCombinatorScraper",
-    "themuse": "jobhive.scrapers.themuse.TheMuseScraper",
     "weworkremotely": "jobhive.scrapers.weworkremotely.WeWorkRemotelyScraper",
 }
+# themuse was removed upstream in jobhive (pure aggregator, no direct
+# postings) — the module no longer exists at any commit we can safely pin to.
 
 
 
@@ -202,14 +203,18 @@ def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: 
                 if purge_check.data:
                     continue
 
-                existing = supabase.table("jobs").select("id").eq(
+                existing = supabase.table("jobs").select("id, status").eq(
                     "ats_platform", ats_platform
                 ).eq("external_id", job.ats_id).limit(1).execute()
 
                 if existing.data:
-                    supabase.table("jobs").update({
-                        "last_seen_at": datetime.now(timezone.utc).isoformat(),
-                    }).eq("id", existing.data[0]["id"]).execute()
+                    update = {"last_seen_at": datetime.now(timezone.utc).isoformat()}
+                    # A job re-seen after a soft-expire is still live — revive it.
+                    # Scraping gaps (throttling, dead scraper) shouldn't cost it
+                    # permanently; only the purge cron's hard-delete should.
+                    if existing.data[0]["status"] == "expired":
+                        update["status"] = "new"
+                    supabase.table("jobs").update(update).eq("id", existing.data[0]["id"]).execute()
                 else:
                     row["last_seen_at"] = datetime.now(timezone.utc).isoformat()
                     resp = supabase.table("jobs").upsert(
@@ -289,14 +294,15 @@ def scrape_board(ats_platform: str, supabase, blacklist: set) -> dict:
             if purge_check.data:
                 continue
 
-            existing = supabase.table("jobs").select("id").eq(
+            existing = supabase.table("jobs").select("id, status").eq(
                 "ats_platform", ats_platform
             ).eq("external_id", job.ats_id).limit(1).execute()
 
             if existing.data:
-                supabase.table("jobs").update({
-                    "last_seen_at": datetime.now(timezone.utc).isoformat(),
-                }).eq("id", existing.data[0]["id"]).execute()
+                update = {"last_seen_at": datetime.now(timezone.utc).isoformat()}
+                if existing.data[0]["status"] == "expired":
+                    update["status"] = "new"
+                supabase.table("jobs").update(update).eq("id", existing.data[0]["id"]).execute()
             else:
                 row["last_seen_at"] = datetime.now(timezone.utc).isoformat()
                 resp = supabase.table("jobs").upsert(

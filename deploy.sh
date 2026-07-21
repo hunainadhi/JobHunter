@@ -3,6 +3,7 @@ set -e
 
 REGION="ca-central-1"
 INGESTION_FUNCTION="jobhunter-ingestion"
+ORCHESTRATOR_FUNCTION="jobhunter-orchestrator"
 SCORING_FUNCTION="jobhunter-scoring"
 LAYER_NAME="jobhunter-deps"
 
@@ -14,7 +15,7 @@ pip install \
   --python-version 3.12 \
   --only-binary=:all: \
   --target lambdas/layer/python \
-  httpx supabase pandas
+  httpx supabase pandas beautifulsoup4
 
 pip install \
   --target lambdas/layer/python \
@@ -59,6 +60,7 @@ aws lambda update-function-code \
   --function-name $INGESTION_FUNCTION \
   --zip-file fileb://lambdas/ingestion.zip \
   --region $REGION \
+  --query '{FunctionName:FunctionName,LastUpdateStatus:LastUpdateStatus}' \
   --no-cli-pager
 aws lambda wait function-updated \
   --function-name $INGESTION_FUNCTION \
@@ -68,8 +70,21 @@ aws lambda update-function-configuration \
   --handler handler.lambda_handler \
   --layers "$LAYER_ARN" \
   --region $REGION \
+  --query '{FunctionName:FunctionName,LastUpdateStatus:LastUpdateStatus}' \
   --no-cli-pager
 echo "Ingestion deployed."
+
+echo "Deploying orchestrator Lambda..."
+cd lambdas/ingestion
+zip -r ../orchestrator.zip orchestrator.py data/
+cd ../..
+aws lambda update-function-code \
+  --function-name $ORCHESTRATOR_FUNCTION \
+  --zip-file fileb://lambdas/orchestrator.zip \
+  --region $REGION \
+  --query '{FunctionName:FunctionName,LastUpdateStatus:LastUpdateStatus}' \
+  --no-cli-pager
+echo "Orchestrator deployed."
 
 echo "Deploying scoring Lambda..."
 cd lambdas/scoring
@@ -79,6 +94,7 @@ aws lambda update-function-code \
   --function-name $SCORING_FUNCTION \
   --zip-file fileb://lambdas/scoring.zip \
   --region $REGION \
+  --query '{FunctionName:FunctionName,LastUpdateStatus:LastUpdateStatus}' \
   --no-cli-pager
 aws lambda wait function-updated \
   --function-name $SCORING_FUNCTION \
@@ -88,6 +104,7 @@ aws lambda update-function-configuration \
   --handler handler.lambda_handler \
   --layers "$LAYER_ARN" \
   --region $REGION \
+  --query '{FunctionName:FunctionName,LastUpdateStatus:LastUpdateStatus}' \
   --no-cli-pager
 echo "Scoring deployed."
 

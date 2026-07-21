@@ -1,5 +1,6 @@
 import csv
 import json
+from datetime import date
 from pathlib import Path
 
 import boto3
@@ -21,7 +22,8 @@ ATS_PLATFORMS = {
     "breezy": None,
 }
 
-BOARD_SCRAPERS = ["ycombinator", "themuse", "weworkremotely"]
+BOARD_SCRAPERS = ["ycombinator", "weworkremotely"]
+# themuse was removed upstream in jobhive (pure aggregator, no direct postings).
 
 
 def load_company_count(ats_platform: str) -> int:
@@ -48,6 +50,17 @@ def lambda_handler(event, context):
 
     for board in BOARD_SCRAPERS:
         jobs.append({"ats_platform": board, "board_scraper": True})
+
+    # The account's Lambda concurrency ceiling (currently 50) is far below the
+    # ~500+ invocations fired here, so whatever is earliest in this list wins
+    # the available slots every single day — starving whatever's later
+    # (previously: greenhouse/lever/etc. always ran, icims/pinpoint/breezy/board
+    # scrapers almost never did). Rotate the whole list by a day-dependent
+    # offset so the front-of-queue advantage cycles across all platforms and
+    # batches over time instead of being permanently owned by the same ones.
+    if jobs:
+        rotation = date.today().toordinal() % len(jobs)
+        jobs = jobs[rotation:] + jobs[:rotation]
 
     # One throttled/failed invoke must not abort the remaining fan-out.
     launched = 0
