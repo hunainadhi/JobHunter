@@ -84,6 +84,19 @@ aws lambda update-function-code \
   --region $REGION \
   --query '{FunctionName:FunctionName,LastUpdateStatus:LastUpdateStatus}' \
   --no-cli-pager
+aws lambda wait function-updated \
+  --function-name $ORCHESTRATOR_FUNCTION \
+  --region $REGION
+# Max Lambda timeout (900s) — the orchestrator self-chains in ~15-minute
+# waves to stay under the account's Lambda concurrency ceiling, and each
+# wave's own sleep-then-self-invoke needs the full budget.
+aws lambda update-function-configuration \
+  --function-name $ORCHESTRATOR_FUNCTION \
+  --handler orchestrator.lambda_handler \
+  --timeout 900 \
+  --region $REGION \
+  --query '{FunctionName:FunctionName,LastUpdateStatus:LastUpdateStatus}' \
+  --no-cli-pager
 echo "Orchestrator deployed."
 
 echo "Deploying scoring Lambda..."
