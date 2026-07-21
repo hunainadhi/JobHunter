@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>JobHunter Brag Video</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #fff; }
+
+      :root {
+        --bg: #ffffff;
+        --ink: #111827;
+        --body: #4b5563;
+        --subtle: #6b7280;
+        --accent: #1447e6;
+        --accent-strong: #193cb8;
+        --line: #e5e7eb;
+        --brand-soft: #eef6ff;
+        --brand-soft-border: #bedbff;
+        --success-bg: #ecfdf5;
+        --success-fg: #065f46;
+        --success-border: #a7f3d0;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .clip { position: absolute; inset: 0; }
+
+      /* ---------- persistent background layer ---------- */
+      #bg-fill { background: var(--bg); z-index: 0; }
+      #grid-deco {
+        z-index: 1;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 64px 64px;
+        opacity: 0.05;
+      }
+      .deco-dot {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        opacity: 0.12;
+      }
+
+      /* ---------- shared scene content wrapper ---------- */
+      .scene-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+      }
+
+      .display   { font-family: "Montserrat", sans-serif; font-weight: 900; color: var(--ink); letter-spacing: -0.02em; }
+      .subhead   { font-family: "Montserrat", sans-serif; font-weight: 700; color: var(--body); }
+      .fineprint { font-family: "Montserrat", sans-serif; font-weight: 500; color: var(--subtle); }
+      .mono      { font-family: "JetBrains Mono", monospace; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+      /* ---------- scene 1 : hook ---------- */
+      #s1 .display { font-size: 108px; text-align: center; }
+      #s1 .subhead { font-size: 36px; margin-top: 22px; text-align: center; }
+
+      /* ---------- scene 2 : architecture ---------- */
+      #s2 .pipeline { display: flex; align-items: center; gap: 22px; }
+      #s2 .node {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        width: 190px; height: 108px; border-radius: 12px;
+        background: var(--brand-soft); border: 1.5px solid var(--brand-soft-border);
+        opacity: 0; transform: scale(0.85);
+      }
+      #s2 .node.hero {
+        width: 220px; height: 128px;
+        background: var(--accent); border-color: var(--accent-strong);
+      }
+      #s2 .node span.mono { font-size: 21px; color: var(--ink); text-align: center; line-height: 1.25; }
+      #s2 .node.hero span.mono { color: #fff; font-size: 23px; }
+      #s2 .arrow { font-size: 30px; color: var(--subtle); opacity: 0; }
+      #s2 .caption { position: absolute; bottom: 210px; font-size: 28px; color: var(--subtle); font-weight: 600; opacity: 0; }
+
+      /* ---------- scene 3 : the numbers ---------- */
+      #s3 .stat-slot { position: relative; width: 1500px; height: 260px; }
+      #s3 .stat { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; }
+      #s3 .stat .tag { font-size: 22px; color: var(--accent); margin-bottom: 14px; }
+      #s3 .stat .value { font-size: 76px; text-align: center; }
+      #s3 .stat .rule { width: 0; height: 3px; background: var(--accent); margin-top: 24px; transform-origin: left; }
+
+      /* ---------- scene 4 : the board ---------- */
+      #s4 .board-frame {
+        position: absolute; left: 210px; top: 108px; width: 1500px; height: 864px;
+        display: flex; flex-direction: column; gap: 22px;
+      }
+      #s4 .board-header .kicker { font-size: 22px; color: var(--accent); font-weight: 700; margin-bottom: 6px; }
+      #s4 .board-header h1 { font-size: 42px; font-weight: 600; color: var(--ink); font-family: Inter, sans-serif; }
+      #s4 .board-header p { font-size: 22px; color: var(--body); margin-top: 8px; font-family: Inter, sans-serif; }
+
+      #s4 .search-row { display: flex; gap: 14px; }
+      #s4 .search-box {
+        flex: 1; display: flex; align-items: center; gap: 10px;
+        background: #f9fafb; border: 1px solid var(--line); border-radius: 8px;
+        padding: 16px 20px; font-family: Inter, sans-serif; font-size: 22px; color: var(--ink);
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      }
+      #s4 .search-box .caret { display: inline-block; width: 2px; height: 24px; background: var(--ink); opacity: 0; }
+      #s4 .search-box .placeholder { color: var(--subtle); }
+      #s4 .pill-btn {
+        display: flex; align-items: center; padding: 16px 22px; border-radius: 8px; font-family: Inter, sans-serif;
+        font-size: 20px; font-weight: 500; color: var(--ink); background: #f9fafb; border: 1px solid var(--line);
+      }
+
+      #s4 .table-card {
+        background: #fff; border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      }
+      #s4 .row {
+        display: grid; grid-template-columns: 150px 1.4fr 1fr 1fr 0.8fr; align-items: center;
+        padding: 20px 28px; border-bottom: 1px solid var(--line); font-family: Inter, sans-serif;
+        opacity: 0; transform: translateY(14px);
+      }
+      #s4 .row:last-child { border-bottom: none; }
+      #s4 .row .apply {
+        display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+        padding: 10px 16px; border-radius: 8px; background: var(--accent); color: #fff;
+        font-size: 18px; font-weight: 500; width: fit-content;
+      }
+      #s4 .row .title { font-size: 21px; font-weight: 500; color: var(--ink); }
+      #s4 .row .company, #s4 .row .location, #s4 .row .source { font-size: 19px; color: var(--body); }
+      #s4 .remote-pill {
+        display: inline-block; margin-left: 8px; font-size: 14px; font-weight: 500; padding: 2px 8px; border-radius: 8px;
+        background: var(--success-bg); color: var(--success-fg); border: 1px solid var(--success-border);
+      }
+      #s4 .badge {
+        font-size: 14px; font-weight: 500; padding: 3px 9px; border-radius: 8px;
+        background: #f3f4f6; border: 1px solid var(--line); color: var(--ink); width: fit-content;
+      }
+
+      #s4 .cursor {
+        position: absolute; width: 128px; height: 128px; z-index: 20;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,.35));
+        pointer-events: none;
+      }
+
+      /* ---------- scene 5 / 6 : the turn + punchline ---------- */
+      .turn-label { font-size: 44px; text-align: center; }
+      .turn-value { font-size: 172px; text-align: center; }
+      #s6 .turn-value { font-size: 196px; color: var(--accent); }
+      #s5 .turn-value { color: var(--accent); }
+
+      /* ---------- scene 7 : outro ---------- */
+      #s7 .outro-line1 { font-size: 96px; text-align: center; }
+      #s7 .outro-line2 { font-size: 38px; margin-top: 26px; text-align: center; }
+      #s7 .outro-line3 { font-size: 26px; margin-top: 18px; text-align: center; color: var(--subtle); font-weight: 400; }
+      #black-fade { position: absolute; inset: 0; background: #000; opacity: 0; z-index: 30; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-dxb8" id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="24">
+      <!-- persistent background -->
+      <div data-hf-id="hf-jtwn" id="bg-fill" class="clip" data-start="0" data-duration="24" data-track-index="0"></div>
+      <div data-hf-id="hf-vx23" id="grid-deco" class="clip" data-start="0" data-duration="24" data-track-index="1">
+        <div data-hf-id="hf-ewjh" class="deco-dot" style="left:15%; top:22%;"></div>
+        <div data-hf-id="hf-5plu" class="deco-dot" style="left:82%; top:18%;"></div>
+        <div data-hf-id="hf-263s" class="deco-dot" style="left:20%; top:78%;"></div>
+        <div data-hf-id="hf-nmqd" class="deco-dot" style="left:78%; top:74%;"></div>
+        <div data-hf-id="hf-bo9f" class="deco-dot" style="left:50%; top:12%;"></div>
+      </div>
+
+      <!-- SCENE 1 : HOOK 0 - 2.5 -->
+      <div data-hf-id="hf-elm7" id="s1" class="clip" data-start="0" data-duration="2.5" data-track-index="2">
+        <div data-hf-id="hf-cn5c" class="scene-content">
+          <div data-hf-id="hf-m3un" class="content-wrap" id="s1-wrap">
+            <div data-hf-id="hf-0ndu" class="display" id="s1-title">Introducing JobHunter.</div>
+            <div data-hf-id="hf-t6v9" class="subhead" id="s1-sub">Enterprise job-market intelligence.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 2 : ARCHITECTURE 2.5 - 5.5 -->
+      <div data-hf-id="hf-1i27" id="s2" class="clip" data-start="2.5" data-duration="3.0" data-track-index="2">
+        <div data-hf-id="hf-o0eg" class="scene-content">
+          <div data-hf-id="hf-ywr8" class="caption" id="s2-caption">Infrastructure overview</div>
+          <div data-hf-id="hf-58mw" class="pipeline" id="s2-wrap">
+            <div data-hf-id="hf-ship" class="node" id="s2-n1"><span data-hf-id="hf-k67h" class="mono">EventBridge</span></div>
+            <span data-hf-id="hf-w2yi" class="arrow" id="s2-a1">→</span>
+            <div data-hf-id="hf-wfmq" class="node" id="s2-n2"><span data-hf-id="hf-advc" class="mono">Orchestrator</span></div>
+            <span data-hf-id="hf-x9hb" class="arrow" id="s2-a2">→</span>
+            <div data-hf-id="hf-emyr" class="node hero" id="s2-n3"><span data-hf-id="hf-9nov" class="mono">~420 Workers</span></div>
+            <span data-hf-id="hf-m37g" class="arrow" id="s2-a3">→</span>
+            <div data-hf-id="hf-cw98" class="node" id="s2-n4"><span data-hf-id="hf-uylm" class="mono">Supabase</span></div>
+            <span data-hf-id="hf-oja1" class="arrow" id="s2-a4">→</span>
+            <div data-hf-id="hf-fvit" class="node" id="s2-n5"><span data-hf-id="hf-c56m" class="mono">MiniMax-M3</span></div>
+            <span data-hf-id="hf-ubbi" class="arrow" id="s2-a5">→</span>
+            <div data-hf-id="hf-jtmu" class="node" id="s2-n6"><span data-hf-id="hf-mw90" class="mono">Dashboard</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 3 : THE NUMBERS 5.5 - 11.0 -->
+      <div data-hf-id="hf-sotc" id="s3" class="clip" data-start="5.5" data-duration="5.5" data-track-index="2">
+        <div data-hf-id="hf-mthd" class="scene-content">
+          <div data-hf-id="hf-wj78" class="stat-slot" id="s3-wrap">
+            <div data-hf-id="hf-whpq" class="stat" id="s3-stat1">
+              <div data-hf-id="hf-ffbk" class="tag mono">01 / 03</div>
+              <div data-hf-id="hf-c6l1" class="value display">16,700+ companies tracked.</div>
+              <div data-hf-id="hf-a46i" class="rule"></div>
+            </div>
+            <div data-hf-id="hf-sjlp" class="stat" id="s3-stat2">
+              <div data-hf-id="hf-1y5r" class="tag mono">02 / 03</div>
+              <div data-hf-id="hf-thia" class="value display">13 job sources.</div>
+              <div data-hf-id="hf-ya9a" class="rule"></div>
+            </div>
+            <div data-hf-id="hf-rrxw" class="stat" id="s3-stat3">
+              <div data-hf-id="hf-awku" class="tag mono">03 / 03</div>
+              <div data-hf-id="hf-rudy" class="value display">Every posting scored 0–100.</div>
+              <div data-hf-id="hf-yokb" class="rule"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 4 : THE BOARD 11.0 - 14.5 -->
+      <div data-hf-id="hf-hryv" id="s4" class="clip" data-start="11.0" data-duration="3.5" data-track-index="2">
+        <div data-hf-id="hf-wy87" id="s4-wrap" class="scene-content" style="align-items: stretch; justify-content: flex-start;">
+          <div data-hf-id="hf-val0" class="board-frame">
+            <div data-hf-id="hf-ysgi" class="board-header">
+              <div data-hf-id="hf-v5ao" class="kicker">JOBHUNTER</div>
+              <h1 data-hf-id="hf-ckoe">Browse 16,187 open positions across Canada</h1>
+              <p data-hf-id="hf-nrha">Last updated 4m ago</p>
+            </div>
+            <div data-hf-id="hf-ujgr" class="search-row">
+              <div data-hf-id="hf-adbw" class="search-box" style="flex:2;">
+                <span data-hf-id="hf-udj8" id="s4-typed"></span><span data-hf-id="hf-oe6r" class="caret" id="s4-caret"></span>
+                <span data-hf-id="hf-ngbp" class="placeholder" id="s4-placeholder">Search jobs or companies…</span>
+              </div>
+              <div data-hf-id="hf-ksk2" class="pill-btn">All time</div>
+              <div data-hf-id="hf-nd44" class="pill-btn">Location or remote</div>
+            </div>
+            <div data-hf-id="hf-cxkn" class="table-card">
+              <div data-hf-id="hf-4xyp" class="row" id="s4-row1">
+                <div data-hf-id="hf-b308" class="apply">Apply</div>
+                <div data-hf-id="hf-nr9i" class="title">AI Engineer, Platform</div>
+                <div data-hf-id="hf-qiqs" class="company">Northloop AI</div>
+                <div data-hf-id="hf-cogj" class="location">Toronto, ON<span data-hf-id="hf-0bu7" class="remote-pill">Remote</span></div>
+                <div data-hf-id="hf-19lw" class="badge">Greenhouse</div>
+              </div>
+              <div data-hf-id="hf-8w2q" class="row" id="s4-row2">
+                <div data-hf-id="hf-vq34" class="apply">Apply</div>
+                <div data-hf-id="hf-ryz8" class="title">Applied AI Engineer</div>
+                <div data-hf-id="hf-85fl" class="company">Fieldstack</div>
+                <div data-hf-id="hf-2g0v" class="location">Waterloo, ON</div>
+                <div data-hf-id="hf-r6nl" class="badge">YC</div>
+              </div>
+              <div data-hf-id="hf-cu6r" class="row" id="s4-row3">
+                <div data-hf-id="hf-uj61" class="apply">Apply</div>
+                <div data-hf-id="hf-4og4" class="title">Full-Stack / AI Engineer</div>
+                <div data-hf-id="hf-ro84" class="company">Cascadia Labs</div>
+                <div data-hf-id="hf-rhd3" class="location">Vancouver, BC</div>
+                <div data-hf-id="hf-9eum" class="badge">Ashby</div>
+              </div>
+            </div>
+          </div>
+          <svg data-hf-id="hf-yejm" class="cursor" id="s4-cursor" viewBox="0 0 24 24" style="left:0; top:0;">
+            <path data-hf-id="hf-8l0k" d="M4 2 L4 20 L8.5 16.5 L11 22 L13.5 21 L11 15 L17 15 Z" fill="#1c1c1c" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- SCENE 5 : THE TURN 14.5 - 17.5 -->
+      <div data-hf-id="hf-u5fl" id="s5" class="clip" data-start="14.5" data-duration="3.0" data-track-index="2">
+        <div data-hf-id="hf-n7se" class="scene-content">
+          <div data-hf-id="hf-ilhm" id="s5-wrap">
+            <div data-hf-id="hf-yp22" class="turn-label subhead" id="s5-label">Monthly infrastructure cost:</div>
+            <div data-hf-id="hf-aq9x" class="turn-value display" id="s5-value">$0.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 6 : THE PUNCHLINE 17.5 - 20.5 -->
+      <div data-hf-id="hf-qj0v" id="s6" class="clip" data-start="17.5" data-duration="3.0" data-track-index="2">
+        <div data-hf-id="hf-m0vb" class="scene-content">
+          <div data-hf-id="hf-0cv7" id="s6-wrap">
+            <div data-hf-id="hf-zlbf" class="turn-label subhead" id="s6-label">Total customers:</div>
+            <div data-hf-id="hf-e1x5" class="turn-value display" id="s6-value">1.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 7 : OUTRO 20.5 - 24.0 -->
+      <div data-hf-id="hf-u2ef" id="s7" class="clip" data-start="20.5" data-duration="3.5" data-track-index="2">
+        <div data-hf-id="hf-mf6c" class="scene-content">
+          <div data-hf-id="hf-7yxc" id="s7-wrap">
+            <div data-hf-id="hf-894s" class="outro-line1 display" id="s7-l1">JobHunter.</div>
+            <div data-hf-id="hf-545s" class="outro-line2 subhead" id="s7-l2">Enterprise-grade infrastructure for a market of one.</div>
+            <div data-hf-id="hf-xun2" class="outro-line3 fineprint" id="s7-l3">Still looking. Send openings.</div>
+          </div>
+        </div>
+        <div data-hf-id="hf-ayvx" id="black-fade"></div>
+      </div>
+
+      <!-- audio -->
+      <audio data-hf-id="hf-ezxm" id="bgm" data-start="0" data-duration="24" data-track-index="10" data-volume="0.28" src="assets/music/happy-beats-business-moves-vol-11-by-ende-dot-app.mp3"></audio>
+
+      <audio data-hf-id="hf-c5rr" id="sfx-box1" data-start="2.55" data-duration="0.11" data-track-index="11" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio data-hf-id="hf-ev0d" id="sfx-box2" data-start="2.95" data-duration="0.11" data-track-index="12" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio data-hf-id="hf-qbi1" id="sfx-box3" data-start="3.40" data-duration="0.11" data-track-index="13" data-volume="0.65" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio data-hf-id="hf-iwt2" id="sfx-box4" data-start="3.75" data-duration="0.11" data-track-index="14" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio data-hf-id="hf-rhzl" id="sfx-box5" data-start="4.20" data-duration="0.11" data-track-index="15" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio data-hf-id="hf-me28" id="sfx-box6" data-start="4.65" data-duration="0.11" data-track-index="16" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+
+      <audio data-hf-id="hf-6i1b" id="sfx-stat1" data-start="5.85" data-duration="0.19" data-track-index="17" data-volume="0.55" src="assets/sfx/interface/drop_002.ogg"></audio>
+      <audio data-hf-id="hf-ktby" id="sfx-stat2" data-start="7.15" data-duration="0.19" data-track-index="18" data-volume="0.55" src="assets/sfx/interface/drop_002.ogg"></audio>
+      <audio data-hf-id="hf-cq4z" id="sfx-stat3" data-start="8.55" data-duration="0.19" data-track-index="19" data-volume="0.55" src="assets/sfx/interface/drop_002.ogg"></audio>
+
+      <audio data-hf-id="hf-1rn7" id="sfx-click" data-start="12.15" data-duration="0.06" data-track-index="20" data-volume="0.7" src="assets/sfx/ui/mouseclick1.ogg"></audio>
+      <audio data-hf-id="hf-6ub9" id="key1" data-start="12.25" data-duration="0.15" data-track-index="21" data-volume="0.45" src="assets/sfx/keyboard/keypress-003.wav"></audio>
+      <audio data-hf-id="hf-kifz" id="key2" data-start="12.32" data-duration="0.15" data-track-index="22" data-volume="0.45" src="assets/sfx/keyboard/keypress-007.wav"></audio>
+      <audio data-hf-id="hf-vqyc" id="key3" data-start="12.39" data-duration="0.15" data-track-index="23" data-volume="0.45" src="assets/sfx/keyboard/keypress-012.wav"></audio>
+      <audio data-hf-id="hf-mo9u" id="key4" data-start="12.46" data-duration="0.15" data-track-index="24" data-volume="0.45" src="assets/sfx/keyboard/keypress-018.wav"></audio>
+      <audio data-hf-id="hf-k3xl" id="key5" data-start="12.53" data-duration="0.15" data-track-index="25" data-volume="0.45" src="assets/sfx/keyboard/keypress-022.wav"></audio>
+      <audio data-hf-id="hf-iyec" id="key6" data-start="12.60" data-duration="0.15" data-track-index="26" data-volume="0.45" src="assets/sfx/keyboard/keypress-005.wav"></audio>
+      <audio data-hf-id="hf-02qd" id="key7" data-start="12.67" data-duration="0.15" data-track-index="27" data-volume="0.45" src="assets/sfx/keyboard/keypress-009.wav"></audio>
+      <audio data-hf-id="hf-vl35" id="key8" data-start="12.74" data-duration="0.15" data-track-index="28" data-volume="0.45" src="assets/sfx/keyboard/keypress-014.wav"></audio>
+      <audio data-hf-id="hf-30y6" id="key9" data-start="12.81" data-duration="0.15" data-track-index="29" data-volume="0.45" src="assets/sfx/keyboard/keypress-019.wav"></audio>
+      <audio data-hf-id="hf-d2dm" id="key10" data-start="12.88" data-duration="0.15" data-track-index="30" data-volume="0.45" src="assets/sfx/keyboard/keypress-025.wav"></audio>
+      <audio data-hf-id="hf-ru9a" id="key11" data-start="12.95" data-duration="0.15" data-track-index="31" data-volume="0.45" src="assets/sfx/keyboard/keypress-030.wav"></audio>
+
+      <audio data-hf-id="hf-3c0f" id="sfx-results" data-start="13.57" data-duration="0.05" data-track-index="32" data-volume="0.55" src="assets/sfx/interface/select_008.ogg"></audio>
+      <audio data-hf-id="hf-49tc" id="sfx-outro" data-start="20.75" data-duration="0.18" data-track-index="33" data-volume="0.5" src="assets/sfx/impact/impactSoft_medium_001.ogg"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ---- absolute scene start times (seconds) ----
+      const S1 = 0.0;
+      const S2 = 2.5;
+      const S3 = 5.5;
+      const S4 = 11.0;
+      const S5 = 14.5;
+      const S6 = 17.5;
+      const S7 = 20.5;
+
+      // ---------------------------------------------------------------
+      // persistent background — slow finite breathing (no infinite repeat)
+      // ---------------------------------------------------------------
+      gsap.set("#grid-deco", { opacity: 0.05 });
+      tl.to("#grid-deco", { opacity: 0.08, duration: 2.3, ease: "sine.inOut", repeat: 9, yoyo: true }, 0);
+      gsap.utils.toArray(".deco-dot").forEach((el, i) => {
+        tl.to(el, { opacity: 0.2, scale: 1.6, duration: 2.6, ease: "sine.inOut", repeat: 8, yoyo: true, transformOrigin: "center" }, 0.3 * i);
+      });
+
+      // =================================================================
+      // SCENE 1 — HOOK
+      // =================================================================
+      gsap.set("#s1-title", { y: 64, opacity: 0 });
+      gsap.set("#s1-sub", { y: 36, opacity: 0 });
+
+      tl.to("#s1-title", { y: 0, opacity: 1, duration: 0.5, ease: "power4.out" }, S1 + 0.05);
+      tl.to("#s1-sub", { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, S1 + 0.55);
+
+      // exit — cut the curve, LEFT current
+      tl.to("#s1-wrap", { opacity: 0.25, duration: 0.09, ease: "none" }, S1 + 2.2);
+      tl.to("#s1-wrap", { x: -230, duration: 0.3, ease: "power4.in" }, S1 + 2.2);
+
+      // =================================================================
+      // SCENE 2 — ARCHITECTURE
+      // =================================================================
+      gsap.set("#s2-wrap", { x: 230, opacity: 0.3 });
+      gsap.set("#s2-caption", { opacity: 0, y: -14 });
+      gsap.set(["#s2-n1", "#s2-n2", "#s2-n3", "#s2-n4", "#s2-n5", "#s2-n6"], { opacity: 0, scale: 0.85 });
+      gsap.set(["#s2-a1", "#s2-a2", "#s2-a3", "#s2-a4", "#s2-a5"], { opacity: 0, scale: 0.6 });
+
+      // seam entry
+      tl.to("#s2-wrap", { x: 0, duration: 0.3, ease: "power4.out" }, S2);
+      tl.to("#s2-wrap", { opacity: 1, duration: 0.25, ease: "power2.out" }, S2 + 0.03);
+      tl.to("#s2-caption", { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, S2 + 0.05);
+
+      // causal cascade: box -> arrow -> box -> arrow ...
+      tl.to("#s2-n1", { opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }, S2 + 0.05);
+      tl.to("#s2-a1", { opacity: 1, scale: 1, duration: 0.18, ease: "power3.out" }, S2 + 0.30);
+      tl.to("#s2-n2", { opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }, S2 + 0.45);
+      tl.to("#s2-a2", { opacity: 1, scale: 1, duration: 0.18, ease: "power3.out" }, S2 + 0.70);
+      tl.to("#s2-n3", { opacity: 1, scale: 1.15, duration: 0.32, ease: "back.out(1.5)" }, S2 + 0.90);
+      tl.to("#s2-a3", { opacity: 1, scale: 1, duration: 0.18, ease: "power3.out" }, S2 + 1.25);
+      tl.to("#s2-n4", { opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }, S2 + 1.45);
+      tl.to("#s2-a4", { opacity: 1, scale: 1, duration: 0.18, ease: "power3.out" }, S2 + 1.70);
+      tl.to("#s2-n5", { opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }, S2 + 1.90);
+      tl.to("#s2-a5", { opacity: 1, scale: 1, duration: 0.18, ease: "power3.out" }, S2 + 2.15);
+      tl.to("#s2-n6", { opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }, S2 + 2.35);
+
+      // hold ~2.65 -> 3.2 (no tween needed) then exit
+      tl.to("#s2-wrap", { opacity: 0.25, duration: 0.09, ease: "none" }, S2 + 2.9);
+      tl.to("#s2-wrap", { x: -230, duration: 0.3, ease: "power4.in" }, S2 + 2.9);
+      tl.to("#s2-caption", { opacity: 0, duration: 0.15, ease: "power2.in" }, S2 + 2.9);
+
+      // =================================================================
+      // SCENE 3 — THE NUMBERS
+      // =================================================================
+      gsap.set("#s3-wrap", { x: 230, opacity: 0.3 });
+      gsap.set("#s3-stat1", { opacity: 0 });
+      gsap.set("#s3-stat2", { opacity: 0, scale: 1.2, filter: "blur(10px)" });
+      gsap.set("#s3-stat3", { opacity: 0, scale: 1.2, filter: "blur(10px)" });
+      gsap.set(["#s3-stat1 .rule", "#s3-stat2 .rule", "#s3-stat3 .rule"], { width: 0 });
+
+      // seam entry (stat1 arrives composed as part of the wrapper)
+      tl.to("#s3-wrap", { x: 0, duration: 0.3, ease: "power4.out" }, S3);
+      tl.to("#s3-wrap", { opacity: 1, duration: 0.25, ease: "power2.out" }, S3 + 0.03);
+      tl.to("#s3-stat1", { opacity: 1, duration: 0.25, ease: "power2.out" }, S3 + 0.05);
+      tl.to("#s3-stat1 .rule", { width: 340, duration: 0.3, ease: "power3.out" }, S3 + 0.15);
+
+      // stat1 -> stat2 : zoom-through (progressing deeper into the same thought)
+      const ZT1 = S3 + 1.5; // hold1 ends here
+      tl.to("#s3-stat1", { scale: 1.2, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, ZT1);
+      tl.to("#s3-stat1", { opacity: 0.15, duration: 0.09, ease: "none" }, ZT1);
+      tl.set("#s3-stat1", { opacity: 0 }, ZT1 + 0.2); // hard cut — never both texts visible
+      tl.set("#s3-stat2", { scale: 0.75, filter: "blur(10px)", opacity: 0.15 }, ZT1 + 0.2);
+      tl.to("#s3-stat2", { scale: 1, filter: "blur(0px)", opacity: 1, duration: 0.3, ease: "expo.out" }, ZT1 + 0.2);
+      tl.to("#s3-stat2 .rule", { width: 240, duration: 0.28, ease: "power3.out" }, ZT1 + 0.35);
+
+      // stat2 -> stat3
+      const ZT2 = S3 + 3.3;
+      tl.to("#s3-stat2", { scale: 1.2, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, ZT2);
+      tl.to("#s3-stat2", { opacity: 0.15, duration: 0.09, ease: "none" }, ZT2);
+      tl.set("#s3-stat2", { opacity: 0 }, ZT2 + 0.2); // hard cut — never both texts visible
+      tl.set("#s3-stat3", { scale: 0.75, filter: "blur(10px)", opacity: 0.15 }, ZT2 + 0.2);
+      tl.to("#s3-stat3", { scale: 1, filter: "blur(0px)", opacity: 1, duration: 0.3, ease: "expo.out" }, ZT2 + 0.2);
+      tl.to("#s3-stat3 .rule", { width: 420, duration: 0.28, ease: "power3.out" }, ZT2 + 0.35);
+
+      // exit
+      tl.to("#s3-wrap", { opacity: 0.25, duration: 0.09, ease: "none" }, S3 + 5.2);
+      tl.to("#s3-wrap", { x: -230, duration: 0.3, ease: "power4.in" }, S3 + 5.2);
+
+      // =================================================================
+      // SCENE 4 — THE BOARD
+      // =================================================================
+      gsap.set("#s4-wrap", { x: 230, opacity: 0.3 });
+      gsap.set("#s4-row1, #s4-row2, #s4-row3", { opacity: 0, y: 14 });
+      gsap.set("#s4-typed", { opacity: 0 });
+      gsap.set("#s4-caret", { opacity: 0 });
+
+      tl.to("#s4-wrap", { x: 0, duration: 0.3, ease: "power4.out" }, S4);
+      tl.to("#s4-wrap", { opacity: 1, duration: 0.25, ease: "power2.out" }, S4 + 0.03);
+
+      // oversized cursor enters from off-screen, travels up to the search box
+      // (transform x/y, not left/top — avoids integer-pixel snapping under seek-by-frame capture)
+      tl.fromTo(
+        "#s4-cursor",
+        { x: 931, y: 1274 },
+        { x: 595, y: 486, duration: 0.45, ease: "power3.out", immediateRender: false },
+        S4 + 0.1
+      );
+      // click tap — asymmetric compress / expand, pivoting on the tip
+      tl.to("#s4-cursor", { scale: 0.84, duration: 0.1, ease: "power2.in", transformOrigin: "21% 14%" }, S4 + 0.55);
+      tl.to("#s4-cursor", { scale: 1, duration: 0.22, ease: "power2.out", transformOrigin: "21% 14%" }, S4 + 0.65);
+
+      // click ignites typing — placeholder fades, caret + typed text appear
+      tl.to("#s4-placeholder", { opacity: 0, duration: 0.12, ease: "power2.in" }, S4 + 0.65);
+      tl.set("#s4-caret", { opacity: 1 }, S4 + 0.65);
+      tl.to("#s4-caret", { opacity: 0, duration: 0.4, repeat: 5, yoyo: true, ease: "none" }, S4 + 0.65);
+
+      const typedChars = ["A", "I", " ", "e", "n", "g", "i", "n", "e", "e", "r"];
+      let typedSoFar = "";
+      typedChars.forEach((ch, i) => {
+        typedSoFar += ch;
+        const t = S4 + 0.65 + i * 0.07;
+        tl.call(() => { document.getElementById("s4-typed").textContent = typedSoFar; }, null, t);
+      });
+      tl.set("#s4-typed", { opacity: 1 }, S4 + 0.65);
+
+      // drift the cursor aside during the typing beat it doesn't otherwise own
+      tl.to("#s4-cursor", { x: 730, y: 540, duration: 0.6, ease: "power2.out" }, S4 + 0.9);
+
+      // results settle
+      const RESULT_T = S4 + 1.57;
+      tl.to("#s4-row1, #s4-row2, #s4-row3", { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", stagger: 0.04 }, RESULT_T);
+
+      // exit
+      tl.to("#s4-wrap", { opacity: 0.25, duration: 0.09, ease: "none" }, S4 + 3.2);
+      tl.to("#s4-wrap", { x: -230, duration: 0.3, ease: "power4.in" }, S4 + 3.2);
+
+      // =================================================================
+      // SCENE 5 — THE TURN
+      // =================================================================
+      gsap.set("#s5-wrap", { x: 230, opacity: 0.3 });
+      gsap.set("#s5-label", { opacity: 0, y: 20 });
+      gsap.set("#s5-value", { opacity: 0.15, scale: 1.25, filter: "blur(10px)" });
+
+      tl.to("#s5-wrap", { x: 0, duration: 0.3, ease: "power4.out" }, S5);
+      tl.to("#s5-wrap", { opacity: 1, duration: 0.25, ease: "power2.out" }, S5 + 0.03);
+      tl.to("#s5-label", { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, S5 + 0.05);
+
+      // stillness before climax, then inverse zoom-through arrival — "something bigger lands"
+      tl.to("#s5-value", { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, S5 + 1.6);
+
+      // continuing the thought into scene 6 : Z-forward zoom-through (exit half)
+      tl.to("#s5-wrap", { scale: 1.2, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, S5 + 2.75);
+      tl.to("#s5-wrap", { opacity: 0.15, duration: 0.09, ease: "none" }, S5 + 2.75);
+
+      // =================================================================
+      // SCENE 6 — THE PUNCHLINE
+      // =================================================================
+      gsap.set("#s6-wrap", { scale: 0.75, opacity: 0.15, filter: "blur(10px)" });
+      gsap.set("#s6-label", { opacity: 0 });
+      gsap.set("#s6-value", { opacity: 0.15, scale: 1.25, filter: "blur(10px)" });
+
+      // zoom-through entry (continuing scene 5's exit — same thought, next beat)
+      tl.to("#s6-wrap", { scale: 1, filter: "blur(0px)", opacity: 1, duration: 0.3, ease: "expo.out" }, S6);
+      tl.set("#s6-label", { opacity: 1 }, S6 + 0.05);
+
+      tl.to("#s6-value", { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, S6 + 1.4);
+
+      // exit — resume the LEFT current into the outro
+      tl.to("#s6-wrap", { opacity: 0.25, duration: 0.09, ease: "none" }, S6 + 2.7);
+      tl.to("#s6-wrap", { x: -230, duration: 0.3, ease: "power4.in" }, S6 + 2.7);
+
+      // =================================================================
+      // SCENE 7 — OUTRO
+      // =================================================================
+      gsap.set("#s7-wrap", { x: 230, opacity: 0.3 });
+      gsap.set("#s7-l1", { y: 74, opacity: 1 });
+      gsap.set("#s7-l2", { y: 42, opacity: 1 });
+      gsap.set("#s7-l3", { y: 30, opacity: 1 });
+
+      tl.to("#s7-wrap", { x: 0, duration: 0.3, ease: "power4.out" }, S7);
+      tl.to("#s7-wrap", { opacity: 1, duration: 0.25, ease: "power2.out" }, S7 + 0.03);
+
+      // waterfall-entry lockup — binary opacity (already 1), motion-only reveal
+      tl.to("#s7-l1", { y: 0, duration: 0.18, ease: "power4.out" }, S7 + 0.25);
+      tl.to("#s7-l2", { y: 0, duration: 0.15, ease: "power4.out" }, S7 + 0.40);
+      tl.to("#s7-l3", { y: 0, duration: 0.12, ease: "power4.out" }, S7 + 0.52);
+
+      // fade to black
+      tl.to("#black-fade", { opacity: 1, duration: 0.3, ease: "power2.in" }, S7 + 3.2);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
