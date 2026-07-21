@@ -31,6 +31,7 @@ rm -rf lambdas/layer/python/pandas/tests \
        lambdas/layer/python/numpy/*/tests
 
 cd lambdas/layer
+rm -f ../layer.zip
 zip -rq ../layer.zip python/
 cd ../..
 echo "Layer built: lambdas/layer.zip ($(du -h lambdas/layer.zip | cut -f1))"
@@ -54,6 +55,7 @@ echo "Layer published: $LAYER_ARN"
 
 echo "Deploying ingestion Lambda..."
 cd lambdas/ingestion
+rm -f ../ingestion.zip
 zip -r ../ingestion.zip handler.py location_filter.py data/
 cd ../..
 aws lambda update-function-code \
@@ -76,6 +78,7 @@ echo "Ingestion deployed."
 
 echo "Deploying orchestrator Lambda..."
 cd lambdas/ingestion
+rm -f ../orchestrator.zip
 zip -r ../orchestrator.zip orchestrator.py data/
 cd ../..
 aws lambda update-function-code \
@@ -101,6 +104,7 @@ echo "Orchestrator deployed."
 
 echo "Deploying scoring Lambda..."
 cd lambdas/scoring
+rm -f ../scoring.zip
 zip -r ../scoring.zip handler.py
 cd ../..
 aws lambda update-function-code \
