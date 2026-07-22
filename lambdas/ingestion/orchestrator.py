@@ -12,16 +12,19 @@ SELF_FUNCTION = "jobhunter-orchestrator"
 DATA_DIR = Path(__file__).parent / "data"
 BATCH_SIZE = 40
 
-# The account's Lambda concurrency ceiling (measured at 50) is far below the
-# ~500+ invocations a full day's worth of batches needs, so firing them all
-# in one burst gets ~94% throttled instantly. Instead we dispatch in small
-# waves, requeue anything throttled, and self-chain with a real pause between
-# waves so the concurrency ceiling actually gets a chance to drain.
-WAVE_SIZE = 40
-INVOKE_STAGGER_SECONDS = 0.5
+# The account's Lambda concurrency ceiling was raised from 50 to 1,000
+# (2026-07-21), comfortably covering a full day's ~530 invocations in one
+# wave. WAVE_SIZE stays well under the ceiling (headroom for the scoring
+# lambda's own concurrent self-chain + future company-list growth) rather
+# than being set to the exact daily total. The self-chain/requeue logic
+# below is now a resilience safety net for transient throttling — e.g. a
+# quota regression, or a scoring/ingestion overlap — not the primary
+# dispatch mechanism it was when the ceiling was 50.
+WAVE_SIZE = 600
+INVOKE_STAGGER_SECONDS = 0.05
 TARGET_CYCLE_SECONDS = 870  # ~14.5 min between wave starts, under the 900s Lambda ceiling
 SAFETY_MARGIN_SECONDS = 30
-MAX_CHAIN_DEPTH = 30  # generous headroom: 30 waves * 40 = 1,200 job-attempts/day
+MAX_CHAIN_DEPTH = 30
 
 ATS_PLATFORMS = {
     "greenhouse": None,
