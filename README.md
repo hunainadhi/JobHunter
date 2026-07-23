@@ -36,7 +36,7 @@ EventBridge (4x/day)
 
 ## Features
 
-- **9 job sources**: Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Rippling, YC Work at a Startup, TheMuse, WeWorkRemotely
+- **12 job sources**: Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Rippling, iCIMS, Pinpoint, Teamtailor, Breezy, YC Work at a Startup, WeWorkRemotely
 - **16,700+ companies** tracked via curated CSV lists (expanded using Common Crawl index API)
 - **AI scoring**: Every job scored 0-100 across 4 categories using MiniMax-M3 LLM
   - **Role Fit** (/35) — how well the role type matches the candidate profile

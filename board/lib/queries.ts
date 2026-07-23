@@ -237,4 +237,13 @@ export async function fetchLastScrape(): Promise<string | null> {
   return data?.completed_at || null;
 }
 
+export async function fetchLandingStats(): Promise<{ totalJobs: number; lastScrape: string | null }> {
+  const [{ count }, lastScrape] = await Promise.all([
+    getSupabase().from("jobs").select("id", { count: "exact", head: true }).neq("status", "expired"),
+    fetchLastScrape(),
+  ]);
+
+  return { totalJobs: count || 0, lastScrape };
+}
+
 export { PAGE_SIZE };

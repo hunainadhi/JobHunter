@@ -32,8 +32,11 @@ function formatPlatform(platform: string): string {
     smartrecruiters: "SmartRecruiters",
     workable: "Workable",
     rippling: "Rippling",
+    icims: "iCIMS",
+    pinpoint: "Pinpoint",
+    teamtailor: "Teamtailor",
+    breezy: "Breezy",
     ycombinator: "YC",
-    themuse: "The Muse",
     weworkremotely: "WWR",
   };
   return map[platform] || platform;
