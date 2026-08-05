@@ -97,3 +97,58 @@ body {
   background: var(--bg-neutral-primary-soft);
   color: var(--text-body);
 }
+
+/* Shared interactive treatment — every button/link that acts as a CTA
+   uses these so hover/active/focus feedback is consistent site-wide. */
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--bg-brand);
+  color: var(--text-white);
+  box-shadow: var(--shadow-xs), inset var(--color-1-400) 0 6px 0px -5px, var(--color-1-700) 0 4px 10px -5px;
+}
+.btn-primary:hover {
+  background: var(--bg-brand-strong);
+}
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-xs);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-fg-brand);
+  border: 1px solid var(--border-default);
+}
+.btn-secondary:hover {
+  background: var(--bg-neutral-secondary-medium);
+  border-color: var(--border-default-strong);
+}
+.btn-secondary:active {
+  transform: translateY(1px);
+}
+
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--border-brand);
+  outline-offset: 2px;
+}
+
+.hero-search-input:focus-visible {
+  outline: none;
+  border-color: var(--border-brand) !important;
+  box-shadow: 0 0 0 1px var(--border-brand) !important;
+}

@@ -24,22 +24,7 @@ export function SiteNav() {
         >
           JobHunter
         </Link>
-        <Link
-          href="/jobs"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            padding: "8px 16px",
-            fontSize: 14,
-            fontWeight: 500,
-            borderRadius: 8,
-            background: "var(--bg-brand)",
-            color: "var(--text-white)",
-            textDecoration: "none",
-            boxShadow: "var(--shadow-xs)",
-          }}
-        >
+        <Link href="/jobs" className="btn-primary" style={{ padding: "8px 18px", fontSize: 14 }}>
           Browse jobs
         </Link>
       </div>

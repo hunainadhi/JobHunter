@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Search, RefreshCw, Filter } from "lucide-react";
 import { fetchLandingStats } from "@/lib/queries";
 import { PLATFORMS } from "@/lib/types";
+import { HeroSearch } from "@/components/hero-search";
 
 export const dynamic = "force-dynamic";
 
@@ -51,14 +52,13 @@ export default async function LandingPage() {
               fontSize: 48,
               fontWeight: 700,
               color: "var(--text-heading)",
-              lineHeight: 1.1,
+              lineHeight: 1.15,
               letterSpacing: "-0.02em",
               marginBottom: 20,
+              textWrap: "balance",
             }}
           >
-            One board. Every ATS.
-            <br />
-            Searched by meaning, not keywords.
+            Every ATS, one board — searched by meaning, not keywords.
           </h1>
           <p
             style={{
@@ -70,45 +70,42 @@ export default async function LandingPage() {
             }}
           >
             JobHunter scrapes company career pages across Greenhouse, Lever, Ashby, and 9 other
-            applicant-tracking systems every day, then embeds every posting as a vector so you can
-            search job listings the way you'd describe them to a person.
+            applicant-tracking systems on a daily schedule, then embeds every posting as a vector so
+            you can search job listings the way you'd describe them to a person. Try it below.
           </p>
-          <div className="flex items-center justify-center" style={{ gap: 12, marginBottom: 40 }}>
-            <Link
-              href="/jobs"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "14px 28px",
-                fontSize: 16,
-                fontWeight: 500,
-                borderRadius: 8,
-                background: "var(--bg-brand)",
-                color: "var(--text-white)",
-                textDecoration: "none",
-                boxShadow:
-                  "var(--shadow-xs), inset var(--color-1-400) 0 6px 0px -5px, var(--color-1-700) 0 4px 10px -5px",
-              }}
-            >
-              Browse {totalJobs.toLocaleString()} open positions
-            </Link>
+
+          <div style={{ marginBottom: 16 }}>
+            <HeroSearch />
           </div>
+
+          {totalJobs > 0 ? (
+            <Link href="/jobs" className="btn-secondary" style={{ padding: "10px 18px", fontSize: 14, marginBottom: 40 }}>
+              Browse all {totalJobs.toLocaleString()} open positions
+            </Link>
+          ) : (
+            <Link href="/jobs" className="btn-secondary" style={{ padding: "10px 18px", fontSize: 14, marginBottom: 40 }}>
+              Browse open positions
+            </Link>
+          )}
 
           {/* Live stat strip */}
           <div
             className="flex flex-wrap items-center justify-center"
-            style={{ gap: "8px 32px", fontSize: 14, color: "var(--text-body-subtle)" }}
+            style={{ gap: "8px 32px", fontSize: 14, color: "var(--text-body-subtle)", marginTop: 40 }}
           >
-            <span>
-              <strong style={{ color: "var(--text-heading)", fontWeight: 600 }}>
-                {totalJobs.toLocaleString()}
-              </strong>{" "}
-              live postings
-            </span>
-            <span aria-hidden style={{ color: "var(--border-default-strong)" }}>
-              &middot;
-            </span>
+            {totalJobs > 0 && (
+              <>
+                <span>
+                  <strong style={{ color: "var(--text-heading)", fontWeight: 600 }}>
+                    {totalJobs.toLocaleString()}
+                  </strong>{" "}
+                  live postings
+                </span>
+                <span aria-hidden style={{ color: "var(--border-default-strong)" }}>
+                  &middot;
+                </span>
+              </>
+            )}
             <span>
               <strong style={{ color: "var(--text-heading)", fontWeight: 600 }}>
                 {PLATFORMS.length}
@@ -212,7 +209,13 @@ export default async function LandingPage() {
           <p style={{ fontSize: 16, color: "var(--text-body)", marginBottom: 32 }}>
             If a company posts through one of these, JobHunter sees it — usually the same day.
           </p>
-          <div className="flex flex-wrap items-center justify-center" style={{ gap: 10 }}>
+          <div
+            className="grid"
+            style={{
+              gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+              gap: 10,
+            }}
+          >
             {PLATFORMS.map((p) => (
               <span
                 key={p.value}
@@ -249,28 +252,13 @@ export default async function LandingPage() {
               marginBottom: 12,
             }}
           >
-            Try a search that wouldn't work anywhere else
+            Or skip the search and see everything
           </h2>
           <p style={{ fontSize: 16, color: "var(--text-body)", marginBottom: 28 }}>
-            Type something like &ldquo;early-stage AI infra role&rdquo; instead of guessing exact
-            keywords — the embeddings do the matching.
+            Every live posting across all {PLATFORMS.length} sources, filterable by category,
+            level, and platform.
           </p>
-          <Link
-            href="/jobs"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "14px 28px",
-              fontSize: 16,
-              fontWeight: 500,
-              borderRadius: 8,
-              background: "var(--bg-brand)",
-              color: "var(--text-white)",
-              textDecoration: "none",
-              boxShadow: "var(--shadow-xs)",
-            }}
-          >
+          <Link href="/jobs" className="btn-primary" style={{ padding: "14px 28px", fontSize: 16 }}>
             Open the job board
           </Link>
         </div>
