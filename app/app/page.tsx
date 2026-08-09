@@ -40,7 +40,7 @@ export default async function Home() {
     const { data } = await supabase
       .from("scores")
       .select(scoreFields)
-      .eq("model", SCORING_MODEL)
+      .in("model", [SCORING_MODEL, "MiniMax-M3"])
       .gt("score", 60)
       .range(offset, offset + PAGE_SIZE - 1);
     if (!data || data.length === 0) break;
@@ -54,15 +54,21 @@ export default async function Home() {
   cutoffDate.setMonth(cutoffDate.getMonth() - 2);
 
   const filteredJobs: JobRow[] = [];
+  const seenJobIds = new Set<string>();
+  // Prefer the active scorer while preserving historical matches that cannot be
+  // rescored because their source descriptions have already been removed.
+  scoreRows.sort((a, b) => Number(b.model === SCORING_MODEL) - Number(a.model === SCORING_MODEL));
   for (const row of scoreRows || []) {
     const job = (row as any).jobs;
     if (!job) continue;
+    if (seenJobIds.has(job.id)) continue;
     if (blacklistedNames.has(job.company_name.toLowerCase())) continue;
     const titleLower = job.title.toLowerCase();
     if (TITLE_EXCLUDE.some((kw: string) => titleLower.includes(kw))) continue;
     const jobDate = new Date(job.posted_at || job.first_seen_at);
     if (jobDate < cutoffDate) continue;
     if (row.score > 60) {
+      seenJobIds.add(job.id);
       filteredJobs.push({
         ...job,
           scores: [{
