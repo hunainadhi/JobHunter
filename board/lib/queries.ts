@@ -2,6 +2,7 @@ import { getSupabase } from "./supabase";
 import type { JobRow, BoardSearchParams, DateFilter } from "./types";
 
 const PAGE_SIZE = 30;
+const SCORING_MODEL = process.env.OPENROUTER_MODEL ?? "qwen/qwen3-30b-a3b";
 
 const JOB_COLUMNS = "id, title, company_name, location, is_remote, apply_url, source_url, posted_at, first_seen_at, ats_platform";
 
@@ -151,8 +152,8 @@ async function fetchJobsInner(params: BoardSearchParams): Promise<{
       .neq("status", "expired");
 
     // Pin the join to one model: jobs can have multiple scores rows
-    // (MiniMax-M3, keyword-filter), which would duplicate job rows.
-    query = query.eq("scores.model", "MiniMax-M3");
+    // (the scorer and keyword-filter), which would duplicate job rows.
+    query = query.eq("scores.model", SCORING_MODEL);
     if (params.category) {
       query = query.eq("scores.category", params.category);
     }

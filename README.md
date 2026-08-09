@@ -1,6 +1,6 @@
 # JobHunter
 
-An automated job discovery and AI scoring platform that scrapes thousands of job postings across 9 sources, scores them against a candidate profile using MiniMax-M3, and surfaces the best matches on a live dashboard. Runs entirely on free-tier infrastructure at **$0/month**.
+An automated job discovery and AI scoring platform that scrapes thousands of job postings across 9 sources, scores them against a candidate profile using an OpenRouter model, and surfaces the best matches on a live dashboard. Infrastructure runs on free tiers; AI usage is pay-as-you-go.
 
 ## Architecture
 
@@ -16,7 +16,7 @@ EventBridge (4x/day)
                                                           v
                                                  ┌─────────────────┐
                                                  │  Scoring Lambda  │
-                                                 │  (MiniMax-M3)    │
+                                                  │  (OpenRouter)    │
                                                  └────────┬────────┘
                                                           │
                                                           v
@@ -31,14 +31,14 @@ EventBridge (4x/day)
 1. **EventBridge** triggers the **Orchestrator Lambda** on a schedule (4x/day)
 2. The orchestrator reads company CSVs and launches **~420 ingestion workers** asynchronously (batches of 40 companies each)
 3. Each worker scrapes jobs using [`jobhive`](https://github.com/kalil0321/ats-scrapers), enriches descriptions, filters for Canadian locations, and upserts to Supabase
-4. The **Scoring Lambda** picks up unscored jobs, sends them in batches of 10 to MiniMax-M3, writes scores, nulls descriptions (to save storage), and self-chains until all jobs are processed
+4. The **Scoring Lambda** picks up unscored jobs, sends them in batches of 10 to OpenRouter, writes scores, nulls descriptions (to save storage), and self-chains until all jobs are processed
 5. The **Next.js dashboard** queries Supabase in real time and displays matched jobs with scores
 
 ## Features
 
 - **12 job sources**: Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Rippling, iCIMS, Pinpoint, Teamtailor, Breezy, YC Work at a Startup, WeWorkRemotely
 - **16,700+ companies** tracked via curated CSV lists (expanded using Common Crawl index API)
-- **AI scoring**: Every job scored 0-100 across 4 categories using MiniMax-M3 LLM
+- **AI scoring**: Every job scored 0-100 across 4 categories using an OpenRouter LLM
   - **Role Fit** (/35) — how well the role type matches the candidate profile
   - **Seniority Fit** (/30) — experience level alignment
   - **Stack Overlap** (/20) — tech stack match against dream stack
@@ -55,7 +55,7 @@ EventBridge (4x/day)
 | Layer | Technology |
 |---|---|
 | **Scraping** | Python, [jobhive](https://github.com/kalil0321/ats-scrapers), httpx |
-| **AI Scoring** | MiniMax-M3 (chat completions API) |
+| **AI Scoring** | OpenRouter (`qwen/qwen3-30b-a3b` by default) |
 | **Compute** | AWS Lambda (Python 3.12, ARM64), EventBridge |
 | **Database** | Supabase (PostgreSQL), pg_cron |
 | **Dashboard** | Next.js 15, TypeScript, Tailwind CSS, shadcn/ui |
@@ -93,7 +93,7 @@ JobHunter/
 │   │       ├── lever.csv         # 2,118 companies
 │   │       └── rippling.csv      # 196 companies
 │   ├── scoring/
-│   │   └── handler.py            # MiniMax-M3 scoring with detailed rubric
+│   │   └── handler.py            # OpenRouter scoring with detailed rubric
 │   └── layer/                    # Lambda layer (dependencies)
 ├── supabase/
 │   └── migrations/
@@ -102,9 +102,14 @@ JobHunter/
 │       ├── 003_rls_policies.sql
 │       └── 004_purge_guardrails.sql
 ├── scripts/
+│   ├── discover_companies.py     # Company discovery agent (Common Crawl + ATS API validation)
+│   ├── ingest.py                 # Local ingestion (chunked)
+│   ├── score.py                   # Local scoring with keyword pre-filter
+│   ├── backfill_embeddings.py     # Embedding backfill (90 RPM rate-limited)
+│   ├── backfill_descriptions.py  # Re-fetch missing descriptions
 │   ├── run_ingestion_local.py    # Local ingestion testing
 │   ├── run_scoring_local.py      # Local scoring testing
-│   └── test_minimax.py           # MiniMax API testing
+│   └── test_openrouter.py        # OpenRouter API testing
 ├── deploy.sh                     # Build layer + deploy all Lambdas
 └── BUILD_PLAN.md                 # Original 5-iteration build plan
 ```
@@ -126,7 +131,7 @@ JobHunter/
 - Python 3.12+
 - AWS CLI configured with appropriate permissions
 - Supabase project
-- MiniMax API key (Plus tier for free M3 access)
+- OpenRouter API key
 
 ### 1. Database
 
@@ -155,8 +160,11 @@ Set environment variables on ingestion and scoring Lambdas:
 ```
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_KEY=your-service-key
-MINIMAX_API_KEY=your-minimax-key        # scoring only
+OPENROUTER_API_KEY=your-openrouter-key  # scoring only
+OPENROUTER_MODEL=qwen/qwen3-30b-a3b
 ```
+
+Set the same `OPENROUTER_MODEL` value in the dashboard environment if you change it, so score and category filters continue to target the active scorer.
 
 Deploy:
 
@@ -209,7 +217,52 @@ Edit the `SYSTEM_PROMPT` in `lambdas/scoring/handler.py` to match your own resum
 
 Add company slugs to the CSV files in `lambdas/ingestion/data/`. Each CSV has a `slug` column matching the company's ATS URL identifier.
 
-You can discover new companies programmatically using Common Crawl:
+#### Company Discovery Agent
+
+The discovery agent (`scripts/discover_companies.py`) automatically finds new companies hiring in Canada across all ATS platforms. It works in two phases:
+
+1. **Discovery** — Queries the [Common Crawl Index API](https://index.commoncrawl.org/) to find company slugs from crawled ATS career page URLs (e.g., `boards.greenhouse.io/{slug}`, `jobs.lever.co/{slug}`, `{slug}.breezy.hr`)
+2. **Validation** — For each new slug, queries the platform's public ATS API to verify the company board is active and checks for Canadian job postings using the same location filter as the ingestion pipeline
+
+Supported platforms and discovery methods:
+
+| Platform | Slug Source | Validation API | Canada Check |
+|---|---|---|---|
+| Greenhouse | URL path (`boards.greenhouse.io/{slug}`) | Board Jobs API | Yes |
+| Lever | URL path (`jobs.lever.co/{slug}`) | Postings API | Yes |
+| Ashby | URL path (`jobs.ashbyhq.com/{slug}`) | Posting API (POST) | Yes |
+| SmartRecruiters | URL path (`careers.smartrecruiters.com/{slug}`) | Jobs API | Yes |
+| Workable | URL path (`apply.workable.com/{slug}`) | Jobs API | Yes |
+| Teamtailor | Subdomain (`{slug}.teamtailor.com`) | Board page check | No |
+| Breezy | Subdomain (`{slug}.breezy.hr`) | Board page check | No |
+| Pinpoint | Subdomain (`{slug}.pinpointhq.com`) | Board page check | No |
+| iCIMS | Subdomain (`careers-{slug}.icims.com`) | Board page check | No |
+
+Usage:
+
+```bash
+# Discover + validate all platforms (appends new companies to CSVs)
+python scripts/discover_companies.py
+
+# Only discover specific platforms
+python scripts/discover_companies.py --platforms greenhouse,lever,ashby
+
+# Preview without modifying CSVs
+python scripts/discover_companies.py --dry-run
+
+# Add all discovered slugs without validation (faster, less targeted)
+python scripts/discover_companies.py --skip-validation
+
+# Limit URLs processed per domain (useful for testing)
+python scripts/discover_companies.py --limit 500 --max-pages 3
+
+# Show every company validation result
+python scripts/discover_companies.py --verbose
+```
+
+The agent uses the latest Common Crawl index automatically. Coverage varies by crawl — run periodically to catch new companies as indexes are published. Companies with Canadian job postings are flagged in the output summary.
+
+You can also discover companies manually using Common Crawl:
 
 ```bash
 # Example: find Greenhouse companies
@@ -219,7 +272,7 @@ curl "https://index.commoncrawl.org/CC-MAIN-2025-08-index?url=boards.greenhouse.
 
 ### Dashboard Threshold
 
-The dashboard shows jobs with overall MiniMax score > 60. Change this in `app/app/page.tsx`:
+The dashboard shows jobs with an overall AI score > 60. Change this in `app/app/page.tsx`:
 
 ```typescript
 .gt("score", 60)  // adjust threshold here
@@ -227,7 +280,7 @@ The dashboard shows jobs with overall MiniMax score > 60. Change this in `app/ap
 
 ## How Scoring Works
 
-Each job is sent to MiniMax-M3 with the candidate's full profile. The LLM returns a structured JSON response:
+Each job is sent to the configured OpenRouter model with the candidate's full profile. The LLM returns a structured JSON response:
 
 ```json
 {
@@ -257,8 +310,8 @@ Jobs scoring below 25 overall are marked as `scored` (not shown). Jobs at 25+ ar
 | AWS Lambda | Free tier (1M requests) | $0 |
 | Supabase | Free tier (500 MB, 50K rows) | $0 |
 | Vercel | Hobby (100 GB bandwidth) | $0 |
-| MiniMax | Plus tier (~1.7B tokens/month) | $0 |
-| **Total** | | **$0** |
+| OpenRouter | Pay-as-you-go | Varies by model and usage |
+| **Total** | | Infrastructure $0; AI usage varies |
 
 ## License
 

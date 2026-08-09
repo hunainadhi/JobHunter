@@ -23,16 +23,12 @@ type Job = {
   ats_token: string;
   scores: {
     score: number;
-    role_fit_score: number | null;
-    seniority_fit_score: number | null;
-    stack_overlap_score: number | null;
-    keyword_score: number | null;
     matched_skills: string[] | null;
     rationale: string | null;
   }[];
 };
 
-type SortKey = "minimax" | "posted";
+type SortKey = "score" | "posted";
 
 function ScoreBadge({ score }: { score: number }) {
   let color = "text-[#71717a]";
@@ -49,20 +45,15 @@ function formatDate(dateStr: string | null): string {
   return d.toLocaleDateString("en-CA", { month: "short", day: "numeric" });
 }
 
-function normalize(value: number | null, max: number): number {
-  if (value == null) return 0;
-  return Math.round((value / max) * 100);
-}
-
 export function JobTable({ jobs }: { jobs: Job[] }) {
-  const [sortKey, setSortKey] = useState<SortKey>("minimax");
+  const [sortKey, setSortKey] = useState<SortKey>("score");
   const [page, setPage] = useState(1);
   const pageSize = 25;
 
   const sortedJobs = useMemo(() => {
     const sorted = [...jobs];
     sorted.sort((a, b) => {
-      if (sortKey === "minimax") {
+      if (sortKey === "score") {
         return (b.scores?.[0]?.score ?? 0) - (a.scores?.[0]?.score ?? 0);
       } else {
         const dateA = a.posted_at || a.first_seen_at || "";
@@ -104,7 +95,7 @@ export function JobTable({ jobs }: { jobs: Job[] }) {
     <div>
       <div className="flex items-center gap-2 mb-3">
         <span className="text-xs text-[#71717a]">Sort by:</span>
-        <SortButton label="Score" value="minimax" />
+        <SortButton label="Match score" value="score" />
         <SortButton label="Date Posted" value="posted" />
       </div>
 
@@ -114,11 +105,7 @@ export function JobTable({ jobs }: { jobs: Job[] }) {
             <TableRow className="border-[#27272a] bg-[#18181b] hover:bg-[#18181b]">
               <TableHead className="text-[#a1a1aa] min-w-[200px]">Title</TableHead>
               <TableHead className="text-[#a1a1aa]">Company</TableHead>
-              <TableHead className="text-[#a1a1aa] text-center w-16">Overall</TableHead>
-              <TableHead className="text-[#a1a1aa] text-center w-14">Role</TableHead>
-              <TableHead className="text-[#a1a1aa] text-center w-14">Sen.</TableHead>
-              <TableHead className="text-[#a1a1aa] text-center w-14">Stack</TableHead>
-              <TableHead className="text-[#a1a1aa] text-center w-14">Kw.</TableHead>
+              <TableHead className="text-[#a1a1aa] text-center w-24">Match</TableHead>
               <TableHead className="text-[#a1a1aa] w-16">Posted</TableHead>
               <TableHead className="text-[#a1a1aa]">Location</TableHead>
               <TableHead className="text-[#a1a1aa] text-right w-20">Apply</TableHead>
@@ -153,18 +140,7 @@ export function JobTable({ jobs }: { jobs: Job[] }) {
                   </TableCell>
                   <TableCell className="text-center">
                     <ScoreBadge score={s?.score ?? 0} />
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <ScoreBadge score={normalize(s?.role_fit_score ?? null, 35)} />
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <ScoreBadge score={normalize(s?.seniority_fit_score ?? null, 30)} />
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <ScoreBadge score={normalize(s?.stack_overlap_score ?? null, 20)} />
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <ScoreBadge score={normalize(s?.keyword_score ?? null, 15)} />
+                    <span className="text-xs text-[#71717a]">/100</span>
                   </TableCell>
                   <TableCell className="text-[#a1a1aa] whitespace-nowrap">
                     {formatDate(job.posted_at)}

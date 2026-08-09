@@ -4,6 +4,8 @@ import { HealthBanner } from "@/components/health-banner";
 
 export const dynamic = "force-dynamic";
 
+const SCORING_MODEL = process.env.OPENROUTER_MODEL ?? "qwen/qwen3-30b-a3b";
+
 type JobRow = {
   id: string;
   title: string;
@@ -16,10 +18,6 @@ type JobRow = {
   ats_token: string;
   scores: {
     score: number;
-    role_fit_score: number | null;
-    seniority_fit_score: number | null;
-    stack_overlap_score: number | null;
-    keyword_score: number | null;
     matched_skills: string[] | null;
     rationale: string | null;
   }[];
@@ -34,7 +32,7 @@ export default async function Home() {
     (blacklist || []).map((b) => b.company_name.toLowerCase())
   );
 
-  const scoreFields = "score, role_fit_score, seniority_fit_score, stack_overlap_score, keyword_score, matched_skills, rationale, job_id, jobs!inner(id, title, company_name, location, source_url, first_seen_at, posted_at, ats_platform, ats_token)";
+  const scoreFields = "score, matched_skills, rationale, job_id, jobs!inner(id, title, company_name, location, source_url, first_seen_at, posted_at, ats_platform, ats_token)";
 
   const allScoreRows: any[] = [];
   const PAGE_SIZE = 1000;
@@ -42,7 +40,7 @@ export default async function Home() {
     const { data } = await supabase
       .from("scores")
       .select(scoreFields)
-      .eq("model", "MiniMax-M3")
+      .eq("model", SCORING_MODEL)
       .gt("score", 60)
       .range(offset, offset + PAGE_SIZE - 1);
     if (!data || data.length === 0) break;
@@ -67,14 +65,10 @@ export default async function Home() {
     if (row.score > 60) {
       filteredJobs.push({
         ...job,
-        scores: [{
-          score: row.score,
-          role_fit_score: row.role_fit_score,
-          seniority_fit_score: row.seniority_fit_score,
-          stack_overlap_score: row.stack_overlap_score,
-          keyword_score: row.keyword_score,
-          matched_skills: row.matched_skills,
-          rationale: row.rationale,
+          scores: [{
+            score: row.score,
+            matched_skills: row.matched_skills,
+            rationale: row.rationale,
         }],
       });
     }

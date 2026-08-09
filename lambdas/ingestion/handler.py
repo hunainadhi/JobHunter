@@ -1,5 +1,6 @@
 import csv
 import hashlib
+import io
 import json
 import os
 import re
@@ -18,6 +19,8 @@ SUPABASE_SERVICE_KEY = os.environ["SUPABASE_SERVICE_KEY"]
 SYNC_SECRET = os.environ.get("SYNC_SECRET", "")
 
 DATA_DIR = Path(__file__).parent / "data"
+S3_BUCKET = os.environ.get("DEPLOY_BUCKET", "jobhunter-deploy-ca")
+S3_DATA_PREFIX = "data/"
 SCRAPE_DELAY = 0.3
 BATCH_SIZE = 40
 
@@ -52,11 +55,19 @@ def get_scraper_class(scraper_path: str):
 
 def load_company_slugs(ats_platform: str) -> list[dict]:
     csv_path = DATA_DIR / f"{ats_platform}.csv"
-    if not csv_path.exists():
-        return []
-    with open(csv_path) as f:
-        reader = csv.DictReader(f)
+    if csv_path.exists():
+        with open(csv_path) as f:
+            reader = csv.DictReader(f)
+            return [{"name": row["name"], "slug": row["slug"]} for row in reader]
+
+    try:
+        import boto3
+        s3 = boto3.client("s3", region_name="ca-central-1")
+        resp = s3.get_object(Bucket=S3_BUCKET, Key=f"{S3_DATA_PREFIX}{ats_platform}.csv")
+        reader = csv.DictReader(io.StringIO(resp["Body"].read().decode()))
         return [{"name": row["name"], "slug": row["slug"]} for row in reader]
+    except Exception:
+        return []
 
 
 def compute_content_hash(description: str) -> str:

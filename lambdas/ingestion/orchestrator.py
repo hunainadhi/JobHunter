@@ -1,5 +1,7 @@
 import csv
+import io
 import json
+import os
 import time
 from datetime import date
 from pathlib import Path
@@ -10,6 +12,8 @@ from botocore.exceptions import ClientError
 WORKER_FUNCTION = "jobhunter-ingestion"
 SELF_FUNCTION = "jobhunter-orchestrator"
 DATA_DIR = Path(__file__).parent / "data"
+S3_BUCKET = os.environ.get("DEPLOY_BUCKET", "jobhunter-deploy-ca")
+S3_DATA_PREFIX = "data/"
 BATCH_SIZE = 40
 
 # The account's Lambda concurrency ceiling was raised from 50 to 1,000
@@ -45,10 +49,17 @@ BOARD_SCRAPERS = ["ycombinator", "weworkremotely"]
 
 def load_company_count(ats_platform: str) -> int:
     csv_path = DATA_DIR / f"{ats_platform}.csv"
-    if not csv_path.exists():
+    if csv_path.exists():
+        with open(csv_path) as f:
+            return sum(1 for _ in csv.reader(f)) - 1
+
+    try:
+        s3 = boto3.client("s3", region_name="ca-central-1")
+        resp = s3.get_object(Bucket=S3_BUCKET, Key=f"{S3_DATA_PREFIX}{ats_platform}.csv")
+        body = resp["Body"].read().decode()
+        return sum(1 for _ in csv.reader(io.StringIO(body))) - 1
+    except Exception:
         return 0
-    with open(csv_path) as f:
-        return sum(1 for _ in csv.reader(f)) - 1
 
 
 def build_job_list() -> list[dict]:

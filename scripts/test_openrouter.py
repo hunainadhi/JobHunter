@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-"""Quick validation script for MiniMax-M3 scoring API."""
+"""Quick validation script for OpenRouter job scoring."""
 
 import json
 import os
 import sys
 import httpx
 
-MINIMAX_API_URL = "https://api.minimax.io/v1/chat/completions"
-MINIMAX_API_KEY = os.environ.get("MINIMAX_API_KEY", "")
+OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
+SCORING_MODEL = os.environ.get("OPENROUTER_MODEL", "qwen/qwen3-30b-a3b")
 
-if not MINIMAX_API_KEY:
-    print("ERROR: Set MINIMAX_API_KEY env var first")
-    print("  export MINIMAX_API_KEY=your-key-here")
+if not OPENROUTER_API_KEY:
+    print("ERROR: Set OPENROUTER_API_KEY env var first")
+    print("  export OPENROUTER_API_KEY=your-key-here")
     sys.exit(1)
 
 SYSTEM_PROMPT = """You are a job-resume matching engine. You score how well a job posting matches a candidate's profile.
@@ -98,16 +99,15 @@ Description: {job['description'][:2000]}
 def test_scoring():
     jobs_block = build_jobs_block(SAMPLE_JOBS)
     payload = {
-        "model": "MiniMax-M3",
+        "model": SCORING_MODEL,
         "max_tokens": 1000,
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": BATCH_USER_PROMPT.format(jobs_block=jobs_block)}
         ],
-        "thinking": {"type": "disabled"}
     }
 
-    print("Sending 3 sample jobs to MiniMax-M3...")
+    print(f"Sending 3 sample jobs to {SCORING_MODEL} via OpenRouter...")
     print(f"  job-001: Junior Full Stack @ Shopify (expect HIGH score ~85-95)")
     print(f"  job-002: Senior Staff Engineer @ RBC (expect LOW score ~10-30)")
     print(f"  job-003: Data Engineer @ Wealthsimple (expect HIGH score ~80-90)")
@@ -115,10 +115,12 @@ def test_scoring():
 
     with httpx.Client(timeout=60) as client:
         response = client.post(
-            MINIMAX_API_URL,
+            OPENROUTER_API_URL,
             headers={
-                "Authorization": f"Bearer {MINIMAX_API_KEY}",
-                "Content-Type": "application/json"
+                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://github.com/hunainadhikari/JobHunter",
+                "X-Title": "JobHunter",
             },
             json=payload
         )

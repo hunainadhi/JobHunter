@@ -5,7 +5,9 @@ REGION="ca-central-1"
 INGESTION_FUNCTION="jobhunter-ingestion"
 ORCHESTRATOR_FUNCTION="jobhunter-orchestrator"
 SCORING_FUNCTION="jobhunter-scoring"
+DISCOVERY_FUNCTION="jobhunter-discovery"
 LAYER_NAME="jobhunter-deps"
+DEPLOY_BUCKET="jobhunter-deploy-ca"
 
 echo "Building Lambda layer..."
 rm -rf lambdas/layer
@@ -38,7 +40,6 @@ echo "Layer built: lambdas/layer.zip ($(du -h lambdas/layer.zip | cut -f1))"
 
 # Publish via S3: the zip exceeds the ~52MB effective direct-upload limit
 # (the API base64-encodes the payload against a 70MB request cap).
-DEPLOY_BUCKET="jobhunter-deploy-ca"
 echo "Uploading layer to s3://$DEPLOY_BUCKET/layer.zip..."
 aws s3 cp lambdas/layer.zip "s3://$DEPLOY_BUCKET/layer.zip" --region $REGION --no-cli-pager
 
@@ -52,6 +53,9 @@ LAYER_ARN=$(aws lambda publish-layer-version \
   --output text \
   --no-cli-pager)
 echo "Layer published: $LAYER_ARN"
+
+echo "Syncing company CSVs to s3://$DEPLOY_BUCKET/data/..."
+aws s3 sync lambdas/ingestion/data/ "s3://$DEPLOY_BUCKET/data/" --region $REGION --no-cli-pager
 
 echo "Deploying ingestion Lambda..."
 cd lambdas/ingestion
@@ -124,5 +128,73 @@ aws lambda update-function-configuration \
   --query '{FunctionName:FunctionName,LastUpdateStatus:LastUpdateStatus}' \
   --no-cli-pager
 echo "Scoring deployed."
+
+echo "Deploying discovery Lambda..."
+cd lambdas/discovery
+rm -f ../discovery.zip
+zip -r ../discovery.zip handler.py
+cd ../..
+DISCOVERY_ROLE=$(aws lambda get-function-configuration --function-name $INGESTION_FUNCTION --region $REGION --query 'Role' --output text --no-cli-pager)
+ACCOUNT_ID=$(aws sts get-caller-identity --region $REGION --query 'Account' --output text --no-cli-pager)
+
+if aws lambda get-function-configuration --function-name $DISCOVERY_FUNCTION --region $REGION --no-cli-pager >/dev/null 2>&1; then
+  aws lambda update-function-code \
+    --function-name $DISCOVERY_FUNCTION \
+    --zip-file fileb://lambdas/discovery.zip \
+    --region $REGION \
+    --query '{FunctionName:FunctionName,LastUpdateStatus:LastUpdateStatus}' \
+    --no-cli-pager
+else
+  echo "Creating discovery Lambda function..."
+  aws lambda create-function \
+    --function-name $DISCOVERY_FUNCTION \
+    --runtime python3.12 \
+    --architectures arm64 \
+    --handler handler.lambda_handler \
+    --role "$DISCOVERY_ROLE" \
+    --zip-file fileb://lambdas/discovery.zip \
+    --layers "$LAYER_ARN" \
+    --timeout 900 \
+    --memory-size 512 \
+    --environment Variables="{DEPLOY_BUCKET=$DEPLOY_BUCKET}" \
+    --region $REGION \
+    --no-cli-pager
+fi
+
+aws lambda wait function-updated \
+  --function-name $DISCOVERY_FUNCTION \
+  --region $REGION 2>/dev/null
+aws lambda update-function-configuration \
+  --function-name $DISCOVERY_FUNCTION \
+  --handler handler.lambda_handler \
+  --layers "$LAYER_ARN" \
+  --timeout 900 \
+  --memory-size 512 \
+  --environment Variables="{DEPLOY_BUCKET=$DEPLOY_BUCKET}" \
+  --region $REGION \
+  --query '{FunctionName:FunctionName,LastUpdateStatus:LastUpdateStatus}' \
+  --no-cli-pager
+echo "Discovery deployed."
+
+echo "Setting up EventBridge weekly schedule for discovery Lambda..."
+aws events put-rule \
+  --name "jobhunter-discovery-weekly" \
+  --schedule-expression "cron(0 12 ? * MON *)" \
+  --region $REGION \
+  --no-cli-pager 2>/dev/null || true
+aws lambda add-permission \
+  --function-name $DISCOVERY_FUNCTION \
+  --statement-id "EventBridgeDiscoveryWeekly" \
+  --action "lambda:InvokeFunction" \
+  --principal "events.amazonaws.com" \
+  --source-arn "arn:aws:events:$REGION:$ACCOUNT_ID:rule/jobhunter-discovery-weekly" \
+  --region $REGION \
+  --no-cli-pager 2>/dev/null || true
+aws events put-targets \
+  --rule "jobhunter-discovery-weekly" \
+  --targets "{\"Id\":\"1\",\"Arn\":\"arn:aws:lambda:$REGION:$ACCOUNT_ID:function:$DISCOVERY_FUNCTION\"}" \
+  --region $REGION \
+  --no-cli-pager 2>/dev/null || true
+echo "EventBridge weekly schedule configured (Mondays 12:00 UTC)."
 
 echo "Done."

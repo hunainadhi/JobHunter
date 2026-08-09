@@ -8,8 +8,9 @@ from supabase import create_client
 
 SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_SERVICE_KEY = os.environ["SUPABASE_SERVICE_KEY"]
-MINIMAX_API_KEY = os.environ["MINIMAX_API_KEY"]
-MINIMAX_API_URL = "https://api.minimax.io/v1/chat/completions"
+OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"]
+OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
+SCORING_MODEL = os.environ.get("OPENROUTER_MODEL", "qwen/qwen3-30b-a3b")
 CHUNK_INDEX = int(os.environ.get("CHUNK_INDEX", "0"))
 TOTAL_CHUNKS = int(os.environ.get("TOTAL_CHUNKS", "1"))
 
@@ -124,21 +125,22 @@ Description: {desc}
 def score_batch(jobs: list[dict]) -> list[dict]:
     jobs_block = build_jobs_block(jobs)
     payload = {
-        "model": "MiniMax-M3",
+        "model": SCORING_MODEL,
         "max_tokens": 2000,
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": BATCH_USER_PROMPT.format(jobs_block=jobs_block)},
         ],
-        "thinking": {"type": "disabled"},
     }
 
     with httpx.Client(timeout=90) as client:
         response = client.post(
-            MINIMAX_API_URL,
+            OPENROUTER_API_URL,
             headers={
-                "Authorization": f"Bearer {MINIMAX_API_KEY}",
+                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
                 "Content-Type": "application/json",
+                "HTTP-Referer": "https://github.com/hunainadhikari/JobHunter",
+                "X-Title": "JobHunter",
             },
             json=payload,
         )
@@ -234,7 +236,7 @@ def main():
 
                     supabase.table("scores").upsert({
                         "job_id": job_id,
-                        "model": "MiniMax-M3",
+                        "model": SCORING_MODEL,
                         "score": score,
                         "role_fit_score": result.get("role_fit"),
                         "seniority_fit_score": result.get("seniority_fit"),

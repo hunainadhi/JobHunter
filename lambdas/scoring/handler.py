@@ -9,8 +9,9 @@ from supabase import create_client
 
 SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_SERVICE_KEY = os.environ["SUPABASE_SERVICE_KEY"]
-MINIMAX_API_KEY = os.environ["MINIMAX_API_KEY"]
-MINIMAX_API_URL = "https://api.minimax.io/v1/chat/completions"
+OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"]
+OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
+SCORING_MODEL = os.environ.get("OPENROUTER_MODEL", "qwen/qwen3-30b-a3b")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 BATCH_SIZE = 10
 MATCH_THRESHOLD = 25
@@ -18,52 +19,48 @@ MATCH_THRESHOLD = 25
 # truncate the JSON array, failing the whole batch — keep generous headroom.
 MAX_COMPLETION_TOKENS = 4000
 # Safety valve: stop self-chaining after this many chained invocations even if
-# jobs remain, so a persistent failure can't re-bill MiniMax + Lambda forever.
+# jobs remain, so a persistent failure can't re-bill the model API + Lambda forever.
 MAX_CHAIN_DEPTH = 30
 
-SYSTEM_PROMPT = """You are a job-resume matching engine. You score how well a job posting matches a candidate's profile.
+SYSTEM_PROMPT = """You are a precise job-resume matching engine. Score each job independently against the candidate profile and the rubric below. Use evidence from the job description; do not invent requirements or skills.
 
 CANDIDATE PROFILE:
-- Name: Hunain Adhikari
-- Location: Waterloo, Ontario, Canada
-- Work Authorization: PGWP open work permit (CANADA ONLY — cannot work for US-only employers)
-- Experience: ~2.5 years professional (targeting 0-4 year roles)
-- Education: Master of Applied Computing (WLU, 2025, 4.0 GPA), B.Tech IT (Mumbai University, 2021)
-- Certifications: AWS Certified Cloud Practitioner (CLF-C02)
-- Identity: AI Engineer | Software Developer | Solo SaaS Builder | 2x Hackathon Winner
-- Work History:
-  - Software Developer at Enzuzo (TypeScript, REST APIs, Docker, privacy-compliance SaaS — cut incorrect script executions by 80%)
-  - Software Engineer at Barclays (2 years, Ab Initio ETL pipelines, Oracle SQL, Jenkins, TWS — $4B+ credit card transactions, 5M+ daily records, cut batch processing by 33%)
-  - Instructor Assistant at WLU (HTML/CSS/JS, ARM assembly)
-- Shipped Products (live, not homework):
-  - MirrorLog (mirrorlog.org): Live SaaS — Next.js, TypeScript, Supabase, Prisma, Stripe, Clerk, Claude API
-  - MirrorAgent: Shipped macOS desktop app — Electron, React, TypeScript, Claude Vision, Chrome extensions, WebSocket
-  - Lex Harvester: Legal research agent — FastAPI, PostgreSQL, pgvector, MiniLM embeddings (EvenUp hackathon runner-up)
-- Hackathon Wins: EvenUp x OpenClaw runner-up, Amazon Robotics Day 1st place (beat 15+ teams)
-- Skills: TypeScript, JavaScript, Python, C++, Next.js, React, Node.js, FastAPI, PostgreSQL, Ab Initio, Docker, AWS, Jenkins, Git
+- Location and work authorization: Waterloo, Ontario, Canada. Holds a PGWP open work permit. Eligible for Canadian roles and Canada-eligible remote roles; not eligible for US-only roles or roles requiring US work authorization without explicit Canadian eligibility.
+- Professional experience: 2 years as a Software Engineer at Barclays in Pune, India (Aug 2021-Aug 2023), plus Canadian Software Developer experience at Enzuzo in Waterloo, Ontario (Nov-Dec 2025). This is real professional experience, not only academic work. Target roles requiring 0-3 years or 1-3 years; 4 years can still be plausible when the fit is strong.
+- Barclays: Built Ab Initio ETL plans and graphs, Oracle SQL, TWS scheduling, Jenkins CI/testing, and Hive migrations. Processed 5M+ daily records and $4B+ credit-card transactions. Reduced batch processing by 33% and latency to under one hour.
+- Enzuzo: Refactored TypeScript consent-management logic and internal REST APIs in a privacy-compliance SaaS. Reduced regression defects 30% and incorrect production script execution 80%. Wrote TypeScript unit/integration tests; supported Docker deployments and Git releases.
+- Canadian experience: Instructor Assistant at Wilfrid Laurier University, teaching/grading HTML, CSS, JavaScript, and ARM assembly coursework.
+- Education: Master of Applied Computing, Wilfrid Laurier University, Waterloo; B.Tech in Information Technology, Mumbai University.
+- Core skills: TypeScript, JavaScript, Python, Next.js, React, Node.js, FastAPI, PostgreSQL, SQL, Ab Initio, Docker, AWS, Jenkins, Git.
+- Certification: AWS Certified Cloud Practitioner (CLF-C02).
+- Relevant projects: JobHunter (AWS Lambda, Supabase/PostgreSQL, Next.js, pgvector, OpenAI embeddings, LLM classification); MirrorAgent (Electron, React, TypeScript, Claude Vision, Chrome extension, WebSockets); WorkVibe (Python NLP and SQL pipeline over 289K posts); Lex Harvester (FastAPI, PostgreSQL, pgvector, MiniLM embeddings, hybrid retrieval, Claude integration; EvenUp hackathon runner-up).
+- Awards: Amazon Robotics Day winner for Python navigation/collision-avoidance agent; EvenUp x OpenClaw hackathon runner-up.
 
-ROLE PRIORITY (what the candidate wants most):
-1. Full-stack developer (Next.js/React/TypeScript) — TOP PRIORITY
-2. AI/LLM application engineer (agents, RAG, embeddings, LLM API integrations) — TOP PRIORITY (equal to full-stack)
-3. Backend/API engineer (Node.js, Python/FastAPI, PostgreSQL)
-4. Data engineer (ETL pipelines, SQL — acceptable but not preferred)
+ROLE PRIORITY:
+1. Full-stack software engineering: TypeScript, React, Next.js, Node.js, product/SaaS development.
+2. AI/LLM application engineering: agents, RAG, retrieval, embeddings, vector databases, AI product integrations.
+3. Backend/API engineering: Python, FastAPI, Node.js, PostgreSQL, distributed data/API systems.
+4. Data engineering: ETL, SQL, pipelines, orchestration, data platforms. This is a credible fit due to Barclays, but lower priority than the three categories above.
 
-DREAM TECH STACK (use for TECH STACK OVERLAP scoring):
-  TOP TIER: LLM APIs, vector databases, RAG, embeddings, agents, TypeScript, Next.js, React
-  GOOD TIER: Python, FastAPI, Django, Node.js, AWS, GCP, PostgreSQL, Docker
-  ACCEPTABLE TIER: Ab Initio, ETL pipelines, generic cloud mentions
-  TRANSFERABLE: Vue.js, Angular, Svelte, Flask, Ruby on Rails, PHP/Laravel (similar paradigms to candidate's stack)
-  MISMATCH: Java-only, C#/.NET-only, Go-only stacks with nothing else matching
+TECHNICAL FIT GUIDANCE:
+- Highest overlap: TypeScript, React, Next.js, Node.js, Python, FastAPI, PostgreSQL, LLM APIs, RAG, embeddings, vector databases, agents, AWS, Docker.
+- Strong relevant overlap: REST APIs, SaaS, SQL, data pipelines, ETL, CI/CD, Jenkins, cloud, testing, Electron, WebSockets.
+- Transferable frameworks: Vue, Angular, Svelte, Django, Flask, Ruby on Rails, Laravel. Award meaningful but not full overlap credit.
+- A Java-only, C#/.NET-only, Go-only, mobile-native-only, or infrastructure-only role is weak unless it also materially uses the candidate's demonstrated skills.
 
 SCORING RUBRIC (score 0-100):
-1. ROLE TYPE FIT (35 points): Full-stack (Next.js/React/TS) = 35. AI/LLM app engineer (agents, RAG, embeddings) = 35. Backend/API (Node/Python/Postgres) = 28. Data engineer = 20. QA/test developer or SDET (writes code, automates tests) = 18-22. Non-dev roles (PM, tech writer, DevOps-only, sales engineer, pure manual QA with no coding) = 0-5.
-2. SENIORITY FIT (30 points): 0-4 years experience, junior, new grad, entry level, or no explicit seniority = 30. "2+ years" or "1-3 years" or "3+ years" = 30. "5+ years" = 15. "7+ years", senior, staff, principal, lead, director = 0-5.
-3. TECH STACK OVERLAP (20 points): Score based on DREAM TECH STACK tiers. Multiple TOP TIER matches = 20. Mix of GOOD TIER = 12-16. TRANSFERABLE frameworks (Vue.js, Angular, etc.) = 10-14 (skills transfer easily). Only ACCEPTABLE TIER or generic = 6-10. No tech mentioned at all = 10 (neutral — don't penalize generic new-grad JDs). MISMATCH stack = 2-4.
-4. KEYWORD RELEVANCE (15 points): Alignment with SaaS, full-stack, API development, cloud, CI/CD, AI/ML products, shipping culture, startup pace, greenfield development.
+1. ROLE TYPE FIT (35): 32-35 for priority 1 or 2 roles; 26-31 for backend/API; 20-26 for data engineering; 15-22 for code-heavy QA/SDET; 0-8 for non-engineering, pure manual QA, sales, support, DevOps-only, or management roles. Use the job duties, not title alone.
+2. SENIORITY FIT (30): 28-30 for new grad, junior, entry, 0-3 years, 1-3 years, or no stated experience; 23-27 for 3-4 years; 12-18 for 5+ years; 0-8 for senior, staff, principal, lead, architect, manager, director, or 7+ years. Do not penalize the candidate because Barclays experience was in India; it counts as professional experience.
+3. TECH STACK OVERLAP (20): 17-20 for multiple highest-overlap skills; 12-16 for several strong relevant or transferable skills; 7-11 for a partial match; 2-6 for a mostly mismatched stack. A vague JD with no stack information earns 10, not zero.
+4. OPPORTUNITY QUALITY (15): Reward product/SaaS building, API development, AI products, cloud, CI/CD, data scale, greenfield work, and shipping ownership. Deduct for requirements that materially conflict with the profile.
 
-LOCATION RULE: If the role explicitly requires US-only presence or US work authorization with no indication of Canada hiring, deduct 30 points from the total score.
+LOCATION AND ELIGIBILITY RULES:
+- Explicitly US-only location, US citizenship, US work authorization, security clearance, or relocation to the US with no Canadian option: deduct 30 points.
+- Explicitly Canadian, Ontario, Waterloo/Toronto, or remote-in-Canada: no location penalty.
+- Remote location unspecified: do not assume US-only; do not apply a penalty.
+- Apply any location deduction after summing the four component scores. Keep the final score between 0 and 100.
 
-JOB CATEGORY — Classify each job into exactly ONE of these categories based on the title and description:
+JOB CATEGORY — classify into exactly one:
 - Software & Engineering
 - Data & Analytics
 - Design & Creative
@@ -77,13 +74,13 @@ JOB CATEGORY — Classify each job into exactly ONE of these categories based on
 - Education & Research
 - Other
 
-EXPERIENCE LEVEL — Classify each job into exactly ONE level based on title, description, and years of experience required:
+EXPERIENCE LEVEL — classify into exactly one:
 - intern (internship, co-op, work term, practicum)
 - entry (new grad, junior, 0-2 years, entry-level, associate, no experience required)
-- mid (intermediate, 2-5 years, no explicit seniority mentioned but requires some experience)
+- mid (intermediate, 2-5 years, or some professional experience required)
 - senior (senior, staff, lead, principal, architect, director, head, VP, 5+ years, manager-level IC or above)
 
-You MUST respond ONLY with a valid JSON array. No other text."""
+Return every requested job exactly once. The component scores must be integers within their stated ranges, their sum must equal score before any location deduction, and the rationale must name the strongest fit and any material limitation. You MUST respond ONLY with a valid JSON array. No other text."""
 
 BATCH_USER_PROMPT = """Score these job postings:
 
@@ -149,21 +146,22 @@ Description: {desc}
 def score_batch(jobs: list[dict]) -> list[dict]:
     jobs_block = build_jobs_block(jobs)
     payload = {
-        "model": "MiniMax-M3",
+        "model": SCORING_MODEL,
         "max_tokens": MAX_COMPLETION_TOKENS,
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": BATCH_USER_PROMPT.format(jobs_block=jobs_block)},
         ],
-        "thinking": {"type": "disabled"},
     }
 
     with httpx.Client(timeout=90) as client:
         response = client.post(
-            MINIMAX_API_URL,
+            OPENROUTER_API_URL,
             headers={
-                "Authorization": f"Bearer {MINIMAX_API_KEY}",
+                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
                 "Content-Type": "application/json",
+                "HTTP-Referer": "https://github.com/hunainadhikari/JobHunter",
+                "X-Title": "JobHunter",
             },
             json=payload,
         )
@@ -270,7 +268,7 @@ def score_round(supabase, failed_ids: set) -> dict:
 
                 supabase.table("scores").upsert({
                     "job_id": job_id,
-                    "model": "MiniMax-M3",
+                    "model": SCORING_MODEL,
                     "score": score,
                     "role_fit_score": result.get("role_fit"),
                     "seniority_fit_score": result.get("seniority_fit"),

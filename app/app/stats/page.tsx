@@ -18,6 +18,8 @@ type ScoreRow = {
   scored_at: string;
 };
 
+const SCORING_MODEL = process.env.OPENROUTER_MODEL ?? "qwen/qwen3-30b-a3b";
+
 function formatDuration(start: string, end: string): string {
   const ms = new Date(end).getTime() - new Date(start).getTime();
   const mins = Math.floor(ms / 60000);
@@ -96,12 +98,12 @@ export default async function StatsPage() {
   });
 
   // Scoring stats
-  const minimaxScores = allScores.filter((s) => s.model === "MiniMax-M3");
+  const modelScores = allScores.filter((s) => s.model === SCORING_MODEL);
   const keywordFiltered = allScores.filter((s) => s.model === "keyword-filter");
-  const matchCount = minimaxScores.filter((s) => s.score >= 60).length;
+  const matchCount = modelScores.filter((s) => s.score >= 60).length;
   const avgScore =
-    minimaxScores.length > 0
-      ? Math.round(minimaxScores.reduce((s, r) => s + r.score, 0) / minimaxScores.length)
+    modelScores.length > 0
+      ? Math.round(modelScores.reduce((s, r) => s + r.score, 0) / modelScores.length)
       : 0;
 
   // Score distribution
@@ -116,7 +118,7 @@ export default async function StatsPage() {
   ];
   const distribution = buckets.map((b) => ({
     ...b,
-    count: minimaxScores.filter((s) => s.score >= b.min && s.score < b.max).length,
+    count: modelScores.filter((s) => s.score >= b.min && s.score < b.max).length,
   }));
   const maxBucket = Math.max(...distribution.map((d) => d.count), 1);
 
@@ -130,8 +132,8 @@ export default async function StatsPage() {
   const freeTierLimit = 400000;
   const freeTierPct = ((estTotalGBSec / freeTierLimit) * 100).toFixed(1);
 
-  // MiniMax token estimate (~1500 tokens per job scored)
-  const estTokens = minimaxScores.length * 1500;
+  // Approximate token usage (~1500 tokens per job scored).
+  const estTokens = modelScores.length * 1500;
 
   // Daily breakdown (last 7 days)
   const today = new Date();
@@ -141,7 +143,7 @@ export default async function StatsPage() {
     d.setDate(d.getDate() - i);
     const dateStr = d.toISOString().slice(0, 10);
     const dayRuns = runs.filter((r) => r.started_at.startsWith(dateStr));
-    const dayScores = minimaxScores.filter((s) => s.scored_at?.startsWith(dateStr));
+    const dayScores = modelScores.filter((s) => s.scored_at?.startsWith(dateStr));
     const dayMatches = dayScores.filter((s) => s.score >= 60).length;
     dailyStats.push({
       date: dateStr,
@@ -171,9 +173,9 @@ export default async function StatsPage() {
           {[
             { label: "Total Jobs", value: totalJobs.toLocaleString() },
             { label: "Matched (>=60)", value: matchedCount?.toLocaleString() || "0" },
-            { label: "MiniMax Scored", value: minimaxScores.length.toLocaleString() },
+            { label: "AI Scored", value: modelScores.length.toLocaleString() },
             { label: "Keyword Filtered", value: keywordFiltered.length.toLocaleString() },
-            { label: "Avg MiniMax Score", value: `${avgScore}/100` },
+            { label: "Avg AI Score", value: `${avgScore}/100` },
             { label: "Scrape Runs", value: runs.length.toString() },
             { label: "Companies Scraped", value: totalCompaniesScraped.toLocaleString() },
             { label: "Est. Tokens Used", value: estTokens > 1000000 ? `${(estTokens / 1000000).toFixed(1)}M` : `${(estTokens / 1000).toFixed(0)}K` },
@@ -254,7 +256,7 @@ export default async function StatsPage() {
         {/* Score distribution */}
         <div className="rounded-lg border border-[#27272a] bg-[#18181b] p-6 mb-8">
           <h2 className="text-sm font-semibold text-[#fafafa] mb-4 uppercase tracking-wider">
-            Score Distribution (MiniMax)
+            Score Distribution
           </h2>
           <div className="space-y-2">
             {distribution.map((d) => (
