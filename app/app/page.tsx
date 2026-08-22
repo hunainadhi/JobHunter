@@ -100,7 +100,7 @@ export default async function Home() {
           </h1>
           <div className="flex items-center gap-4">
             <Link
-              href="/applications"
+              href="/application"
               className="text-sm text-[#71717a] hover:text-[#fafafa] transition-colors"
             >
               Applications
