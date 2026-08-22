@@ -46,7 +46,7 @@ function formatDate(dateStr: string | null): string {
 }
 
 export function JobTable({ jobs }: { jobs: Job[] }) {
-  const [sortKey, setSortKey] = useState<SortKey>("score");
+  const [sortKey, setSortKey] = useState<SortKey>("posted");
   const [page, setPage] = useState(1);
   const pageSize = 25;
 
