@@ -1,16 +1,7 @@
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
-
-type ScrapeRun = {
-  ats_platform: string;
-  started_at: string;
-  completed_at: string | null;
-  status: string;
-  companies_scraped: number;
-  jobs_found: number;
-  jobs_new: number;
-};
 
 type ScoreRow = {
   model: string;
@@ -74,10 +65,6 @@ export default async function StatsPage() {
   // Aggregate ingestion stats
   const runs = allRuns || [];
   const totalCompaniesScraped = runs.reduce((s, r) => s + (r.companies_scraped || 0), 0);
-  const totalJobsFound = runs.reduce((s, r) => s + (r.jobs_found || 0), 0);
-  const totalJobsNew = runs.reduce((s, r) => s + (r.jobs_new || 0), 0);
-  const successRuns = runs.filter((r) => r.status === "success").length;
-  const failedRuns = runs.filter((r) => r.status === "failure").length;
 
   // Per-platform stats
   const platforms = [...new Set(runs.map((r) => r.ats_platform))].sort();
@@ -100,7 +87,6 @@ export default async function StatsPage() {
   // Scoring stats
   const modelScores = allScores.filter((s) => s.model === SCORING_MODEL);
   const keywordFiltered = allScores.filter((s) => s.model === "keyword-filter");
-  const matchCount = modelScores.filter((s) => s.score >= 60).length;
   const avgScore =
     modelScores.length > 0
       ? Math.round(modelScores.reduce((s, r) => s + r.score, 0) / modelScores.length)
@@ -160,12 +146,12 @@ export default async function StatsPage() {
           <h1 className="text-2xl font-bold tracking-widest uppercase text-[#fafafa]">
             Pipeline Stats
           </h1>
-          <a
+          <Link
             href="/"
             className="text-sm text-[#71717a] hover:text-[#fafafa] transition-colors"
           >
             &larr; Back
-          </a>
+          </Link>
         </div>
 
         {/* Overview cards */}

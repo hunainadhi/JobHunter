@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
+import { getSupabaseReadConfig } from "./supabase-config";
 
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const { url, key } = getSupabaseReadConfig();
+
+export const supabase = createClient(url, key);

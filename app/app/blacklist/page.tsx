@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { UnblockButton } from "@/components/unblock-button";
 
@@ -16,12 +17,12 @@ export default async function BlacklistPage() {
           <h1 className="text-2xl font-bold tracking-widest uppercase text-[#fafafa]">
             Blacklist
           </h1>
-          <a
+          <Link
             href="/"
             className="text-sm text-[#71717a] hover:text-[#fafafa] transition-colors"
           >
             ← Back
-          </a>
+          </Link>
         </div>
 
         {!companies || companies.length === 0 ? (

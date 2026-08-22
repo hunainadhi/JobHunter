@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { BlockButton } from "./block-button";
+import { QueueApplicationButton } from "./queue-application-button";
 
 type Job = {
   id: string;
@@ -37,6 +38,29 @@ function ScoreBadge({ score }: { score: number }) {
   else if (score >= 70) color = "text-[#a1a1aa]";
 
   return <span className={`font-mono font-bold ${color}`}>{score}</span>;
+}
+
+function SortButton({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`px-3 py-1 text-xs rounded border transition-colors ${
+        active
+          ? "border-teal-600 bg-teal-600/20 text-teal-400"
+          : "border-[#27272a] bg-[#18181b] text-[#71717a] hover:text-[#a1a1aa]"
+      }`}
+    >
+      {label}
+    </button>
+  );
 }
 
 function formatDate(dateStr: string | null): string {
@@ -75,28 +99,20 @@ export function JobTable({ jobs }: { jobs: Job[] }) {
     );
   }
 
-  function SortButton({ label, value }: { label: string; value: SortKey }) {
-    const active = sortKey === value;
-    return (
-      <button
-        onClick={() => { setSortKey(value); setPage(1); }}
-        className={`px-3 py-1 text-xs rounded border transition-colors ${
-          active
-            ? "border-teal-600 bg-teal-600/20 text-teal-400"
-            : "border-[#27272a] bg-[#18181b] text-[#71717a] hover:text-[#a1a1aa]"
-        }`}
-      >
-        {label}
-      </button>
-    );
-  }
-
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
         <span className="text-xs text-[#71717a]">Sort by:</span>
-        <SortButton label="Match score" value="score" />
-        <SortButton label="Date Posted" value="posted" />
+        <SortButton
+          label="Match score"
+          active={sortKey === "score"}
+          onClick={() => { setSortKey("score"); setPage(1); }}
+        />
+        <SortButton
+          label="Date Posted"
+          active={sortKey === "posted"}
+          onClick={() => { setSortKey("posted"); setPage(1); }}
+        />
       </div>
 
       <div className="rounded-lg border border-[#27272a] overflow-x-auto">
@@ -148,7 +164,8 @@ export function JobTable({ jobs }: { jobs: Job[] }) {
                   <TableCell className="text-[#a1a1aa]">
                     {job.location || "—"}
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-right whitespace-nowrap">
+                    <QueueApplicationButton jobId={job.id} />
                     <a
                       href={job.source_url}
                       target="_blank"

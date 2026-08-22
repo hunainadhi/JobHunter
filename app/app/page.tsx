@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { JobTable } from "@/components/job-table";
 import { HealthBanner } from "@/components/health-banner";
@@ -23,6 +24,14 @@ type JobRow = {
   }[];
 };
 
+type ScoreRow = {
+  model: string;
+  score: number;
+  matched_skills: string[] | null;
+  rationale: string | null;
+  jobs: Omit<JobRow, "scores"> | null;
+};
+
 export default async function Home() {
 
   const { data: blacklist } = await supabase
@@ -34,7 +43,7 @@ export default async function Home() {
 
   const scoreFields = "score, matched_skills, rationale, job_id, jobs!inner(id, title, company_name, location, source_url, first_seen_at, posted_at, ats_platform, ats_token)";
 
-  const allScoreRows: any[] = [];
+  const allScoreRows: ScoreRow[] = [];
   const PAGE_SIZE = 1000;
   for (let offset = 0; ; offset += PAGE_SIZE) {
     const { data } = await supabase
@@ -44,7 +53,7 @@ export default async function Home() {
       .gt("score", 60)
       .range(offset, offset + PAGE_SIZE - 1);
     if (!data || data.length === 0) break;
-    allScoreRows.push(...data);
+    allScoreRows.push(...(data as unknown as ScoreRow[]));
     if (data.length < PAGE_SIZE) break;
   }
   const scoreRows = allScoreRows;
@@ -59,7 +68,7 @@ export default async function Home() {
   // rescored because their source descriptions have already been removed.
   scoreRows.sort((a, b) => Number(b.model === SCORING_MODEL) - Number(a.model === SCORING_MODEL));
   for (const row of scoreRows || []) {
-    const job = (row as any).jobs;
+    const job = row.jobs;
     if (!job) continue;
     if (seenJobIds.has(job.id)) continue;
     if (blacklistedNames.has(job.company_name.toLowerCase())) continue;
@@ -90,18 +99,24 @@ export default async function Home() {
             JobHunter
           </h1>
           <div className="flex items-center gap-4">
-            <a
+            <Link
+              href="/applications"
+              className="text-sm text-[#71717a] hover:text-[#fafafa] transition-colors"
+            >
+              Applications
+            </Link>
+            <Link
               href="/stats"
               className="text-sm text-[#71717a] hover:text-[#fafafa] transition-colors"
             >
               Stats
-            </a>
-            <a
+            </Link>
+            <Link
               href="/blacklist"
               className="text-sm text-[#71717a] hover:text-[#fafafa] transition-colors"
             >
               Blacklist
-            </a>
+            </Link>
           </div>
         </div>
 
