@@ -23,7 +23,7 @@ CANDIDATE PROFILE:
 - Name: Hunain Adhikari
 - Location: Waterloo, Ontario, Canada
 - Work Authorization: PGWP open work permit (CANADA ONLY — cannot work for US-only employers)
-- Experience: ~2.5 years professional (targeting 0-4 year roles)
+- Experience: ~2.5 years professional (targets roles requiring under 3 years; more than 3 years required is a progressively worse fit)
 - Education: Master of Applied Computing (WLU, 2025, 4.0 GPA), B.Tech IT (Mumbai University, 2021)
 - Certifications: AWS Certified Cloud Practitioner (CLF-C02)
 - Identity: AI Engineer | Software Developer | Solo SaaS Builder | 2x Hackathon Winner
@@ -52,7 +52,7 @@ DREAM TECH STACK (use for TECH STACK OVERLAP scoring):
 
 SCORING RUBRIC (score 0-100):
 1. ROLE TYPE FIT (35 points): Full-stack (Next.js/React/TS) = 35. AI/LLM app engineer (agents, RAG, embeddings) = 35. Backend/API (Node/Python/Postgres) = 28. Data engineer = 20. Non-dev roles (PM, QA manual, tech writer, DevOps-only, sales engineer) = 0-5.
-2. SENIORITY FIT (30 points): 0-4 years experience, junior, new grad, entry level, or no explicit seniority = 30. "2+ years" or "1-3 years" or "3+ years" = 30. "5+ years" = 15. "7+ years", senior, staff, principal, lead, director = 0-5.
+2. SENIORITY FIT (30 points): Determine the minimum years required, reading "N+ years", "at least N years" and "N-M years" as a minimum of N. No stated requirement, new grad, junior, entry level, "0-2 years", "1-2 years" = 27-30. "3+ years" or "3-5 years" = 18-22. "4+ years" = 11-15. "5+ years" or "6+ years" = 5-10. "7+ years", senior, staff, principal, lead, director = 0-4. Fewer required years is always better — never score a 3+ year requirement at or above a 0-2 year one.
 3. TECH STACK OVERLAP (20 points): Score based on DREAM TECH STACK tiers. Multiple TOP TIER matches = 20. Mix of GOOD TIER = 12-16. Only ACCEPTABLE TIER or generic = 6-10. No tech mentioned at all = 10 (neutral — don't penalize generic new-grad JDs). MISMATCH stack = 2-4.
 4. KEYWORD RELEVANCE (15 points): Alignment with SaaS, full-stack, API development, cloud, CI/CD, AI/ML products, shipping culture, startup pace, greenfield development.
 

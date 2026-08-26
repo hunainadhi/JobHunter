@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import traceback
 from datetime import datetime, timezone
 
@@ -26,7 +27,7 @@ SYSTEM_PROMPT = """You are a precise job-resume matching engine. Score each job 
 
 CANDIDATE PROFILE:
 - Location and work authorization: Waterloo, Ontario, Canada. Holds a PGWP open work permit. Eligible for Canadian roles and Canada-eligible remote roles; not eligible for US-only roles or roles requiring US work authorization without explicit Canadian eligibility.
-- Professional experience: 2 years as a Software Engineer at Barclays in Pune, India (Aug 2021-Aug 2023), plus Canadian Software Developer experience at Enzuzo in Waterloo, Ontario (Nov-Dec 2025). This is real professional experience, not only academic work. Target roles requiring 0-3 years or 1-3 years; 4 years can still be plausible when the fit is strong.
+- Professional experience: 2 years as a Software Engineer at Barclays in Pune, India (Aug 2021-Aug 2023), plus Canadian Software Developer experience at Enzuzo in Waterloo, Ontario (Nov-Dec 2025). This is real professional experience, not only academic work. The candidate targets roles requiring under 3 years of experience; a role demanding more than 3 years is a progressively worse fit and must be scored down.
 - Barclays: Built Ab Initio ETL plans and graphs, Oracle SQL, TWS scheduling, Jenkins CI/testing, and Hive migrations. Processed 5M+ daily records and $4B+ credit-card transactions. Reduced batch processing by 33% and latency to under one hour.
 - Enzuzo: Refactored TypeScript consent-management logic and internal REST APIs in a privacy-compliance SaaS. Reduced regression defects 30% and incorrect production script execution 80%. Wrote TypeScript unit/integration tests; supported Docker deployments and Git releases.
 - Canadian experience: Instructor Assistant at Wilfrid Laurier University, teaching/grading HTML, CSS, JavaScript, and ARM assembly coursework.
@@ -50,7 +51,13 @@ TECHNICAL FIT GUIDANCE:
 
 SCORING RUBRIC (score 0-100):
 1. ROLE TYPE FIT (35): 32-35 for priority 1 or 2 roles; 26-31 for backend/API; 20-26 for data engineering; 15-22 for code-heavy QA/SDET; 0-8 for non-engineering, pure manual QA, sales, support, DevOps-only, or management roles. Use the job duties, not title alone.
-2. SENIORITY FIT (30): 28-30 for new grad, junior, entry, 0-3 years, 1-3 years, or no stated experience; 23-27 for 3-4 years; 12-18 for 5+ years; 0-8 for senior, staff, principal, lead, architect, manager, director, or 7+ years. Do not penalize the candidate because Barclays experience was in India; it counts as professional experience.
+2. SENIORITY FIT (30): First determine MIN_YEARS, the minimum years of professional experience the posting requires. Read "N+ years", "at least N years", "minimum N years", and "N-M years" as a minimum of N. A posting that says "3+ years" requires 3, NOT 0. If several requirements are listed, use the one for the advertised role. Then score:
+   - No stated experience requirement, or intern, new grad, entry, junior, associate, 0-2 years, 1-2 years, "up to 2 years" (MIN_YEARS 0-2): 27-30
+   - MIN_YEARS 3: 18-22
+   - MIN_YEARS 4: 11-15
+   - MIN_YEARS 5-6: 5-10
+   - MIN_YEARS 7 or more, or senior, staff, principal, lead, architect, manager, director, head, or VP titles: 0-4
+   Fewer required years is always better: never score a 3+ year requirement at or above a 0-2 year requirement. Do not penalize the candidate because Barclays experience was in India; it counts as professional experience.
 3. TECH STACK OVERLAP (20): 17-20 for multiple highest-overlap skills; 12-16 for several strong relevant or transferable skills; 7-11 for a partial match; 2-6 for a mostly mismatched stack. A vague JD with no stack information earns 10, not zero.
 4. OPPORTUNITY QUALITY (15): Reward product/SaaS building, API development, AI products, cloud, CI/CD, data scale, greenfield work, and shipping ownership. Deduct for requirements that materially conflict with the profile.
 
@@ -80,6 +87,8 @@ EXPERIENCE LEVEL — classify into exactly one:
 - mid (intermediate, 2-5 years, or some professional experience required)
 - senior (senior, staff, lead, principal, architect, director, head, VP, 5+ years, manager-level IC or above)
 
+Also return min_years_experience: the MIN_YEARS integer you determined above. Use 0 when the posting states no experience requirement or targets interns/new grads, the lower bound of any stated range, and N for "N+".
+
 Return every requested job exactly once. The component scores must be integers within their stated ranges, their sum must equal score before any location deduction, and the rationale must name the strongest fit and any material limitation. You MUST respond ONLY with a valid JSON array. No other text."""
 
 BATCH_USER_PROMPT = """Score these job postings:
@@ -98,9 +107,94 @@ Respond with ONLY a JSON array:
     "matched_skills": ["skill1", "skill2"],
     "rationale": "one sentence explaining the score",
     "category": "one of the 12 categories from JOB CATEGORY list",
-    "level": "one of: intern, entry, mid, senior"
+    "level": "one of: intern, entry, mid, senior",
+    "min_years_experience": 0
   }}
 ]"""
+
+# Experience-requirement adjustment, applied after the model's score the same
+# way the location deduction is. The seniority rubric alone leaves only a few
+# points between a "0-2 years" and a "3+ years" posting, which let heavier
+# postings outrank lighter ones on the other components. This makes the tilt
+# deterministic: under 3 years is rewarded, over 3 years is penalized hard.
+# Ordered (max_years, adjustment) — first threshold the requirement fits wins.
+EXPERIENCE_ADJUSTMENTS = [
+    (0, 6),
+    (1, 6),
+    (2, 4),
+    (3, 0),
+    (4, -10),
+    (5, -20),
+    (6, -28),
+]
+MAX_EXPERIENCE_PENALTY = -35
+
+# "3+ years of experience", "at least 5 years' experience", "2-4 years experience"
+YEARS_PATTERN = re.compile(
+    r"(\d{1,2})\s*(?:\+|-|\u2013|to)?\s*(?:\d{1,2})?\s*\+?\s*years?[^.\n]{0,40}?experien",
+    re.IGNORECASE,
+)
+
+
+def extract_min_years(text: str) -> int | None:
+    """Fallback parse of the minimum required years straight from the JD."""
+    if not text:
+        return None
+    found = [int(m.group(1)) for m in YEARS_PATTERN.finditer(text)]
+    sane = [y for y in found if 0 <= y <= 20]
+    # Conservative: several mentions usually means several role tracks, so take
+    # the lowest bar rather than over-penalizing on an unrelated sentence.
+    return min(sane) if sane else None
+
+
+def resolve_min_years(result: dict, job: dict) -> int | None:
+    raw = result.get("min_years_experience")
+    if isinstance(raw, bool):
+        raw = None
+    if isinstance(raw, str) and raw.strip().isdigit():
+        raw = int(raw.strip())
+    if isinstance(raw, (int, float)) and 0 <= raw <= 30:
+        return int(raw)
+    return extract_min_years(job.get("description") or "")
+
+
+def experience_adjustment(min_years: int | None) -> int:
+    """Bonus for sub-3-year postings, escalating penalty past 3 years."""
+    if min_years is None:
+        return 0
+    for threshold, adjustment in EXPERIENCE_ADJUSTMENTS:
+        if min_years <= threshold:
+            return adjustment
+    return MAX_EXPERIENCE_PENALTY
+
+
+# Set once per invocation if the scores table predates migration 017, so we
+# stop re-attempting a write PostgREST will keep rejecting. The adjustment is
+# already baked into `score`; only the audit columns are lost.
+_EXPERIENCE_COLUMNS_MISSING = False
+EXPERIENCE_COLUMNS = ("min_years_experience", "experience_adjustment")
+
+
+def upsert_score(supabase, payload: dict) -> None:
+    """Upsert a score, tolerating a scores table without the 017 columns."""
+    global _EXPERIENCE_COLUMNS_MISSING
+
+    if _EXPERIENCE_COLUMNS_MISSING:
+        payload = {k: v for k, v in payload.items() if k not in EXPERIENCE_COLUMNS}
+
+    try:
+        supabase.table("scores").upsert(payload, on_conflict="job_id,model").execute()
+        return
+    except Exception as e:
+        message = str(e)
+        if _EXPERIENCE_COLUMNS_MISSING or not any(c in message for c in EXPERIENCE_COLUMNS):
+            raise
+        print(f"scores table missing migration 017 columns, writing without them: {message[:200]}")
+
+    _EXPERIENCE_COLUMNS_MISSING = True
+    trimmed = {k: v for k, v in payload.items() if k not in EXPERIENCE_COLUMNS}
+    supabase.table("scores").upsert(trimmed, on_conflict="job_id,model").execute()
+
 
 def build_embed_text(job: dict) -> str:
     parts = [job["title"]]
@@ -264,12 +358,18 @@ def score_round(supabase, failed_ids: set) -> dict:
                     continue
                 returned_ids.add(job_id)
 
+                min_years = resolve_min_years(result, job_id_map[job_id])
+                adjustment = experience_adjustment(min_years)
+                score = max(0, min(100, int(round(score)) + adjustment))
+
                 new_status = "matched" if score >= MATCH_THRESHOLD else "scored"
 
-                supabase.table("scores").upsert({
+                upsert_score(supabase, {
                     "job_id": job_id,
                     "model": SCORING_MODEL,
                     "score": score,
+                    "min_years_experience": min_years,
+                    "experience_adjustment": adjustment,
                     "role_fit_score": result.get("role_fit"),
                     "seniority_fit_score": result.get("seniority_fit"),
                     "stack_overlap_score": result.get("stack_overlap"),
@@ -279,7 +379,7 @@ def score_round(supabase, failed_ids: set) -> dict:
                     "category": result.get("category"),
                     "level": result.get("level"),
                     "scored_at": datetime.now(timezone.utc).isoformat(),
-                }, on_conflict="job_id,model").execute()
+                })
 
                 job_update = {"status": new_status, "description": None}
                 if job_id in embeddings:
