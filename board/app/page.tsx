@@ -21,21 +21,21 @@ function formatLastScrape(iso: string | null): string {
 const steps = [
   {
     icon: RefreshCw,
-    title: "Scrape every ATS, daily",
+    title: "Jobs come straight from the company",
     body:
       "A scheduled pipeline crawls Greenhouse, Lever, Ashby, Workable, SmartRecruiters, and 8 more applicant-tracking platforms directly — no third-party job board, no stale syndication. New and updated postings are fetched every day.",
   },
   {
     icon: Search,
-    title: "Every posting gets a vector embedding",
+    title: "Search the way you'd describe it out loud",
     body:
       "Each job's title, company, and location is converted into a vector embedding and stored in Postgres with pgvector. That's what powers the search bar: search “AI infra engineer” and get postings that match the meaning, not just the exact words.",
   },
   {
     icon: Filter,
-    title: "Filtered down to what's real",
+    title: "Dead listings disappear on their own",
     body:
-      "Postings are checked against Canadian locations and remote eligibility, deduplicated against companies you've blocked, and automatically expired once a listing goes quiet — so the board stays a list of jobs you can actually apply to.",
+      "Every posting is checked against Canadian locations and remote eligibility, then automatically expired once the listing goes quiet — so the board stays a list of jobs you can actually apply to, not an archive.",
   },
 ];
 
@@ -58,7 +58,7 @@ export default async function LandingPage() {
               textWrap: "balance",
             }}
           >
-            Every ATS, one board — searched by meaning, not keywords.
+            Every job in Canada, straight from the source — searched by meaning, not keywords.
           </h1>
           <p
             style={{
@@ -69,14 +69,25 @@ export default async function LandingPage() {
               margin: "0 auto 32px",
             }}
           >
-            JobHunter scrapes company career pages across Greenhouse, Lever, Ashby, and 9 other
-            applicant-tracking systems on a daily schedule, then embeds every posting as a vector so
-            you can search job listings the way you'd describe them to a person. Try it below.
+            JobHunter scrapes company career pages directly — Greenhouse, Lever, Ashby, and 9 other
+            hiring platforms — every single day. No aggregator in the middle, no stale reposts.
+            Describe the job you want the way you'd say it to a person, and search every live
+            posting. Try it below.
           </p>
 
-          <div style={{ marginBottom: 16 }}>
+          <div style={{ marginBottom: 12 }}>
             <HeroSearch />
           </div>
+
+          <p
+            style={{
+              fontSize: 14,
+              color: "var(--text-body-subtle)",
+              marginBottom: 24,
+            }}
+          >
+            Free — no account, no email, no paywall.
+          </p>
 
           {totalJobs > 0 ? (
             <Link href="/jobs" className="btn-secondary" style={{ padding: "10px 18px", fontSize: 14, marginBottom: 40 }}>
@@ -110,7 +121,7 @@ export default async function LandingPage() {
               <strong style={{ color: "var(--text-heading)", fontWeight: 600 }}>
                 {PLATFORMS.length}
               </strong>{" "}
-              ATS sources
+              hiring platforms
             </span>
             <span aria-hidden style={{ color: "var(--border-default-strong)" }}>
               &middot;
@@ -255,8 +266,8 @@ export default async function LandingPage() {
             Or skip the search and see everything
           </h2>
           <p style={{ fontSize: 16, color: "var(--text-body)", marginBottom: 28 }}>
-            Every live posting across all {PLATFORMS.length} sources, filterable by category,
-            level, and platform.
+            Every live posting across all {PLATFORMS.length} sources — filter by location and
+            radius, company, platform, and how recently it was posted.
           </p>
           <Link href="/jobs" className="btn-primary" style={{ padding: "14px 28px", fontSize: 16 }}>
             Open the job board

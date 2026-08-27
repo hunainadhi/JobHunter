@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "JobHunter — AI job search across every ATS";
+export const alt = "JobHunter — every job in Canada, searched by meaning";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -42,7 +42,7 @@ export default function OpengraphImage() {
               maxWidth: 900,
             }}
           >
-            AI job search across every ATS
+            Every job in Canada, searched by meaning
           </div>
           <div
             style={{
@@ -54,15 +54,15 @@ export default function OpengraphImage() {
               lineHeight: 1.35,
             }}
           >
-            Semantic search over 25,000+ postings, powered by vector embeddings.
+            Scraped straight from company career pages, every single day.
           </div>
         </div>
 
         <div style={{ display: "flex", gap: "56px", alignItems: "flex-end" }}>
           {[
-            ["12", "ATS sources"],
-            ["25,000+", "postings"],
-            ["$0", "per month"],
+            ["12", "hiring platforms"],
+            ["10,000+", "live postings"],
+            ["Free", "no account"],
           ].map(([value, label]) => (
             <div key={label} style={{ display: "flex", flexDirection: "column" }}>
               <div style={{ display: "flex", fontSize: 46, fontWeight: 700, color: "#fafafa" }}>

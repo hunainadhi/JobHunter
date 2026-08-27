@@ -8,9 +8,9 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const title = "JobHunter — AI job search across every ATS";
+const title = "JobHunter — every job in Canada, searched by meaning";
 const description =
-  "JobHunter scrapes Greenhouse, Lever, Ashby, and 9 other ATS platforms daily, then uses vector embeddings to power semantic job search across Canada.";
+  "Search every live job posting in Canada, scraped straight from company career pages across Greenhouse, Lever, Ashby, and 9 other hiring platforms every day. Free, no account needed.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://jobhunter.hunainadhikari.com"),
