@@ -12,7 +12,7 @@ from pathlib import Path
 from supabase import create_client
 
 from jobhive.exceptions import CompanyNotFoundError
-from location_filter import is_canadian_location
+from location_resolver import Gazetteer, resolve
 
 SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_SERVICE_KEY = os.environ["SUPABASE_SERVICE_KEY"]
@@ -137,6 +137,106 @@ def heal_dead_company(supabase, ats_platform: str, ats_token: str):
     ).eq("ats_token", ats_token).execute()
 
 
+_GAZETTEER: Gazetteer | None = None
+# Resolutions computed this invocation, so the alias cache is written once per
+# distinct string rather than once per job.
+_RESOLUTIONS: dict[str, object] = {}
+
+
+def get_gazetteer(supabase) -> Gazetteer:
+    global _GAZETTEER
+    if _GAZETTEER is None:
+        rows = []
+        for offset in range(0, 20000, 1000):
+            resp = (
+                supabase.table("places")
+                .select("slug, name, province, latitude, longitude, population")
+                .range(offset, offset + 999)
+                .execute()
+            )
+            page = resp.data or []
+            rows.extend(page)
+            if len(page) < 1000:
+                break
+        _GAZETTEER = Gazetteer.from_rows(rows)
+        print(f"Gazetteer loaded: {len(rows)} places")
+    return _GAZETTEER
+
+
+def resolve_cached(raw: str | None, gazetteer: Gazetteer):
+    key = (raw or "").strip()
+    if key not in _RESOLUTIONS:
+        _RESOLUTIONS[key] = resolve(key, gazetteer)
+    return _RESOLUTIONS[key]
+
+
+def filter_canadian(jobs: list, supabase, stats: dict) -> list:
+    """Keep jobs whose location resolves to Canada; log the rest.
+
+    Replaces the keyword matching in location_filter.py, which could not tell
+    Saskatchewan's 'sk' from Slovakia's, Ontario the province from Ontario
+    California, or Vancouver BC from Vancouver WA. Rejections are logged with a
+    reason rather than dropped silently — and they never reach the scoring
+    Lambda, which is what keeps the model spend flat.
+    """
+    gazetteer = get_gazetteer(supabase)
+    kept = []
+    for job in jobs:
+        if not job.description:
+            continue
+        resolution = resolve_cached(job.location, gazetteer)
+        if resolution.is_canadian:
+            kept.append(job)
+        else:
+            stats.setdefault("jobs_rejected", 0)
+            stats["jobs_rejected"] += 1
+            stats.setdefault("reject_reasons", {})
+            bucket = f"{resolution.status}: {resolution.reason[:60]}"
+            stats["reject_reasons"][bucket] = stats["reject_reasons"].get(bucket, 0) + 1
+    return kept
+
+
+def flush_alias_cache(supabase) -> None:
+    """Persist this invocation's resolutions so job_locations can see new jobs.
+
+    A job whose raw string is missing from location_aliases resolves to
+    'unresolved' through the view and never appears on the board, so this must
+    run after inserting jobs.
+    """
+    if not _RESOLUTIONS:
+        return
+
+    alias_rows, link_rows = [], []
+    for raw, resolution in _RESOLUTIONS.items():
+        if not resolution.is_canadian:
+            continue
+        alias_rows.append({
+            "raw_location": raw,
+            "status": resolution.status,
+            "reason": (resolution.reason or "")[:500],
+            "resolver_version": 1,
+        })
+        for slug in resolution.slugs:
+            link_rows.append({"raw_location": raw, "place_slug": slug})
+
+    try:
+        for start in range(0, len(alias_rows), 500):
+            supabase.table("location_aliases").upsert(
+                alias_rows[start:start + 500], on_conflict="raw_location"
+            ).execute()
+        for start in range(0, len(link_rows), 500):
+            supabase.table("location_alias_places").upsert(
+                link_rows[start:start + 500], on_conflict="raw_location,place_slug"
+            ).execute()
+        print(f"Alias cache: {len(alias_rows)} strings, {len(link_rows)} place links")
+    except Exception as e:
+        # Never fail an ingest over the cache — scripts/resolve_locations.py
+        # rebuilds it from the raw strings, which are already stored.
+        print(f"Alias cache write failed (non-fatal): {e}")
+    finally:
+        _RESOLUTIONS.clear()
+
+
 def load_blacklist(supabase) -> set:
     resp = supabase.table("blacklisted_companies").select("company_name, ats_token").execute()
     blacklisted = set()
@@ -178,14 +278,7 @@ def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: 
             if known_dead and slug in known_dead:
                 heal_dead_company(supabase, ats_platform, slug)
 
-            canadian_jobs = []
-            for job in jobs:
-                if not job.description:
-                    continue
-                country_iso = getattr(job, "country_iso", None)
-                if is_canadian_location(job.location, country_iso):
-                    canadian_jobs.append(job)
-
+            canadian_jobs = filter_canadian(jobs, supabase, stats)
             stats["jobs_found"] += len(canadian_jobs)
 
             for job in canadian_jobs:
@@ -253,6 +346,7 @@ def scrape_batch(ats_platform: str, companies: list[dict], supabase, blacklist: 
 
         time.sleep(SCRAPE_DELAY)
 
+    flush_alias_cache(supabase)
     return stats
 
 
@@ -265,14 +359,7 @@ def scrape_board(ats_platform: str, supabase, blacklist: set) -> dict:
         jobs = scraper.fetch()
         jobs = scraper.enrich_descriptions(jobs)
 
-        canadian_jobs = []
-        for job in jobs:
-            if not job.description:
-                continue
-            country_iso = getattr(job, "country_iso", None)
-            if is_canadian_location(job.location, country_iso):
-                canadian_jobs.append(job)
-
+        canadian_jobs = filter_canadian(jobs, supabase, stats)
         stats["jobs_found"] = len(canadian_jobs)
 
         for job in canadian_jobs:
@@ -325,6 +412,7 @@ def scrape_board(ats_platform: str, supabase, blacklist: set) -> dict:
     except Exception as e:
         stats["errors"].append(f"{ats_platform}: {str(e)[:200]}")
 
+    flush_alias_cache(supabase)
     return stats
 
 

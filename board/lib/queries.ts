@@ -1,21 +1,9 @@
 import { getSupabase } from "./supabase";
-import type { JobRow, BoardSearchParams, DateFilter } from "./types";
+import type { JobRow, BoardSearchParams, DateFilter, PlaceOption } from "./types";
+import { DEFAULT_RADIUS_KM } from "./types";
 
 const PAGE_SIZE = 30;
 const SCORING_MODEL = process.env.OPENROUTER_MODEL ?? "qwen/qwen3-30b-a3b";
-
-const JOB_COLUMNS = "id, title, company_name, location, is_remote, apply_url, source_url, posted_at, first_seen_at, ats_platform";
-
-function escapeIlike(value: string): string {
-  return value.replace(/%/g, "\\%").replace(/_/g, "\\_");
-}
-
-// Values embedded in .or() filter strings are parsed by PostgREST's grammar,
-// where , ( ) . split tokens — unquoted user input like "foo, bar" corrupts
-// the filter. Double-quoting the value makes it a single literal.
-function quoteOrValue(value: string): string {
-  return `"${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
-}
 
 async function withRetry<T>(fn: () => Promise<T>, retries = 1, delayMs = 1500): Promise<T> {
   for (let attempt = 0; attempt <= retries; attempt++) {
@@ -60,55 +48,6 @@ async function embedQuery(text: string): Promise<number[]> {
   return data.data[0].embedding;
 }
 
-async function fetchJobsSemantic(
-  params: BoardSearchParams,
-  cutoff: string | null,
-  sortField: string
-): Promise<{ jobs: JobRow[]; totalCount: number }> {
-  const page = Math.max(1, parseInt(params.page || "1", 10) || 1);
-  const embedding = await embedQuery(params.q!.trim());
-
-  // Sorting happens in the RPC so ordering is consistent across pages
-  // (page-local re-sorting made page 2 overlap/invert page 1). total_count
-  // comes back on every row via a window function, replacing the second
-  // count RPC that re-ran the whole similarity scan.
-  const { data, error } = await getSupabase().rpc("match_jobs", {
-    query_embedding: embedding,
-    match_threshold: 0.3,
-    match_count: PAGE_SIZE,
-    offset_val: (page - 1) * PAGE_SIZE,
-    sort_by: sortField,
-    filter_location: params.location?.trim() || null,
-    filter_company: params.company?.trim() || null,
-    filter_platform: params.platform || null,
-    filter_category: params.category || null,
-    filter_level: params.level || null,
-    filter_date_cutoff: cutoff,
-  });
-
-  if (error) {
-    console.error("Semantic search error:", error);
-    return { jobs: [], totalCount: 0 };
-  }
-
-  const rows = (data as any[]) || [];
-  const jobs: JobRow[] = rows.map((row) => ({
-    id: row.id,
-    title: row.title,
-    company_name: row.company_name,
-    location: row.location,
-    is_remote: row.is_remote,
-    apply_url: row.apply_url,
-    source_url: row.source_url,
-    posted_at: row.posted_at,
-    first_seen_at: row.first_seen_at,
-    ats_platform: row.ats_platform,
-    category: row.category,
-  }));
-
-  return { jobs, totalCount: Number(rows[0]?.total_count ?? 0) };
-}
-
 export async function fetchJobs(params: BoardSearchParams): Promise<{
   jobs: JobRow[];
   totalCount: number;
@@ -116,114 +55,116 @@ export async function fetchJobs(params: BoardSearchParams): Promise<{
   return withRetry(() => fetchJobsInner(params));
 }
 
+/**
+ * Single query path for the board.
+ *
+ * Keyword and semantic search used to be two separate queries — a PostgREST
+ * query builder and the match_jobs RPC — which could disagree on filters and
+ * pinned different scoring models. Radius search cannot be expressed in the
+ * query builder at all (it needs an EXISTS against a view), so both now go
+ * through search_jobs.
+ */
 async function fetchJobsInner(params: BoardSearchParams): Promise<{
   jobs: JobRow[];
   totalCount: number;
 }> {
   const page = Math.max(1, parseInt(params.page || "1", 10) || 1);
-  const sortField = params.sort === "title" ? "title" : "posted_at";
-  const sortAsc = params.sort === "title" ? true : false;
   const dateFilter = (params.date || "all") as DateFilter;
   const cutoff = getDateCutoff(dateFilter);
+  const query = params.q?.trim() || null;
+  const place = params.place?.trim() || null;
 
-  if (params.q?.trim() && process.env.OPENAI_API_KEY) {
+  let radius = parseInt(params.radius || "", 10);
+  if (!Number.isFinite(radius) || radius <= 0) radius = DEFAULT_RADIUS_KM;
+
+  // Embed only when a term was typed. A failure falls back to ILIKE rather than
+  // dropping the search entirely.
+  let embedding: number[] | null = null;
+  if (query && process.env.OPENAI_API_KEY) {
     try {
-      // No explicit sort → rank by vector similarity (relevance); an explicit
-      // user choice (title / posted_at) still overrides it.
-      const semanticSort = params.sort === "title" || params.sort === "posted_at"
-        ? params.sort
-        : "similarity";
-      return await fetchJobsSemantic(params, cutoff, semanticSort);
+      embedding = await embedQuery(query);
     } catch (e) {
-      console.error("Semantic search failed, falling back to ILIKE:", e);
+      console.error("Embedding failed, falling back to keyword match:", e);
     }
   }
 
-  const needsScores = !!params.category || !!params.level;
-
-  let query;
-  if (needsScores) {
-    query = getSupabase()
-      .from("jobs")
-      .select(
-        `${JOB_COLUMNS}, scores!inner(category, level)`,
-        { count: "estimated" }
-      )
-      .neq("status", "expired");
-
-    // Pin the join to one model: jobs can have multiple scores rows
-    // (the scorer and keyword-filter), which would duplicate job rows.
-    query = query.eq("scores.model", SCORING_MODEL);
-    if (params.category) {
-      query = query.eq("scores.category", params.category);
-    }
-    if (params.level) {
-      query = query.eq("scores.level", params.level);
-    }
+  let sortBy: string;
+  if (params.sort === "title" || params.sort === "posted_at" || params.sort === "distance") {
+    sortBy = params.sort;
+  } else if (embedding) {
+    sortBy = "similarity";       // no explicit choice + a term → rank by relevance
+  } else if (place) {
+    sortBy = "distance";         // no explicit choice + a place → nearest first
   } else {
-    query = getSupabase()
-      .from("jobs")
-      .select(JOB_COLUMNS, { count: "estimated" })
-      .neq("status", "expired");
+    sortBy = "posted_at";
   }
 
-  if (params.q) {
-    const pattern = quoteOrValue(`%${escapeIlike(params.q.trim())}%`);
-    query = query.or(`title.ilike.${pattern},company_name.ilike.${pattern}`);
-  }
-
-  if (params.location) {
-    const escaped = escapeIlike(params.location.trim());
-    const locationLower = params.location.trim().toLowerCase();
-    if (locationLower === "remote") {
-      query = query.or(`location.ilike.${quoteOrValue(`%${escaped}%`)},is_remote.eq.true`);
-    } else {
-      query = query.ilike("location", `%${escaped}%`);
-    }
-  }
-
-  if (params.company) {
-    const escaped = escapeIlike(params.company.trim());
-    query = query.ilike("company_name", `%${escaped}%`);
-  }
-
-  if (params.platform) {
-    query = query.eq("ats_platform", params.platform);
-  }
-
-  if (cutoff) {
-    query = query.or(
-      `posted_at.gte.${cutoff},and(posted_at.is.null,first_seen_at.gte.${cutoff})`
-    );
-  }
-
-  const from = (page - 1) * PAGE_SIZE;
-  const to = from + PAGE_SIZE - 1;
-
-  query = query
-    .order(sortField, { ascending: sortAsc, nullsFirst: false })
-    .range(from, to);
-
-  const { data, count, error } = await query;
+  const { data, error } = await getSupabase().rpc("search_jobs", {
+    query_embedding: embedding,
+    match_threshold: 0.3,
+    match_count: PAGE_SIZE,
+    offset_val: (page - 1) * PAGE_SIZE,
+    sort_by: sortBy,
+    filter_q: embedding ? null : query,
+    filter_location: params.location?.trim() || null,
+    filter_place: place,
+    filter_radius_km: radius,
+    include_remote: params.remote !== "0",
+    filter_company: params.company?.trim() || null,
+    filter_platform: params.platform || null,
+    filter_category: params.category || null,
+    filter_level: params.level || null,
+    filter_date_cutoff: cutoff,
+    scoring_model: SCORING_MODEL,
+  });
 
   if (error) {
+    console.error("search_jobs error:", error);
     throw error;
   }
 
-  let jobs: JobRow[];
-  if (needsScores) {
-    jobs = ((data as any[]) || []).map((row) => {
-      const { scores, ...jobFields } = row as any;
-      return { ...jobFields, category: scores?.category } as JobRow;
-    });
-  } else {
-    jobs = (data as JobRow[]) || [];
-  }
+  const rows = (data as Record<string, unknown>[]) || [];
+  const jobs: JobRow[] = rows.map((row) => ({
+    id: row.id as string,
+    title: row.title as string,
+    company_name: row.company_name as string,
+    location: row.location as string | null,
+    is_remote: row.is_remote as boolean,
+    apply_url: row.apply_url as string,
+    source_url: row.source_url as string | null,
+    posted_at: row.posted_at as string | null,
+    first_seen_at: row.first_seen_at as string,
+    ats_platform: row.ats_platform as string,
+    category: row.category as string | null,
+    location_status: row.location_status as string | null,
+    distance_km: row.distance_km === null ? null : Number(row.distance_km),
+  }));
 
-  return {
-    jobs,
-    totalCount: count || 0,
-  };
+  return { jobs, totalCount: Number(rows[0]?.total_count ?? 0) };
+}
+
+/**
+ * Places that actually have jobs, for the location autocomplete.
+ *
+ * Sent to the client once and filtered in memory — a few hundred rows, so
+ * typing costs no round-trip, and a suggestion can never lead to an empty page.
+ */
+export async function fetchPlacesWithJobs(): Promise<PlaceOption[]> {
+  try {
+    const { data, error } = await getSupabase().rpc("places_with_jobs");
+    if (error) throw error;
+    return ((data as Record<string, unknown>[]) || []).map((row) => ({
+      slug: row.slug as string,
+      name: row.name as string,
+      province: row.province as string,
+      job_count: Number(row.job_count ?? 0),
+    }));
+  } catch (e) {
+    // The board must still render if the gazetteer isn't seeded yet; the
+    // location box falls back to plain free text.
+    console.error("places_with_jobs unavailable:", e);
+    return [];
+  }
 }
 
 export async function fetchLastScrape(): Promise<string | null> {

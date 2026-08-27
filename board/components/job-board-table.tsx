@@ -145,7 +145,10 @@ export function JobBoardTable({ jobs }: { jobs: JobRow[] }) {
                 <span style={{ color: "var(--text-body)" }}>
                   {job.location || "—"}
                 </span>
-                {job.is_remote && (
+                {/* is_remote is unreliable — the same location string arrives
+                    true from one scraper and false from another — so the
+                    resolved status is trusted first and the flag is a fallback. */}
+                {(job.location_status === "countrywide" || job.is_remote) && (
                   <span
                     style={{
                       display: "inline-block",
@@ -157,9 +160,24 @@ export function JobBoardTable({ jobs }: { jobs: JobRow[] }) {
                       background: "var(--bg-success-soft)",
                       border: "1px solid var(--border-success-subtle)",
                       color: "var(--text-fg-success-strong)",
+                      whiteSpace: "nowrap",
                     }}
                   >
-                    Remote
+                    {job.location_status === "countrywide" ? "Remote — Canada" : "Remote"}
+                  </span>
+                )}
+                {typeof job.distance_km === "number" && (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      marginLeft: 6,
+                      fontSize: 12,
+                      color: "var(--text-body-subtle)",
+                      fontVariantNumeric: "tabular-nums",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {job.distance_km < 1 ? "here" : `${Math.round(job.distance_km)} km`}
                   </span>
                 )}
               </td>

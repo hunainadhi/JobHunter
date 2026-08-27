@@ -1,0 +1,1753 @@
+slug,name,ascii_name,province,province_name,latitude,longitude,population,feature_class,feature_code
+metro-vancouver-regional-district-bc,Metro Vancouver Regional District,Metro Vancouver Regional District,BC,British Columbia,49.33296,-123.00264,3108926,A,ADM2
+toronto-on,Toronto,Toronto,ON,Ontario,43.70643,-79.39864,2794356,P,PPLA
+montreal-qc,Montréal,Montreal,QC,Quebec,45.50008,-73.68248,2004265,A,ADM2
+monteregie-qc,Montérégie,Monteregie,QC,Quebec,45.38338,-73.09915,1507070,A,ADM2
+calgary-ab,Calgary,Calgary,AB,Alberta,51.05011,-114.08529,1306784,P,PPL
+peel-on,Peel,Peel,ON,Ontario,43.75011,-79.78293,1296814,A,ADM2
+york-on,York,York,ON,Ontario,44.00011,-79.46632,1032524,A,ADM2
+ottawa-on,Ottawa,Ottawa,ON,Ontario,45.41117,-75.69812,1017449,P,PPLC
+edmonton-ab,Edmonton,Edmonton,AB,Alberta,53.55014,-113.46871,1010899,P,PPLA
+winnipeg-mb,Winnipeg,Winnipeg,MB,Manitoba,49.8844,-97.14704,749607,P,PPLA
+mississauga-on,Mississauga,Mississauga,ON,Ontario,43.5789,-79.6583,717961,P,PPL
+toronto-county-on,Toronto county,Toronto county,ON,Ontario,43.69655,-79.42909,670000,A,ADM2
+vancouver-bc,Vancouver,Vancouver,BC,British Columbia,49.24966,-123.11934,662248,P,PPL
+brampton-on,Brampton,Brampton,ON,Ontario,43.68341,-79.76633,656480,P,PPL
+north-york-on,North York,North York,ON,Ontario,43.76681,-79.4163,636000,A,ADM3
+durham-on,Durham,Durham,ON,Ontario,44.20012,-78.99957,608124,A,ADM2
+scarborough-on,Scarborough,Scarborough,ON,Ontario,43.77223,-79.25666,600000,A,ADM3
+hamilton-on,Hamilton,Hamilton,ON,Ontario,43.25011,-79.84963,569353,P,PPL
+surrey-bc,Surrey,Surrey,BC,British Columbia,49.10635,-122.82509,568322,P,PPL
+quebec-qc,Québec,Quebec,QC,Quebec,46.81228,-71.21454,531902,P,PPLA
+halton-on,Halton,Halton,ON,Ontario,43.50011,-79.88294,500000,A,ADM2
+lanaudiere-qc,Lanaudière,Lanaudiere,QC,Quebec,46.76678,-73.83248,494796,A,ADM2
+halifax-ns,Halifax,Halifax,NS,Nova Scotia,44.64269,-63.57688,471559,P,PPLA
+laval-qc,Laval,Laval,QC,Quebec,45.58338,-73.74918,443893,A,ADM2
+halifax-regional-municipality-ns,Halifax Regional Municipality,Halifax Regional Municipality,NS,Nova Scotia,44.86685,-63.71541,439819,A,ADM2
+chaudiere-appalaches-qc,Chaudière-Appalaches,Chaudiere-Appalaches,QC,Quebec,46.555,-70.8308,433312,A,ADM2
+london-on,London,London,ON,Ontario,42.98339,-81.23304,422324,P,PPL
+outaouais-qc,Outaouais,Outaouais,QC,Quebec,46.26681,-76.31606,405158,A,ADM2
+etobicoke-on,Etobicoke,Etobicoke,ON,Ontario,43.64415,-79.56985,365000,P,PPL
+markham-on,Markham,Markham,ON,Ontario,43.86682,-79.2663,338503,P,PPL
+vaughan-on,Vaughan,Vaughan,ON,Ontario,43.8361,-79.49827,323103,P,PPL
+gatineau-qc,Gatineau,Gatineau,QC,Quebec,45.47723,-75.70164,300045,P,PPL
+victoria-bc,Victoria,Victoria,BC,British Columbia,48.4359,-123.35155,289625,P,PPLA
+fraser-valley-regional-district-bc,Fraser Valley Regional District,Fraser Valley Regional District,BC,British Columbia,49.58299,-121.83587,277000,A,ADM2
+saskatoon-sk,Saskatoon,Saskatoon,SK,Saskatchewan,52.13238,-106.66892,266141,P,PPL
+mauricie-qc,Mauricie,Mauricie,QC,Quebec,47.55009,-73.41583,266112,A,ADM2
+kitchener-on,Kitchener,Kitchener,ON,Ontario,43.42537,-80.5112,256885,P,PPLA2
+burnaby-bc,Burnaby,Burnaby,BC,British Columbia,49.26636,-122.95263,249125,P,PPLA3
+centre-du-quebec-qc,Centre-du-Québec,Centre-du-Quebec,QC,Quebec,46.01985,-71.98242,234000,A,ADM2
+windsor-on,Windsor,Windsor,ON,Ontario,42.30008,-83.01654,229660,P,PPL
+longueuil-qc,Longueuil,Longueuil,QC,Quebec,45.5152,-73.46818,229330,P,PPLA2
+regina-sk,Regina,Regina,SK,Saskatchewan,50.45008,-104.6178,226404,P,PPLA
+oakville-on,Oakville,Oakville,ON,Ontario,43.45011,-79.68292,213759,P,PPL
+richmond-bc,Richmond,Richmond,BC,British Columbia,49.17003,-123.13683,209937,P,PPL
+richmond-hill-on,Richmond Hill,Richmond Hill,ON,Ontario,43.87111,-79.43725,202022,P,PPL
+bas-saint-laurent-qc,Bas-Saint-Laurent,Bas-Saint-Laurent,QC,Quebec,48.0503,-68.02266,199039,A,ADM2
+burlington-on,Burlington,Burlington,ON,Ontario,43.38621,-79.83713,186948,P,PPL
+nepean-on,Nepean,Nepean,ON,Ontario,45.33619,-75.7225,180000,P,PPL
+oshawa-on,Oshawa,Oshawa,ON,Ontario,43.90012,-78.84957,175383,P,PPL
+greater-sudbury-on,Greater Sudbury,Greater Sudbury,ON,Ontario,46.49,-80.99001,166004,P,PPLA3
+newton-bc,Newton,Newton,BC,British Columbia,49.13333,-122.85,159390,P,PPLX
+gloucester-on,Gloucester,Gloucester,ON,Ontario,45.35,-75.63333,150012,P,PPL
+saguenay-qc,Saguenay,Saguenay,QC,Quebec,48.41675,-71.06573,148886,P,PPL
+coquitlam-bc,Coquitlam,Coquitlam,BC,British Columbia,49.2846,-122.78217,148625,P,PPLA3
+barrie-on,Barrie,Barrie,ON,Ontario,44.40011,-79.66634,147829,P,PPL
+abitibi-temiscamingue-qc,Abitibi-Témiscamingue,Abitibi-Temiscamingue,QC,Quebec,48.10018,-77.7828,147082,A,ADM2
+cape-breton-county-ns,Cape Breton County,Cape Breton County,NS,Nova Scotia,46.00014,-60.31516,147000,A,ADM2
+rosemont-la-petite-patrie-qc,Rosemont–La Petite-Patrie,Rosemont-La Petite-Patrie,QC,Quebec,45.53661,-73.60686,146501,P,PPLA4
+villeray-saint-michel-parc-extension-qc,Villeray–Saint-Michel–Parc-Extension,Villeray-Saint-Michel-Parc-Extension,QC,Quebec,45.55869,-73.60535,144814,P,PPLA4
+kelowna-bc,Kelowna,Kelowna,BC,British Columbia,49.88307,-119.48568,144576,P,PPL
+trois-rivieres-qc,Trois-Rivières,Trois-Rivieres,QC,Quebec,46.34515,-72.5477,144472,P,PPL
+guelph-on,Guelph,Guelph,ON,Ontario,43.54594,-80.25599,143740,P,PPL
+thompson-nicola-regional-district-bc,Thompson-Nicola Regional District,Thompson-Nicola Regional District,BC,British Columbia,50.99981,-120.50252,143680,A,ADM2
+levis-qc,Lévis,Levis,QC,Quebec,46.80326,-71.17793,143414,P,PPL
+mercier-hochelaga-maisonneuve-qc,Mercier–Hochelaga-Maisonneuve,Mercier-Hochelaga-Maisonneuve,QC,Quebec,45.57194,-73.54626,142753,P,PPLA4
+abbotsford-bc,Abbotsford,Abbotsford,BC,British Columbia,49.05798,-122.25257,141397,P,PPL
+whitby-on,Whitby,Whitby,ON,Ontario,43.88342,-78.93287,138501,P,PPL
+st-catharines-on,St. Catharines,St. Catharines,ON,Ontario,43.17126,-79.24267,136803,P,PPL
+ahuntsic-cartierville-qc,Ahuntsic-Cartierville,Ahuntsic-Cartierville,QC,Quebec,45.56667,-73.66667,135336,P,PPLX
+le-vieux-longueuil-qc,Le Vieux-Longueuil,Le Vieux-Longueuil,QC,Quebec,45.53721,-73.50773,135218,P,PPLX
+milton-on,Milton,Milton,ON,Ontario,43.51681,-79.88294,132979,P,PPLA2
+langley-bc,Langley,Langley,BC,British Columbia,49.10107,-122.65883,132603,P,PPL
+kingston-on,Kingston,Kingston,ON,Ontario,44.22976,-76.48098,132485,P,PPL
+cambridge-on,Cambridge,Cambridge,ON,Ontario,43.3601,-80.31269,129920,P,PPL
+sherbrooke-qc,Sherbrooke,Sherbrooke,QC,Quebec,45.40008,-71.89908,129447,P,PPL
+orleans-on,Orléans,Orleans,ON,Ontario,45.45732,-75.50433,125937,P,PPL
+ottawa-south-on,Ottawa South,Ottawa South,ON,Ontario,45.3921,-75.68725,125090,P,PPL
+saint-louis-de-terrebonne-qc,Saint-Louis-de-Terrebonne,Saint-Louis-de-Terrebonne,QC,Quebec,45.70198,-73.78669,119944,P,PPL
+ajax-on,Ajax,Ajax,ON,Ontario,43.85012,-79.03288,119677,P,PPL
+saanich-bc,Saanich,Saanich,BC,British Columbia,48.54964,-123.36931,117735,P,PPL
+east-york-on,East York,East York,ON,Ontario,43.69053,-79.32794,115365,A,ADM3
+thornhill-on,Thornhill,Thornhill,ON,Ontario,43.815,-79.4242,115292,P,PPL
+riviere-des-prairies-pointe-aux-trembles-qc,Rivière-des-Prairies–Pointe-aux-Trembles,Riviere-des-Prairies-Pointe-aux-Trembles,QC,Quebec,45.64064,-73.58463,113868,P,PPLA4
+algoma-on,Algoma,Algoma,ON,Ontario,47.88364,-84.42406,113777,A,ADM2
+terrebonne-qc,Terrebonne,Terrebonne,QC,Quebec,45.70004,-73.64732,111575,P,PPL
+sainte-foy-qc,Sainte-Foy,Sainte-Foy,QC,Quebec,46.78139,-71.29217,111300,P,PPLX
+st-john-s-nl,St. John's,St. John's,NL,Newfoundland and Labrador,47.56494,-52.70931,110525,P,PPLA
+thunder-bay-on,Thunder Bay,Thunder Bay,ON,Ontario,48.38202,-89.25018,108843,P,PPL
+chatham-kent-on,Chatham-Kent,Chatham-Kent,ON,Ontario,42.40009,-82.1831,108589,A,ADM2
+la-cite-limoilou-qc,La Cité-Limoilou,La Cite-Limoilou,QC,Quebec,46.82894,-71.22641,108415,P,PPLX
+regional-district-of-central-okanagan-bc,Regional District of Central Okanagan,Regional District of Central Okanagan,BC,British Columbia,49.99978,-119.41908,106707,A,ADM2
+sydney-ns,Sydney,Sydney,NS,Nova Scotia,46.1351,-60.1831,105968,P,PPL
+le-plateau-mont-royal-qc,Le Plateau-Mont-Royal,Le Plateau-Mont-Royal,QC,Quebec,45.52833,-73.58081,105813,P,PPLA4
+waterloo-on,Waterloo,Waterloo,ON,Ontario,43.4668,-80.51639,104986,P,PPL
+ville-marie-qc,Ville-Marie,Ville-Marie,QC,Quebec,45.49899,-73.57046,104944,P,PPLA4
+brantford-on,Brantford,Brantford,ON,Ontario,43.1334,-80.26636,104688,P,PPL
+kamloops-bc,Kamloops,Kamloops,BC,British Columbia,50.66648,-120.3192,104460,P,PPL
+lethbridge-ab,Lethbridge,Lethbridge,AB,Alberta,49.69999,-112.81856,103197,P,PPL
+whalley-bc,Whalley,Whalley,BC,British Columbia,49.17917,-122.86667,102555,P,PPLX
+delta-bc,Delta,Delta,BC,British Columbia,49.08917,-123.05322,101668,P,PPL
+chilliwack-bc,Chilliwack,Chilliwack,BC,British Columbia,49.16638,-121.95257,101491,P,PPLA2
+dartmouth-ns,Dartmouth,Dartmouth,NS,Nova Scotia,44.67134,-63.57719,101343,P,PPL
+red-deer-ab,Red Deer,Red Deer,AB,Alberta,52.26682,-113.802,100844,P,PPL
+niagara-falls-on,Niagara Falls,Niagara Falls,ON,Ontario,43.10012,-79.06627,99818,P,PPL
+saint-laurent-qc,Saint-Laurent,Saint-Laurent,QC,Quebec,45.50008,-73.66585,98828,P,PPLX
+saint-jean-sur-richelieu-qc,Saint-Jean-sur-Richelieu,Saint-Jean-sur-Richelieu,QC,Quebec,45.30713,-73.26259,98036,P,PPL
+regional-district-of-fraser-fort-george-bc,Regional District of Fraser-Fort George,Regional District of Fraser-Fort George,BC,British Columbia,53.69993,-121.25281,94506,A,ADM2
+chomedey-qc,Chomedey,Chomedey,QC,Quebec,45.53333,-73.75,94030,P,PPLX
+pickering-on,Pickering,Pickering,ON,Ontario,43.90012,-79.13289,91771,P,PPL
+newmarket-on,Newmarket,Newmarket,ON,Ontario,44.05011,-79.46631,91034,P,PPL
+nanaimo-bc,Nanaimo,Nanaimo,BC,British Columbia,49.16638,-123.94003,90504,P,PPL
+regional-district-of-okanagan-similkameen-bc,Regional District of Okanagan-Similkameen,Regional District of Okanagan-Similkameen,BC,British Columbia,49.41647,-120.00245,90178,A,ADM2
+airdrie-ab,Airdrie,Airdrie,AB,Alberta,51.30011,-114.03528,90044,P,PPL
+kanata-on,Kanata,Kanata,ON,Ontario,45.3001,-75.91606,90000,P,PPL
+gaspesie-iles-de-la-madeleine-qc,Gaspésie-Îles-de-la-Madeleine,Gaspesie-Iles-de-la-Madeleine,QC,Quebec,48.87555,-65.4071,89342,A,ADM2
+cowichan-valley-regional-district-bc,Cowichan Valley Regional District,Cowichan Valley Regional District,BC,British Columbia,48.83292,-124.21941,89013,A,ADM2
+cote-nord-qc,Côte-Nord,Cote-Nord,QC,Quebec,50.86683,-65.81541,88525,A,ADM2
+la-haute-saint-charles-qc,La Haute-Saint-Charles,La Haute-Saint-Charles,QC,Quebec,46.89028,-71.37222,88460,P,PPLX
+north-vancouver-bc,North Vancouver,North Vancouver,BC,British Columbia,49.31636,-123.06934,88168,P,PPL
+montreal-nord-qc,Montréal-Nord,Montreal-Nord,QC,Quebec,45.6016,-73.63063,86857,P,PPLA4
+le-sud-ouest-qc,Le Sud-Ouest,Le Sud-Ouest,QC,Quebec,45.47187,-73.58986,86347,P,PPLA4
+moncton-nb,Moncton,Moncton,NB,New Brunswick,46.09454,-64.7965,86106,P,PPL
+peterborough-on,Peterborough,Peterborough,ON,Ontario,44.30012,-78.31623,85807,P,PPL
+repentigny-qc,Repentigny,Repentigny,QC,Quebec,45.74222,-73.45008,84965,P,PPL
+clarington-on,Clarington,Clarington,ON,Ontario,43.99482,-78.67486,84548,A,ADM3
+charlesbourg-qc,Charlesbourg,Charlesbourg,QC,Quebec,46.899,-71.305,82870,P,PPLX
+saint-hubert-qc,Saint-Hubert,Saint-Hubert,QC,Quebec,45.50008,-73.41583,82548,P,PPLX
+wood-buffalo-ab,Wood Buffalo,Wood Buffalo,AB,Alberta,57.66443,-112.00693,82400,A,ADM2
+maple-ridge-bc,Maple Ridge,Maple Ridge,BC,British Columbia,49.21939,-122.60193,82256,P,PPL
+beauport-qc,Beauport,Beauport,QC,Quebec,46.85884,-71.19201,81425,P,PPLX
+east-hastings-bc,East Hastings,East Hastings,BC,British Columbia,49.27169,-123.06186,80740,P,PPLX
+saint-leonard-qc,Saint-Léonard,Saint-Leonard,QC,Quebec,45.58773,-73.59501,79495,P,PPLX
+willowdale-on,Willowdale,Willowdale,ON,Ontario,43.76672,-79.39909,79440,P,PPLL
+prince-george-bc,Prince George,Prince George,BC,British Columbia,53.9166,-122.75301,78943,P,PPL
+new-westminster-bc,New Westminster,New Westminster,BC,British Columbia,49.20678,-122.91092,78916,P,PPL
+south-surrey-bc,South Surrey,South Surrey,BC,British Columbia,49.05,-122.79167,77170,P,PPLX
+les-rivieres-qc,Les Rivières,Les Rivieres,QC,Quebec,46.81847,-71.272,77000,P,PPLX
+caledon-on,Caledon,Caledon,ON,Ontario,43.86544,-79.99322,76581,P,PPL
+stoney-creek-on,Stoney Creek,Stoney Creek,ON,Ontario,43.21681,-79.76633,76382,P,PPL
+kawartha-lakes-on,Kawartha Lakes,Kawartha Lakes,ON,Ontario,44.58342,-78.83288,74561,A,ADM2
+cloverdale-bc,Cloverdale,Cloverdale,BC,British Columbia,49.10797,-122.7276,73355,P,PPLX
+pierrefonds-roxboro-qc,Pierrefonds-Roxboro,Pierrefonds-Roxboro,QC,Quebec,45.5019,-73.8417,73194,P,PPLA4
+nutana-sector-sk,Nutana Sector,Nutana Sector,SK,Saskatchewan,52.09998,-106.63709,72564,P,PPLX
+sarnia-on,Sarnia,Sarnia,ON,Ontario,42.97866,-82.40407,72125,P,PPL
+sault-ste-marie-on,Sault Ste. Marie,Sault Ste. Marie,ON,Ontario,46.51677,-84.33325,72051,P,PPLA2
+saint-john-nb,Saint John,Saint John,NB,New Brunswick,45.27076,-66.05616,71808,P,PPL
+sherwood-park-ab,Sherwood Park,Sherwood Park,AB,Alberta,53.51684,-113.3187,70618,P,PPL
+grande-prairie-ab,Grande Prairie,Grande Prairie,AB,Alberta,55.16667,-118.80271,70385,P,PPL
+confederation-sk,Confederation,Confederation,SK,Saskatchewan,52.13912,-106.70356,70192,P,PPLX
+capitale-nationale-qc,Capitale-Nationale,Capitale-Nationale,QC,Quebec,47.376,-71.12337,70000,A,ADM2
+brossard-qc,Brossard,Brossard,QC,Quebec,45.45008,-73.46583,69575,P,PPL
+verdun-qc,Verdun,Verdun,QC,Quebec,45.46005,-73.57058,69229,P,PPLX
+chicoutimi-qc,Chicoutimi,Chicoutimi,QC,Quebec,48.41963,-71.06369,69004,P,PPLX
+notre-dame-de-grace-qc,Notre-Dame-de-Grâce,Notre-Dame-de-Grace,QC,Quebec,45.47675,-73.61432,68152,P,PPLX
+fort-mcmurray-ab,Fort McMurray,Fort McMurray,AB,Alberta,56.72676,-111.38103,66573,P,PPL
+granby-qc,Granby,Granby,QC,Quebec,45.40008,-72.73243,66222,P,PPL
+waterfront-communities-the-island-on,Waterfront Communities-The Island,Waterfront Communities-The Island,ON,Ontario,43.63388,-79.3772,65913,P,PPLX
+regional-district-of-east-kootenay-bc,Regional District of East Kootenay,Regional District of East Kootenay,BC,British Columbia,49.91664,-115.75209,65896,A,ADM2
+fleetwood-bc,Fleetwood,Fleetwood,BC,British Columbia,49.16667,-122.8,65565,P,PPL
+fort-garry-south-mb,Fort Garry South,Fort Garry South,MB,Manitoba,49.79225,-97.16359,65420,P,PPLX
+guildford-bc,Guildford,Guildford,BC,British Columbia,49.19167,-122.8,64985,P,PPLX
+hull-qc,Hull,Hull,QC,Quebec,45.42761,-75.71056,63702,P,PPLX
+medicine-hat-ab,Medicine Hat,Medicine Hat,AB,Alberta,50.03928,-110.67661,63138,P,PPL
+fredericton-nb,Fredericton,Fredericton,NB,New Brunswick,45.94541,-66.66558,63116,P,PPLA
+halton-hills-on,Halton Hills,Halton Hills,ON,Ontario,43.6403,-79.93146,62951,P,PPL
+cariboo-regional-district-bc,Cariboo Regional District,Cariboo Regional District,BC,British Columbia,52.33313,-123.16961,62931,A,ADM2
+brighouse-city-centre-bc,Brighouse-City Centre,Brighouse-City Centre,BC,British Columbia,49.16667,-123.13333,62855,P,PPLX
+downtown-vancouver-bc,Downtown Vancouver,Downtown Vancouver,BC,British Columbia,49.28277,-123.11935,62030,P,PPLX
+peace-river-regional-district-bc,Peace River Regional District,Peace River Regional District,BC,British Columbia,56.6665,-122.75302,61532,A,ADM2
+norfolk-county-on,Norfolk County,Norfolk County,ON,Ontario,42.8334,-80.38297,60847,P,PPL
+north-delta-bc,North Delta,North Delta,BC,British Columbia,49.16667,-122.91667,60769,P,PPLX
+regional-district-of-central-kootenay-bc,Regional District of Central Kootenay,Regional District of Central Kootenay,BC,British Columbia,49.91655,-117.50222,59517,A,ADM2
+drummondville-qc,Drummondville,Drummondville,QC,Quebec,45.88336,-72.48241,59489,P,PPL
+pierrefonds-qc,Pierrefonds,Pierrefonds,QC,Quebec,45.45989,-73.89284,59093,P,PPL
+port-coquitlam-bc,Port Coquitlam,Port Coquitlam,BC,British Columbia,49.26637,-122.76932,58000,P,PPLA3
+st-albert-ab,St. Albert,St. Albert,AB,Alberta,53.63344,-113.63533,57719,P,PPL
+columbia-shuswap-regional-district-bc,Columbia-Shuswap Regional District,Columbia-Shuswap Regional District,BC,British Columbia,51.4166,-117.66895,57021,A,ADM2
+aylmer-qc,Aylmer,Aylmer,QC,Quebec,45.4002,-75.80644,56542,P,PPL
+saint-michel-qc,Saint-Michel,Saint-Michel,QC,Quebec,45.56758,-73.62168,56420,P,PPL
+aurora-on,Aurora,Aurora,ON,Ontario,44.00011,-79.46632,55445,P,PPL
+saint-jerome-qc,Saint-Jérôme,Saint-Jerome,QC,Quebec,45.78036,-74.00365,54948,P,PPL
+jonquiere-qc,Jonquière,Jonquiere,QC,Quebec,48.41648,-71.24884,54842,P,PPLX
+woburn-on,Woburn,Woburn,ON,Ontario,43.76657,-79.22773,53485,P,PPLX
+metrotown-bc,Metrotown,Metrotown,BC,British Columbia,49.225,-123.0,52355,P,PPLX
+welland-on,Welland,Welland,ON,Ontario,42.98342,-79.24958,52293,P,PPL
+university-heights-sk,University Heights,University Heights,SK,Saskatchewan,52.14432,-106.57867,51957,P,PPLX
+lower-sackville-ns,Lower Sackville,Lower Sackville,NS,Nova Scotia,44.77599,-63.67865,51749,P,PPL
+renfrew-collingwood-bc,Renfrew-Collingwood,Renfrew-Collingwood,BC,British Columbia,49.245,-123.03758,51530,P,PPLX
+lakewood-sk,Lakewood,Lakewood,SK,Saskatchewan,52.1085,-106.59027,51237,P,PPLX
+belleville-on,Belleville,Belleville,ON,Ontario,44.16682,-77.38277,50716,P,PPL
+squamish-lillooet-regional-district-bc,Squamish-Lillooet Regional District,Squamish-Lillooet Regional District,BC,British Columbia,50.4997,-123.00276,50496,A,ADM2
+willowdale-east-on,Willowdale East,Willowdale East,ON,Ontario,43.7706,-79.40148,50434,P,PPLX
+north-bay-on,North Bay,North Bay,ON,Ontario,46.3168,-79.46633,50396,P,PPL
+saint-hyacinthe-qc,Saint-Hyacinthe,Saint-Hyacinthe,QC,Quebec,45.63076,-72.95699,50326,P,PPL
+colchester-ns,Colchester,Colchester,NS,Nova Scotia,45.33345,-63.24868,50000,A,ADM2
+whitchurch-stouffville-on,Whitchurch-Stouffville,Whitchurch-Stouffville,ON,Ontario,44.00012,-79.3163,49864,P,PPL
+kensington-cedar-cottage-bc,Kensington-Cedar Cottage,Kensington-Cedar Cottage,BC,British Columbia,49.25,-123.06667,49235,P,PPLX
+dollard-des-ormeaux-qc,Dollard-Des Ormeaux,Dollard-Des Ormeaux,QC,Quebec,45.49452,-73.82419,48930,P,PPL
+brandon-mb,Brandon,Brandon,MB,Manitoba,49.84692,-99.95306,48859,P,PPL
+cornwall-on,Cornwall,Cornwall,ON,Ontario,45.01809,-74.72815,48821,P,PPL
+west-end-bc,West End,West End,BC,British Columbia,49.28333,-123.13333,47200,P,PPLX
+langford-bc,Langford,Langford,BC,British Columbia,48.44963,-123.50261,46584,P,PPL
+rouge-on,Rouge,Rouge,ON,Ontario,43.80406,-79.16571,46496,P,PPLX
+blainville-qc,Blainville,Blainville,QC,Quebec,45.66678,-73.88249,46493,P,PPL
+victoria-downtown-bc,Victoria-Downtown,Victoria-Downtown,BC,British Columbia,48.4277,-123.36104,46309,P,PPLX
+west-vancouver-bc,West Vancouver,West Vancouver,BC,British Columbia,49.3286,-123.16019,45487,P,PPL
+georgetown-on,Georgetown,Georgetown,ON,Ontario,43.65011,-79.91634,44058,P,PPL
+l-amoreaux-on,L'Amoreaux,L'Amoreaux,ON,Ontario,43.79572,-79.31408,43993,P,PPLX
+islington-city-centre-west-on,Islington-City Centre West,Islington-City Centre West,ON,Ontario,43.63347,-79.54332,43965,P,PPLX
+malvern-on,Malvern,Malvern,ON,Ontario,43.80938,-79.22344,43794,P,PPLX
+quinte-west-on,Quinte West,Quinte West,ON,Ontario,44.10742,-77.57035,43577,P,PPL
+chatham-on,Chatham,Chatham,ON,Ontario,42.41224,-82.18494,43550,P,PPL
+innisfil-on,Innisfil,Innisfil,ON,Ontario,44.30011,-79.64964,43326,P,PPL
+kitsilano-bc,Kitsilano,Kitsilano,BC,British Columbia,49.26667,-123.16667,43045,P,PPLX
+salaberry-de-valleyfield-qc,Salaberry-de-Valleyfield,Salaberry-de-Valleyfield,QC,Quebec,45.25008,-74.13253,42787,P,PPL
+chateauguay-qc,Châteauguay,Chateauguay,QC,Quebec,45.38338,-73.74919,42786,P,PPL
+rimouski-qc,Rimouski,Rimouski,QC,Quebec,48.44879,-68.52396,42240,P,PPL
+saint-eustache-qc,Saint-Eustache,Saint-Eustache,QC,Quebec,45.565,-73.90554,42062,P,PPL
+timmins-on,Timmins,Timmins,ON,Ontario,48.46686,-81.33312,41788,P,PPL
+sorel-tracy-qc,Sorel-Tracy,Sorel-Tracy,QC,Quebec,46.04178,-73.11358,41629,P,PPL
+mission-bc,Mission,Mission,BC,British Columbia,49.13298,-122.30258,41519,P,PPL
+centre-city-ab,Centre City,Centre City,AB,Alberta,51.04512,-114.07431,41000,P,PPLX
+strawberry-hill-bc,Strawberry Hill,Strawberry Hill,BC,British Columbia,49.13333,-122.88333,41000,P,PPL
+val-des-arbres-qc,Val-des-Arbres,Val-des-Arbres,QC,Quebec,45.59837,-73.67542,40974,P,PPL
+stittsville-on,Stittsville,Stittsville,ON,Ontario,45.2501,-75.91606,40889,P,PPL
+ancaster-on,Ancaster,Ancaster,ON,Ontario,43.21806,-79.98716,40557,P,PPL
+woodstock-on,Woodstock,Woodstock,ON,Ontario,43.13339,-80.7497,40404,P,PPLA2
+vernon-bc,Vernon,Vernon,BC,British Columbia,50.26729,-119.27337,40116,P,PPL
+bowmanville-on,Bowmanville,Bowmanville,ON,Ontario,43.91682,-78.68286,39371,P,PPL
+boucherville-qc,Boucherville,Boucherville,QC,Quebec,45.59104,-73.43605,39062,P,PPL
+spruce-grove-ab,Spruce Grove,Spruce Grove,AB,Alberta,53.53344,-113.91874,38985,P,PPL
+st-thomas-on,St. Thomas,St. Thomas,ON,Ontario,42.77361,-81.18038,38909,P,PPL
+charlottetown-pe,Charlottetown,Charlottetown,PE,Prince Edward Island,46.23459,-63.1256,38809,P,PPLA
+okanagan-mission-bc,Okanagan Mission,Okanagan Mission,BC,British Columbia,49.81667,-119.48333,38374,P,PPLX
+shawinigan-qc,Shawinigan,Shawinigan,QC,Quebec,46.56675,-72.74913,38211,P,PPLA3
+neufchatel-est-lebourgneuf-qc,Neufchâtel-Est–Lebourgneuf,Neufchatel-Est-Lebourgneuf,QC,Quebec,46.85436,-71.34191,37540,P,PPL
+duvernay-qc,Duvernay,Duvernay,QC,Quebec,45.58333,-73.66667,37460,P,PPLX
+laval-des-rapides-qc,Laval-des-Rapides,Laval-des-Rapides,QC,Quebec,45.55642,-73.70007,36933,P,PPL
+stouffville-on,Stouffville,Stouffville,ON,Ontario,43.96682,-79.2496,36753,P,PPL
+dovercourt-wallace-emerson-junction-on,Dovercourt-Wallace Emerson-Junction,Dovercourt-Wallace Emerson-Junction,ON,Ontario,43.66568,-79.43854,36625,P,PPLX
+sunset-bc,Sunset,Sunset,BC,British Columbia,49.22104,-123.09546,36500,P,PPLX
+core-neighbourhoods-sk,Core Neighbourhoods,Core Neighbourhoods,SK,Saskatchewan,52.13041,-106.67231,36088,P,PPLX
+leamington-on,Leamington,Leamington,ON,Ontario,42.05009,-82.59981,35730,P,PPL
+rock-forest-qc,Rock Forest,Rock Forest,QC,Quebec,45.35699,-71.99676,35500,P,PPLX
+prince-albert-sk,Prince Albert,Prince Albert,SK,Saskatchewan,53.20008,-105.76772,35102,P,PPL
+downsview-roding-cfb-on,Downsview-Roding-CFB,Downsview-Roding-CFB,ON,Ontario,43.73329,-79.49049,35052,P,PPLX
+parkwoods-donalda-on,Parkwoods-Donalda,Parkwoods-Donalda,ON,Ontario,43.75503,-79.33018,34805,P,PPLX
+rutland-bc,Rutland,Rutland,BC,British Columbia,49.89977,-119.38567,34800,P,PPLX
+joliette-qc,Joliette,Joliette,QC,Quebec,46.0164,-73.4236,34772,P,PPL
+cartierville-qc,Cartierville,Cartierville,QC,Quebec,45.53118,-73.70358,34667,P,PPL
+mascouche-qc,Mascouche,Mascouche,QC,Quebec,45.74965,-73.59956,34626,P,PPL
+mirabel-qc,Mirabel,Mirabel,QC,Quebec,45.65008,-74.08251,34626,P,PPL
+lawson-sk,Lawson,Lawson,SK,Saskatchewan,52.16432,-106.63884,34620,P,PPLX
+hastings-sunrise-bc,Hastings-Sunrise,Hastings-Sunrise,BC,British Columbia,49.28333,-123.03333,34575,P,PPLX
+victoriaville-qc,Victoriaville,Victoriaville,QC,Quebec,46.05007,-71.96579,34426,P,PPL
+brant-on,Brant,Brant,ON,Ontario,43.1334,-80.34967,34415,P,PPL
+mimico-on,Mimico,Mimico,ON,Ontario,43.61616,-79.51269,33964,P,PPLX
+moose-jaw-sk,Moose Jaw,Moose Jaw,SK,Saskatchewan,50.40005,-105.53445,33890,P,PPL
+parc-extension-qc,Parc-Extension,Parc-Extension,QC,Quebec,45.52951,-73.63176,33800,P,PPLX
+penticton-bc,Penticton,Penticton,BC,British Columbia,49.48062,-119.58584,33761,P,PPL
+arcola-east-sk,Arcola East,Arcola East,SK,Saskatchewan,50.43308,-104.53601,33725,P,PPLX
+fairview-bc,Fairview,Fairview,BC,British Columbia,49.26305,-123.13212,33620,P,PPLX
+surrey-city-centre-bc,Surrey City Centre,Surrey City Centre,BC,British Columbia,49.18542,-122.84659,33520,P,PPLX
+campbell-river-bc,Campbell River,Campbell River,BC,British Columbia,50.01634,-125.24459,33430,P,PPL
+west-humber-clairville-on,West Humber-Clairville,West Humber-Clairville,ON,Ontario,43.71619,-79.59636,33312,P,PPLX
+mount-pleasant-bc,Mount Pleasant,Mount Pleasant,BC,British Columbia,49.26667,-123.1,33000,P,PPLX
+mt-pleasant-bc,Mt Pleasant,Mt Pleasant,BC,British Columbia,49.26239,-123.10019,32955,P,PPLX
+mount-olive-silverstone-jamestown-on,Mount Olive-Silverstone-Jamestown,Mount Olive-Silverstone-Jamestown,ON,Ontario,43.74687,-79.58726,32954,P,PPLX
+lasalle-on,LaSalle,LaSalle,ON,Ontario,42.24481,-83.06095,32721,P,PPL
+chestermere-ab,Chestermere,Chestermere,AB,Alberta,51.03341,-113.81867,32255,P,PPL
+cochrane-ab,Cochrane,Cochrane,AB,Alberta,51.18341,-114.46871,32199,P,PPL
+snowdon-qc,Snowdon,Snowdon,QC,Quebec,45.4859,-73.63103,32160,P,PPLX
+lloydminster-ab,Lloydminster,Lloydminster,AB,Alberta,53.27237,-110.02256,31582,P,PPLA2
+stratford-on,Stratford,Stratford,ON,Ontario,43.36679,-80.94972,31465,P,PPL
+chilliwack-downtown-bc,Chilliwack-Downtown,Chilliwack-Downtown,BC,British Columbia,49.1643,-121.95907,31410,P,PPLX
+cote-saint-luc-qc,Côte-Saint-Luc,Cote-Saint-Luc,QC,Quebec,45.46536,-73.66585,31395,P,PPL
+church-yonge-corridor-on,Church-Yonge Corridor,Church-Yonge Corridor,ON,Ontario,43.65965,-79.37902,31340,P,PPLX
+willoughby-bc,Willoughby,Willoughby,BC,British Columbia,49.12624,-122.67995,31305,P,PPLX
+niagara-on,Niagara,Niagara,ON,Ontario,43.64455,-79.40712,31180,P,PPLX
+saint-georges-qc,Saint-Georges,Saint-Georges,QC,Quebec,46.11353,-70.66526,31173,P,PPL
+orillia-on,Orillia,Orillia,ON,Ontario,44.60868,-79.42068,31166,P,PPL
+victoria-fraserview-bc,Victoria-Fraserview,Victoria-Fraserview,BC,British Columbia,49.21667,-123.06667,31065,P,PPL
+orangeville-on,Orangeville,Orangeville,ON,Ontario,43.9168,-80.09967,30734,P,PPL
+fort-erie-on,Fort Erie,Fort Erie,ON,Ontario,42.90012,-78.93286,30710,P,PPL
+annex-on,Annex,Annex,ON,Ontario,43.67159,-79.404,30526,P,PPLX
+glenfield-jane-heights-on,Glenfield-Jane Heights,Glenfield-Jane Heights,ON,Ontario,43.74564,-79.51347,30491,P,PPLX
+ville-emard-qc,Ville-Émard,Ville-Emard,QC,Quebec,45.44979,-73.6015,30440,P,PPLX
+okotoks-ab,Okotoks,Okotoks,AB,Alberta,50.72885,-113.98281,30214,P,PPL
+pointe-claire-qc,Pointe-Claire,Pointe-Claire,QC,Quebec,45.44868,-73.81669,30161,P,PPL
+bendale-on,Bendale,Bendale,ON,Ontario,43.76681,-79.25326,29960,P,PPLX
+desmarchais-crawford-qc,Desmarchais-Crawford,Desmarchais-Crawford,QC,Quebec,45.44554,-73.58163,29688,P,PPLX
+north-cowichan-bc,North Cowichan,North Cowichan,BC,British Columbia,48.84133,-123.68596,29676,P,PPL
+mount-pleasant-west-on,Mount Pleasant West,Mount Pleasant West,ON,Ontario,43.70444,-79.39336,29658,P,PPLX
+alma-qc,Alma,Alma,QC,Quebec,48.55009,-71.6491,29526,P,PPL
+killarney-bc,Killarney,Killarney,BC,British Columbia,49.22594,-123.04282,29325,P,PPLX
+grandview-woodlands-bc,Grandview-Woodlands,Grandview-Woodlands,BC,British Columbia,49.27738,-123.07079,29175,P,PPLX
+agincourt-north-on,Agincourt North,Agincourt North,ON,Ontario,43.80418,-79.27528,29113,P,PPLX
+sainte-julie-qc,Sainte-Julie,Sainte-Julie,QC,Quebec,45.58338,-73.33246,29019,P,PPL
+west-kelowna-bc,West Kelowna,West Kelowna,BC,British Columbia,49.8625,-119.58333,28793,P,PPL
+sept-iles-qc,Sept-Îles,Sept-Iles,QC,Quebec,50.20011,-66.38208,28534,P,PPL
+courtenay-bc,Courtenay,Courtenay,BC,British Columbia,49.68657,-124.9936,28420,P,PPL
+whitehorse-yt,Whitehorse,Whitehorse,YT,Yukon,60.71611,-135.05375,28201,P,PPLA
+fredericton-northside-nb,Fredericton Northside,Fredericton Northside,NB,New Brunswick,45.97594,-66.64117,28167,P,PPLX
+wexford-maryvale-on,Wexford/Maryvale,Wexford/Maryvale,ON,Ontario,43.74857,-79.29864,27917,P,PPLX
+south-riverdale-on,South Riverdale,South Riverdale,ON,Ontario,43.64929,-79.33565,27876,P,PPLX
+marpole-bc,Marpole,Marpole,BC,British Columbia,49.21359,-123.12979,27843,P,PPLX
+st-james-assiniboia-east-mb,St. James-Assiniboia East,St. James-Assiniboia East,MB,Manitoba,49.88986,-97.22653,27755,P,PPLX
+banbury-don-mills-on,Banbury-Don Mills,Banbury-Don Mills,ON,Ontario,43.73766,-79.34972,27695,P,PPLX
+york-university-heights-on,York University Heights,York University Heights,ON,Ontario,43.76574,-79.48888,27593,P,PPLX
+port-moody-bc,Port Moody,Port Moody,BC,British Columbia,49.28124,-122.82457,27512,P,PPLA3
+tam-o-shanter-sullivan-on,Tam O'Shanter-Sullivan,Tam O'Shanter-Sullivan,ON,Ontario,43.77977,-79.29502,27446,P,PPLX
+west-hill-on,West Hill,West Hill,ON,Ontario,43.76737,-79.1795,27392,P,PPLX
+saint-constant-qc,Saint-Constant,Saint-Constant,QC,Quebec,45.36678,-73.56588,27359,P,PPL
+grimsby-on,Grimsby,Grimsby,ON,Ontario,43.20011,-79.56631,27314,P,PPL
+dieppe-nb,Dieppe,Dieppe,NB,New Brunswick,46.07844,-64.68735,27304,P,PPL
+conception-bay-south-nl,Conception Bay South,Conception Bay South,NL,Newfoundland and Labrador,47.49989,-52.99806,27168,P,PPL
+don-valley-village-on,Don Valley Village,Don Valley Village,ON,Ontario,43.78329,-79.35364,27051,P,PPLX
+clairlea-birchmount-on,Clairlea-Birchmount,Clairlea-Birchmount,ON,Ontario,43.71359,-79.28138,26984,P,PPLX
+bolton-on,Bolton,Bolton,ON,Ontario,43.87952,-79.73791,26795,P,PPL
+milliken-on,Milliken,Milliken,ON,Ontario,43.82499,-79.29872,26572,P,PPLX
+boisbriand-qc,Boisbriand,Boisbriand,QC,Quebec,45.61678,-73.83249,26483,P,PPL
+westminster-branson-on,Westminster-Branson,Westminster-Branson,ON,Ontario,43.77881,-79.45242,26274,P,PPLX
+beltline-ab,Beltline,Beltline,AB,Alberta,51.03951,-114.07087,25880,P,PPLX
+bay-street-corridor-on,Bay Street Corridor,Bay Street Corridor,ON,Ontario,43.65751,-79.38572,25797,P,PPLX
+vaudreuil-dorion-qc,Vaudreuil-Dorion,Vaudreuil-Dorion,QC,Quebec,45.40008,-74.03251,25789,P,PPL
+thetford-mines-qc,Thetford-Mines,Thetford-Mines,QC,Quebec,46.09371,-71.30539,25704,P,PPL
+centretown-on,Centretown,Centretown,ON,Ontario,45.41534,-75.69639,25687,P,PPLX
+walnut-grove-bc,Walnut Grove,Walnut Grove,BC,British Columbia,49.16473,-122.64042,25683,P,PPL
+coquitlam-west-bc,Coquitlam West,Coquitlam West,BC,British Columbia,49.25702,-122.87883,25656,P,PPLX
+downtown-halifax-ns,Downtown Halifax,Downtown Halifax,NS,Nova Scotia,44.64826,-63.57762,25555,P,PPLX
+val-d-or-qc,Val-d'Or,Val-d'Or,QC,Quebec,48.0974,-77.79737,25541,P,PPL
+panorama-hills-ab,Panorama Hills,Panorama Hills,AB,Alberta,51.15286,-114.081,25535,P,PPLX
+prince-edward-on,Prince Edward,Prince Edward,ON,Ontario,44.00012,-77.24946,25496,P,PPL
+sainte-therese-qc,Sainte-Thérèse,Sainte-Therese,QC,Quebec,45.63922,-73.82757,25224,P,PPL
+steveston-bc,Steveston,Steveston,BC,British Columbia,49.12714,-123.18137,25220,P,PPLX
+stonegate-queensway-on,Stonegate-Queensway,Stonegate-Queensway,ON,Ontario,43.63552,-79.50113,25051,P,PPLX
+dorset-park-on,Dorset Park,Dorset Park,ON,Ontario,43.75386,-79.28215,25003,P,PPLX
+brooklin-on,Brooklin,Brooklin,ON,Ontario,43.95833,-78.95972,25000,P,PPL
+fallingbrook-on,Fallingbrook,Fallingbrook,ON,Ontario,45.47558,-75.48401,25000,P,PPL
+fraser-heights-bc,Fraser Heights,Fraser Heights,BC,British Columbia,49.2,-122.78333,25000,P,PPLX
+south-granville-bc,South Granville,South Granville,BC,British Columbia,49.2602,-123.13946,24820,P,PPLX
+alta-vista-on,Alta Vista,Alta Vista,ON,Ontario,45.38639,-75.65806,24726,P,PPLX
+steeles-on,Steeles,Steeles,ON,Ontario,43.81205,-79.33082,24623,P,PPLX
+bridlewood-on,Bridlewood,Bridlewood,ON,Ontario,45.28522,-75.8569,24400,P,PPL
+waterdown-on,Waterdown,Waterdown,ON,Ontario,43.33341,-79.88293,24400,P,PPL
+saint-bruno-de-montarville-qc,Saint-Bruno-de-Montarville,Saint-Bruno-de-Montarville,QC,Quebec,45.53341,-73.34916,24388,P,PPL
+saddle-ridge-ab,Saddle Ridge,Saddle Ridge,AB,Alberta,51.13262,-113.94676,24365,P,PPLX
+midland-on,Midland,Midland,ON,Ontario,44.7501,-79.88296,24353,P,PPL
+coquitlam-town-centre-bc,Coquitlam Town Centre,Coquitlam Town Centre,BC,British Columbia,49.27697,-122.79669,24282,P,PPLX
+chinatown-bc,Chinatown,Chinatown,BC,British Columbia,49.27997,-123.10556,24000,P,PPLX
+east-gwillimbury-on,East Gwillimbury,East Gwillimbury,ON,Ontario,44.10087,-79.43785,23991,P,PPL
+mile-end-qc,Mile End,Mile End,QC,Quebec,45.5237,-73.59631,23977,P,PPLX
+outremont-qc,Outremont,Outremont,QC,Quebec,45.51564,-73.60865,23954,P,PPLX
+high-park-swansea-on,High Park-Swansea,High Park-Swansea,ON,Ontario,43.64506,-79.46787,23925,P,PPLX
+brockville-on,Brockville,Brockville,ON,Ontario,44.59132,-75.68705,23886,P,PPL
+strathroy-on,Strathroy,Strathroy,ON,Ontario,42.9551,-81.62232,23871,P,PPL
+newtonbrook-west-on,Newtonbrook West,Newtonbrook West,ON,Ontario,43.78583,-79.43142,23831,P,PPLX
+squamish-bc,Squamish,Squamish,BC,British Columbia,49.69925,-123.15631,23819,P,PPL
+agincourt-south-malvern-west-on,Agincourt South-Malvern West,Agincourt South-Malvern West,ON,Ontario,43.78866,-79.26561,23757,P,PPLX
+white-rock-bc,White Rock,White Rock,BC,British Columbia,49.02049,-122.79507,23670,P,PPL
+rouyn-noranda-qc,Rouyn-Noranda,Rouyn-Noranda,QC,Quebec,48.23656,-79.02311,23504,P,PPL
+la-prairie-qc,La Prairie,La Prairie,QC,Quebec,45.41678,-73.49917,23357,P,PPL
+bedford-park-nortown-on,Bedford Park-Nortown,Bedford Park-Nortown,ON,Ontario,43.73149,-79.42023,23236,P,PPLX
+tecumseh-on,Tecumseh,Tecumseh,ON,Ontario,42.316,-82.884,23229,P,PPL
+broadmoor-bc,Broadmoor,Broadmoor,BC,British Columbia,49.15,-123.13333,23050,P,PPLX
+ladner-bc,Ladner,Ladner,BC,British Columbia,49.08938,-123.08241,23016,P,PPLX
+paradise-nl,Paradise,Paradise,NL,Newfoundland and Labrador,47.52909,-52.88136,22957,P,PPL
+cariboo-bc,Cariboo,Cariboo,BC,British Columbia,49.25,-122.88333,22780,P,PPLX
+eglinton-east-on,Eglinton East,Eglinton East,ON,Ontario,43.73917,-79.24576,22776,P,PPLX
+halifax-west-end-ns,Halifax West End,Halifax West End,NS,Nova Scotia,44.6486,-63.61946,22664,P,PPLX
+vedder-crossing-bc,Vedder Crossing,Vedder Crossing,BC,British Columbia,49.1,-121.96667,22620,P,PPLX
+chambly-qc,Chambly,Chambly,QC,Quebec,45.45008,-73.28246,22608,P,PPL
+riley-park-bc,Riley Park,Riley Park,BC,British Columbia,49.24303,-123.09319,22555,P,PPL
+mount-pearl-nl,Mount Pearl,Mount Pearl,NL,Newfoundland and Labrador,47.51659,-52.78135,22477,P,PPL
+englemount-lawrence-on,Englemount-Lawrence,Englemount-Lawrence,ON,Ontario,43.72035,-79.43741,22372,P,PPLX
+edmonds-bc,Edmonds,Edmonds,BC,British Columbia,49.21392,-122.93992,22318,P,PPLX
+birchcliffe-cliffside-on,Birchcliffe-Cliffside,Birchcliffe-Cliffside,ON,Ontario,43.69468,-79.26509,22291,P,PPLX
+rockcliffe-smythe-on,Rockcliffe-Smythe,Rockcliffe-Smythe,ON,Ontario,43.67479,-79.49442,22246,P,PPLX
+duncan-bc,Duncan,Duncan,BC,British Columbia,48.78293,-123.70266,22199,P,PPL
+high-park-north-on,High Park North,High Park North,ON,Ontario,43.65626,-79.47454,22162,P,PPLX
+willowridge-martingrove-richview-on,Willowridge-Martingrove-Richview,Willowridge-Martingrove-Richview,ON,Ontario,43.68364,-79.55422,22156,P,PPLX
+kingsville-on,Kingsville,Kingsville,ON,Ontario,42.10009,-82.73312,22119,P,PPL
+kingsview-village-the-westway-on,Kingsview Village-The Westway,Kingsview Village-The Westway,ON,Ontario,43.69899,-79.54786,22000,P,PPLX
+flemingdon-park-on,Flemingdon Park,Flemingdon Park,ON,Ontario,43.71806,-79.33222,21933,P,PPLX
+south-parkdale-on,South Parkdale,South Parkdale,ON,Ontario,43.6367,-79.43934,21849,P,PPLX
+collingwood-on,Collingwood,Collingwood,ON,Ontario,44.4834,-80.21638,21793,P,PPL
+black-creek-on,Black Creek,Black Creek,ON,Ontario,43.76489,-79.52198,21737,P,PPLX
+tsawwassen-bc,Tsawwassen,Tsawwassen,BC,British Columbia,49.01667,-123.08333,21588,P,PPLX
+the-beaches-on,The Beaches,The Beaches,ON,Ontario,43.67372,-79.29539,21567,P,PPLX
+baie-comeau-qc,Baie-Comeau,Baie-Comeau,QC,Quebec,49.21679,-68.14894,21536,P,PPL
+bedford-ns,Bedford,Bedford,NS,Nova Scotia,44.72552,-63.66732,21474,P,PPL
+fort-st-john-bc,Fort St. John,Fort St. John,BC,British Columbia,56.24988,-120.85292,21465,P,PPL
+bayview-village-on,Bayview Village,Bayview Village,ON,Ontario,43.77639,-79.38028,21396,P,PPLX
+east-end-danforth-on,East End-Danforth,East End-Danforth,ON,Ontario,43.68417,-79.29936,21381,P,PPLX
+owen-sound-on,Owen Sound,Owen Sound,ON,Ontario,44.56717,-80.94349,21341,P,PPL
+gordon-head-bc,Gordon Head,Gordon Head,BC,British Columbia,48.48333,-123.31667,21270,P,PPLX
+dunbar-southlands-bc,Dunbar-Southlands,Dunbar-Southlands,BC,British Columbia,49.24217,-123.1884,21245,P,PPLX
+oakwood-village-on,Oakwood Village,Oakwood Village,ON,Ontario,43.68278,-79.43833,21210,P,PPLX
+uxbridge-on,Uxbridge,Uxbridge,ON,Ontario,44.10012,-79.11628,21176,P,PPL
+thorncliffe-park-on,Thorncliffe Park,Thorncliffe Park,ON,Ontario,43.70775,-79.34998,21108,P,PPLX
+townline-bc,Townline,Townline,BC,British Columbia,49.06206,-122.36008,21095,P,PPLX
+haney-bc,Haney,Haney,BC,British Columbia,49.21667,-122.6,21041,P,PPLX
+keswick-on,Keswick,Keswick,ON,Ontario,44.25011,-79.46632,21000,P,PPLX
+varennes-qc,Varennes,Varennes,QC,Quebec,45.68338,-73.43246,20994,P,PPL
+rosedale-moore-park-on,Rosedale-Moore Park,Rosedale-Moore Park,ON,Ontario,43.68282,-79.37967,20923,P,PPLX
+cranston-ab,Cranston,Cranston,AB,Alberta,50.88852,-113.98144,20850,P,PPLX
+clarence-rockland-on,Clarence-Rockland,Clarence-Rockland,ON,Ontario,45.5501,-75.29101,20790,P,PPL
+evergreen-ab,Evergreen,Evergreen,AB,Alberta,50.92917,-114.1,20780,P,PPLX
+fergus-on,Fergus,Fergus,ON,Ontario,43.70604,-80.37761,20767,P,PPL
+port-alberni-bc,Port Alberni,Port Alberni,BC,British Columbia,49.24133,-124.8028,20712,P,PPL
+wasaga-beach-on,Wasaga Beach,Wasaga Beach,ON,Ontario,44.5168,-80.01637,20675,P,PPL
+riverview-nb,Riverview,Riverview,NB,New Brunswick,46.05455,-64.81597,20584,P,PPL
+renfrew-heights-bc,Renfrew Heights,Renfrew Heights,BC,British Columbia,49.25448,-123.03159,20570,P,PPLX
+moss-park-on,Moss Park,Moss Park,ON,Ontario,43.65498,-79.37153,20506,P,PPLX
+westmount-qc,Westmount,Westmount,QC,Quebec,45.48341,-73.59918,20494,P,PPL
+kirkland-qc,Kirkland,Kirkland,QC,Quebec,45.45008,-73.86586,20491,P,PPL
+ile-des-soeurs-qc,Ile-des-Soeurs,Ile-des-Soeurs,QC,Quebec,45.46033,-73.54817,20461,P,PPLX
+camrose-ab,Camrose,Camrose,AB,Alberta,53.01684,-112.83525,20405,P,PPL
+lindsay-on,Lindsay,Lindsay,ON,Ontario,44.35012,-78.73286,20354,P,PPL
+yellowknife-nt,Yellowknife,Yellowknife,NT,Northwest Territories,62.45411,-114.37248,20340,P,PPLA
+cranbrook-bc,Cranbrook,Cranbrook,BC,British Columbia,49.49991,-115.76879,20047,P,PPL
+templeton-est-qc,Templeton-Est,Templeton-Est,QC,Quebec,45.49389,-75.58833,20000,P,PPLX
+woodlawn-ns,Woodlawn,Woodlawn,NS,Nova Scotia,44.67747,-63.52733,20000,P,PPLX
+saint-lazare-qc,Saint-Lazare,Saint-Lazare,QC,Quebec,45.40008,-74.13256,19889,P,PPL
+l-ile-bizard-sainte-genevieve-qc,L'Île-Bizard–Sainte-Geneviève,L'Ile-Bizard-Sainte-Genevieve,QC,Quebec,45.49391,-73.8956,19857,P,PPLA4
+huntsville-on,Huntsville,Huntsville,ON,Ontario,45.33341,-79.21632,19816,P,PPL
+terrace-bc,Terrace,Terrace,BC,British Columbia,54.51634,-128.60345,19443,P,PPL
+north-battleford-sk,North Battleford,North Battleford,SK,Saskatchewan,52.77972,-108.2967,19440,P,PPL
+salmon-arm-bc,Salmon Arm,Salmon Arm,BC,British Columbia,50.69981,-119.26907,19432,P,PPL
+corner-brook-nl,Corner Brook,Corner Brook,NL,Newfoundland and Labrador,48.95001,-57.95202,19316,P,PPL
+beaconsfield-qc,Beaconsfield,Beaconsfield,QC,Quebec,45.43341,-73.86586,19194,P,PPL
+dorval-qc,Dorval,Dorval,QC,Quebec,45.4473,-73.75335,18980,P,PPL
+mont-royal-qc,Mont-Royal,Mont-Royal,QC,Quebec,45.51675,-73.64918,18933,P,PPL
+beloeil-qc,Beloeil,Beloeil,QC,Quebec,45.56839,-73.20568,18927,P,PPL
+alliston-on,Alliston,Alliston,ON,Ontario,44.15011,-79.86635,18809,P,PPL
+thorold-on,Thorold,Thorold,ON,Ontario,43.11682,-79.19958,18801,P,PPL
+quispamsis-nb,Quispamsis,Quispamsis,NB,New Brunswick,45.42135,-65.95127,18768,P,PPL
+new-glasgow-ns,New Glasgow,New Glasgow,NS,Nova Scotia,45.58344,-62.64863,18665,P,PPL
+tillsonburg-on,Tillsonburg,Tillsonburg,ON,Ontario,42.85986,-80.72617,18615,P,PPL
+riviere-du-loup-qc,Rivière-du-Loup,Riviere-du-Loup,QC,Quebec,47.82699,-69.54243,18586,P,PPL
+pitt-meadows-bc,Pitt Meadows,Pitt Meadows,BC,British Columbia,49.22119,-122.68965,18573,P,PPL
+port-colborne-on,Port Colborne,Port Colborne,ON,Ontario,42.90012,-79.23288,18306,P,PPL
+cobourg-on,Cobourg,Cobourg,ON,Ontario,43.95977,-78.16515,18099,P,PPL
+oak-bay-bc,Oak Bay,Oak Bay,BC,British Columbia,48.44964,-123.3026,18015,P,PPL
+stony-plain-ab,Stony Plain,Stony Plain,AB,Alberta,53.53343,-114.00205,17993,P,PPL
+amos-qc,Amos,Amos,QC,Quebec,48.56688,-78.11624,17918,P,PPL
+esquimalt-bc,Esquimalt,Esquimalt,BC,British Columbia,48.43569,-123.41174,17655,P,PPL
+miramichi-nb,Miramichi,Miramichi,NB,New Brunswick,47.02895,-65.50186,17537,P,PPL
+niagara-on-the-lake-on,Niagara-on-the-Lake,Niagara-on-the-Lake,ON,Ontario,43.25655,-79.08527,17511,P,PPL
+lafleche-qc,Laflèche,Lafleche,QC,Quebec,45.50008,-73.46587,17499,P,PPL
+sylvan-lake-ab,Sylvan Lake,Sylvan Lake,AB,Alberta,52.311,-114.08375,17477,P,PPL
+saint-lin-laurentides-qc,Saint-Lin-Laurentides,Saint-Lin-Laurentides,QC,Quebec,45.85008,-73.76588,17463,P,PPL
+valley-east-on,Valley East,Valley East,ON,Ontario,46.64499,-80.9973,17451,P,PPL
+deux-montagnes-qc,Deux-Montagnes,Deux-Montagnes,QC,Quebec,45.53455,-73.90168,17402,P,PPL
+les-coteaux-qc,Les Coteaux,Les Coteaux,QC,Quebec,45.28338,-74.23254,17396,P,PPL
+central-saanich-bc,Central Saanich,Central Saanich,BC,British Columbia,48.56634,-123.41932,17385,P,PPL
+saint-augustin-de-desmaures-qc,Saint-Augustin-de-Desmaures,Saint-Augustin-de-Desmaures,QC,Quebec,46.74064,-71.45131,17281,P,PPL
+petawawa-on,Petawawa,Petawawa,ON,Ontario,45.89452,-77.28007,17187,P,PPL
+vanier-on,Vanier,Vanier,ON,Ontario,45.4399,-75.66498,17000,P,PPL
+glace-bay-ns,Glace Bay,Glace Bay,NS,Nova Scotia,46.19695,-59.95698,16915,P,PPL
+colwood-bc,Colwood,Colwood,BC,British Columbia,48.43293,-123.48591,16859,P,PPL
+sainte-catherine-qc,Sainte-Catherine,Sainte-Catherine,QC,Quebec,45.40008,-73.58248,16762,P,PPL
+greenfield-park-qc,Greenfield Park,Greenfield Park,QC,Quebec,45.48649,-73.46223,16733,P,PPL
+buckingham-qc,Buckingham,Buckingham,QC,Quebec,45.58563,-75.4208,16685,P,PPL
+swift-current-sk,Swift Current,Swift Current,SK,Saskatchewan,50.28337,-107.80135,16604,P,PPL
+edmundston-nb,Edmundston,Edmundston,NB,New Brunswick,47.3737,-68.32512,16580,P,PPL
+l-ancienne-lorette-qc,L'Ancienne-Lorette,L'Ancienne-Lorette,QC,Quebec,46.79392,-71.35191,16516,P,PPL
+yorkton-sk,Yorkton,Yorkton,SK,Saskatchewan,51.2167,-102.46766,16343,P,PPL
+lutes-mountain-nb,Lutes Mountain,Lutes Mountain,NB,New Brunswick,46.13544,-64.90504,16311,P,PPL
+bracebridge-on,Bracebridge,Bracebridge,ON,Ontario,45.03341,-79.31633,16010,P,PPL
+candiac-qc,Candiac,Candiac,QC,Quebec,45.38338,-73.51587,15947,P,PPL
+l-assomption-qc,L'Assomption,L'Assomption,QC,Quebec,45.82318,-73.4294,15906,P,PPL
+greater-napanee-on,Greater Napanee,Greater Napanee,ON,Ontario,44.25012,-76.94944,15892,P,PPL
+steinbach-mb,Steinbach,Steinbach,MB,Manitoba,49.52579,-96.68451,15829,P,PPL
+lake-country-bc,Lake Country,Lake Country,BC,British Columbia,50.0088,-119.39672,15817,P,PPL
+mont-saint-hilaire-qc,Mont-Saint-Hilaire,Mont-Saint-Hilaire,QC,Quebec,45.56515,-73.1868,15720,P,PPL
+saint-basile-le-grand-qc,Saint-Basile-le-Grand,Saint-Basile-le-Grand,QC,Quebec,45.53338,-73.28246,15605,P,PPL
+leduc-ab,Leduc,Leduc,AB,Alberta,53.26682,-113.55201,15561,P,PPL
+magog-qc,Magog,Magog,QC,Quebec,45.26678,-72.14909,15550,P,PPL
+saint-charles-borromee-qc,Saint-Charles-Borromée,Saint-Charles-Borromee,QC,Quebec,46.05007,-73.46586,15285,P,PPL
+saint-john-west-nb,Saint John West,Saint John West,NB,New Brunswick,45.25937,-66.07776,15255,P,PPL
+saint-vincent-de-paul-qc,Saint-Vincent-de-Paul,Saint-Vincent-de-Paul,QC,Quebec,45.61678,-73.64918,15194,P,PPL
+kenora-on,Kenora,Kenora,ON,Ontario,49.76741,-94.48985,15096,P,PPL
+sooke-bc,Sooke,Sooke,BC,British Columbia,48.37463,-123.72762,15086,P,PPL
+le-plateau-qc,Le Plateau,Le Plateau,QC,Quebec,45.43514,-75.7803,15000,P,PPL
+fort-saskatchewan-ab,Fort Saskatchewan,Fort Saskatchewan,AB,Alberta,53.69814,-113.21382,14957,P,PPL
+burquitlam-bc,Burquitlam,Burquitlam,BC,British Columbia,49.26667,-122.88333,14896,P,PPL
+summerside-pe,Summerside,Summerside,PE,Prince Edward Island,46.3912,-63.78869,14829,P,PPL
+gaspe-qc,Gaspé,Gaspe,QC,Quebec,48.83341,-64.48194,14819,P,PPL
+matane-qc,Matane,Matane,QC,Quebec,48.82857,-67.52197,14812,P,PPL
+comox-bc,Comox,Comox,BC,British Columbia,49.68294,-124.93613,14806,P,PPL
+mississippi-mills-on,Mississippi Mills,Mississippi Mills,ON,Ontario,45.23341,-76.19939,14740,P,PPL
+prince-rupert-bc,Prince Rupert,Prince Rupert,BC,British Columbia,54.31507,-130.32098,14708,P,PPL
+west-nipissing-on,West Nipissing,West Nipissing,ON,Ontario,46.37157,-79.92451,14583,P,PPL
+saint-john-east-nb,Saint John East,Saint John East,NB,New Brunswick,45.2878,-66.04066,14579,P,PPL
+rayside-balfour-on,Rayside-Balfour,Rayside-Balfour,ON,Ontario,46.60873,-81.20763,14557,P,PPL
+tantramar-nb,Tantramar,Tantramar,NB,New Brunswick,45.93365,-64.39984,14545,P,PPL
+brooks-ab,Brooks,Brooks,AB,Alberta,50.58341,-111.88509,14451,P,PPL
+belle-baie-nb,Belle-Baie,Belle-Baie,NB,New Brunswick,47.76532,-65.74496,14335,P,PPL
+high-river-ab,High River,High River,AB,Alberta,50.58341,-113.86867,14324,P,PPL
+lacombe-ab,Lacombe,Lacombe,AB,Alberta,52.46681,-113.7353,14258,P,PPL
+blossom-park-on,Blossom Park,Blossom Park,ON,Ontario,45.34889,-75.62667,14190,P,PPL
+rosemere-qc,Rosemère,Rosemere,QC,Quebec,45.63338,-73.79919,14173,P,PPL
+williams-lake-bc,Williams Lake,Williams Lake,BC,British Columbia,52.14153,-122.14451,14168,P,PPL
+sainte-monique-qc,Sainte-Monique,Sainte-Monique,QC,Quebec,48.73339,-71.84911,14150,P,PPL
+duvernay-est-qc,Duvernay-Est,Duvernay-Est,QC,Quebec,45.65476,-73.60514,14000,P,PPL
+canmore-ab,Canmore,Canmore,AB,Alberta,51.08335,-115.35206,13992,P,PPL
+simcoe-on,Simcoe,Simcoe,ON,Ontario,42.8334,-80.29967,13922,P,PPL
+amherstburg-on,Amherstburg,Amherstburg,ON,Ontario,42.10009,-83.09985,13910,P,PPL
+pembroke-on,Pembroke,Pembroke,ON,Ontario,45.81681,-77.11616,13882,P,PPL
+grand-falls-windsor-nl,Grand Falls-Windsor,Grand Falls-Windsor,NL,Newfoundland and Labrador,48.93324,-55.66492,13853,P,PPL
+ingersoll-on,Ingersoll,Ingersoll,ON,Ontario,43.03339,-80.88302,13693,P,PPL
+thompson-mb,Thompson,Thompson,MB,Manitoba,55.7435,-97.85579,13678,P,PPL
+new-hamburg-on,New Hamburg,New Hamburg,ON,Ontario,43.38339,-80.6997,13595,P,PPL
+strathmore-ab,Strathmore,Strathmore,AB,Alberta,51.05011,-113.38523,13592,P,PPL
+sainte-marie-qc,Sainte-Marie,Sainte-Marie,QC,Quebec,46.43401,-71.01168,13565,P,PPL
+mont-laurier-qc,Mont-Laurier,Mont-Laurier,QC,Quebec,46.55011,-75.4993,13405,P,PPL
+portage-la-prairie-mb,Portage la Prairie,Portage la Prairie,MB,Manitoba,49.97282,-98.29263,13304,P,PPL
+powell-river-bc,Powell River,Powell River,BC,British Columbia,49.83278,-124.52368,13157,P,PPL
+north-perth-on,North Perth,North Perth,ON,Ontario,43.7251,-80.96723,13130,P,PPL
+truro-ns,Truro,Truro,NS,Nova Scotia,45.36685,-63.26538,12954,P,PPL
+dolbeau-mistassini-qc,Dolbeau-Mistassini,Dolbeau-Mistassini,QC,Quebec,48.8786,-72.23142,12916,P,PPL
+lowertown-on,Lowertown,Lowertown,ON,Ontario,45.43193,-75.69319,12824,P,PPL
+laurentides-qc,Laurentides,Laurentides,QC,Quebec,47.13336,-72.28239,12710,P,PPL
+winkler-mb,Winkler,Winkler,MB,Manitoba,49.1817,-97.94104,12660,P,PPL
+kentville-ns,Kentville,Kentville,NS,Nova Scotia,45.0771,-64.49605,12636,P,PPL
+wetaskiwin-ab,Wetaskiwin,Wetaskiwin,AB,Alberta,52.96683,-113.36869,12594,P,PPL
+port-hope-on,Port Hope,Port Hope,ON,Ontario,44.01682,-78.39953,12587,P,PPL
+elliot-lake-on,Elliot Lake,Elliot Lake,ON,Ontario,46.38336,-82.63315,12508,P,PPL
+sandy-hill-on,Sandy Hill,Sandy Hill,ON,Ontario,45.42519,-75.67863,12490,P,PPL
+aldergrove-bc,Aldergrove,Aldergrove,BC,British Columbia,49.05801,-122.47087,12363,P,PPL
+sydney-mines-ns,Sydney Mines,Sydney Mines,NS,Nova Scotia,46.23669,-60.21767,12353,P,PPL
+dawson-creek-bc,Dawson Creek,Dawson Creek,BC,British Columbia,55.75984,-120.2403,12323,P,PPL
+sidney-bc,Sidney,Sidney,BC,British Columbia,48.64964,-123.40262,12318,P,PPL
+gravenhurst-on,Gravenhurst,Gravenhurst,ON,Ontario,44.91681,-79.36633,12312,P,PPL
+paris-on,Paris,Paris,ON,Ontario,43.2,-80.38333,12310,P,PPL
+cap-aux-meules-qc,Cap-aux-Meules,Cap-aux-Meules,QC,Quebec,47.38208,-61.85968,12190,P,PPL
+central-business-district-sk,Central Business District,Central Business District,SK,Saskatchewan,52.13032,-106.66228,12101,P,PPL
+parksville-bc,Parksville,Parksville,BC,British Columbia,49.31947,-124.31575,12000,P,PPL
+queenswood-heights-on,Queenswood Heights,Queenswood Heights,ON,Ontario,45.47083,-75.50556,12000,P,PPL
+erin-on,Erin,Erin,ON,Ontario,43.7729,-80.06436,11981,P,PPL
+rothesay-nb,Rothesay,Rothesay,NB,New Brunswick,45.38046,-65.96744,11977,P,PPL
+beauharnois-qc,Beauharnois,Beauharnois,QC,Quebec,45.31341,-73.8725,11918,P,PPL
+carleton-place-on,Carleton Place,Carleton Place,ON,Ontario,45.13341,-76.14938,11901,P,PPL
+bathurst-nb,Bathurst,Bathurst,NB,New Brunswick,47.61814,-65.65112,11897,P,PPL
+gander-nl,Gander,Gander,NL,Newfoundland and Labrador,48.95624,-54.61647,11880,P,PPL
+glen-cairn-on,Glen Cairn,Glen Cairn,ON,Ontario,45.29278,-75.88,11836,P,PPL
+clayburn-bc,Clayburn,Clayburn,BC,British Columbia,49.0691,-122.26176,11755,P,PPL
+eastern-passage-ns,Eastern Passage,Eastern Passage,NS,Nova Scotia,44.61685,-63.48199,11738,P,PPL
+montmagny-qc,Montmagny,Montmagny,QC,Quebec,46.98043,-70.55493,11724,P,PPL
+saint-romuald-qc,Saint Romuald,Saint Romuald,QC,Quebec,46.75818,-71.23921,11663,P,PPL
+summerland-bc,Summerland,Summerland,BC,British Columbia,49.59977,-119.66911,11615,P,PPL
+cold-lake-ab,Cold Lake,Cold Lake,AB,Alberta,54.46525,-110.18154,11595,P,PPL
+view-royal-bc,View Royal,View Royal,BC,British Columbia,48.45793,-123.45261,11575,P,PPL
+hauterive-qc,Hauterive,Hauterive,QC,Quebec,49.19572,-68.25813,11549,P,PPL
+fall-river-ns,Fall River,Fall River,NS,Nova Scotia,44.81685,-63.6154,11526,P,PPL
+sainte-marthe-sur-le-lac-qc,Sainte-Marthe-sur-le-Lac,Sainte-Marthe-sur-le-Lac,QC,Quebec,45.53338,-73.9325,11311,P,PPL
+estevan-sk,Estevan,Estevan,SK,Saskatchewan,49.13337,-102.98422,11258,P,PPL
+farnham-qc,Farnham,Farnham,QC,Quebec,45.28338,-72.98244,11228,P,PPL
+pincourt-qc,Pincourt,Pincourt,QC,Quebec,45.38338,-73.9825,11197,P,PPL
+coldstream-bc,Coldstream,Coldstream,BC,British Columbia,50.21649,-119.20235,11171,P,PPL
+becancour-qc,Bécancour,Becancour,QC,Quebec,46.34106,-72.43224,11134,P,PPL
+saint-raymond-qc,Saint-Raymond,Saint-Raymond,QC,Quebec,46.8901,-71.83415,11108,P,PPL
+north-saanich-bc,North Saanich,North Saanich,BC,British Columbia,48.66634,-123.41933,11089,P,PPL
+blackfalds-ab,Blackfalds,Blackfalds,AB,Alberta,52.38342,-113.7853,11015,P,PPL
+la-tuque-qc,La Tuque,La Tuque,QC,Quebec,47.43337,-72.7824,11001,P,PPL
+warman-sk,Warman,Warman,SK,Saskatchewan,52.31679,-106.56791,10961,P,PPL
+stratford-pe,Stratford,Stratford,PE,Prince Edward Island,46.21792,-63.07948,10927,P,PPL
+cowansville-qc,Cowansville,Cowansville,QC,Quebec,45.20008,-72.74913,10887,P,PPL
+weyburn-sk,Weyburn,Weyburn,SK,Saskatchewan,49.66675,-103.85109,10870,P,PPL
+elmira-on,Elmira,Elmira,ON,Ontario,43.60009,-80.5497,10790,P,PPL
+sainte-anne-des-plaines-qc,Sainte-Anne-des-Plaines,Sainte-Anne-des-Plaines,QC,Quebec,45.76468,-73.81156,10680,P,PPL
+nelson-bc,Nelson,Nelson,BC,British Columbia,49.49985,-117.28553,10664,P,PPL
+saint-canut-qc,Saint-Canut,Saint-Canut,QC,Quebec,45.71502,-74.08376,10643,P,PPL
+sainte-adele-qc,Sainte-Adèle,Sainte-Adele,QC,Quebec,45.95008,-74.13251,10634,P,PPL
+lambton-shores-on,Lambton Shores,Lambton Shores,ON,Ontario,43.16678,-81.93309,10631,P,PPL
+temiskaming-shores-on,Temiskaming Shores,Temiskaming Shores,ON,Ontario,47.49376,-79.71529,10442,P,PPL
+cantley-qc,Cantley,Cantley,QC,Quebec,45.5668,-75.78265,10412,P,PPL
+wallaceburg-on,Wallaceburg,Wallaceburg,ON,Ontario,42.59303,-82.38853,10323,P,PPL
+saint-felicien-qc,Saint-Félicien,Saint-Felicien,QC,Quebec,48.65007,-72.44906,10278,P,PPL
+selkirk-mb,Selkirk,Selkirk,MB,Manitoba,50.1436,-96.88452,10278,P,PPL
+angus-on,Angus,Angus,ON,Ontario,44.31681,-79.88295,10269,P,PPLL
+hawkesbury-on,Hawkesbury,Hawkesbury,ON,Ontario,45.60009,-74.61595,10263,P,PPL
+roberval-qc,Roberval,Roberval,QC,Quebec,48.5168,-72.23244,10227,P,PPL
+sainte-agathe-des-monts-qc,Sainte-Agathe-des-Monts,Sainte-Agathe-des-Monts,QC,Quebec,46.05009,-74.28252,10223,P,PPL
+prevost-qc,Prévost,Prevost,QC,Quebec,45.86678,-74.08251,10132,P,PPL
+mercier-qc,Mercier,Mercier,QC,Quebec,45.3105,-73.73976,10121,P,PPLA3
+spryfield-ns,Spryfield,Spryfield,NS,Nova Scotia,44.61163,-63.61771,10118,P,PPL
+tillicum-bc,Tillicum,Tillicum,BC,British Columbia,48.45,-123.4,10080,P,PPL
+penetanguishene-on,Penetanguishene,Penetanguishene,ON,Ontario,44.7834,-79.91637,10077,P,PPL
+hanceville-bc,Hanceville,Hanceville,BC,British Columbia,51.91922,-123.04458,10000,P,PPLL
+south-huron-on,South Huron,South Huron,ON,Ontario,43.31679,-81.51647,9982,P,PPL
+l-ile-perrot-qc,L'Île-Perrot,L'Ile-Perrot,QC,Quebec,45.38338,-73.9492,9927,P,PPL
+hinton-ab,Hinton,Hinton,AB,Alberta,53.40009,-117.58567,9889,P,PPL
+notre-dame-de-l-ile-perrot-qc,Notre-Dame-de-l'Île-Perrot,Notre-Dame-de-l'Ile-Perrot,QC,Quebec,45.36678,-73.9325,9885,P,PPL
+quesnel-bc,Quesnel,Quesnel,BC,British Columbia,52.97842,-122.4931,9879,P,PPL
+morinville-ab,Morinville,Morinville,AB,Alberta,53.80014,-113.65203,9848,P,PPL
+plantagenet-on,Plantagenet,Plantagenet,ON,Ontario,45.5326,-74.99369,9680,P,PPL
+belle-river-on,Belle River,Belle River,ON,Ontario,42.29264,-82.71192,9650,P,PPL
+overbrook-on,Overbrook,Overbrook,ON,Ontario,45.42726,-75.65204,9650,P,PPL
+martensville-sk,Martensville,Martensville,SK,Saskatchewan,52.28339,-106.66792,9645,P,PPL
+lorraine-qc,Lorraine,Lorraine,QC,Quebec,45.68338,-73.78249,9613,P,PPL
+lachute-qc,Lachute,Lachute,QC,Quebec,45.65008,-74.33253,9562,P,PPL
+port-perry-on,Port Perry,Port Perry,ON,Ontario,44.10676,-78.94441,9553,P,PPL
+maple-hills-nb,Maple Hills,Maple Hills,NB,New Brunswick,46.21332,-64.86945,9547,P,PPL
+val-des-monts-qc,Val-des-Monts,Val-des-Monts,QC,Quebec,45.6501,-75.66604,9539,P,PPL
+saint-amable-qc,Saint-Amable,Saint-Amable,QC,Quebec,45.65008,-73.29916,9486,P,PPL
+gunningsville-nb,Gunningsville,Gunningsville,NB,New Brunswick,46.0739,-64.77304,9479,P,PPL
+amherst-ns,Amherst,Amherst,NS,Nova Scotia,45.83345,-64.19874,9404,P,PPL
+the-blue-mountains-on,The Blue Mountains,The Blue Mountains,ON,Ontario,44.5584,-80.458,9390,P,PPL
+acton-on,Acton,Acton,ON,Ontario,43.62969,-80.04149,9377,P,PPL
+dorchester-on,Dorchester,Dorchester,ON,Ontario,42.98339,-81.06643,9329,P,PPL
+qualicum-beach-bc,Qualicum Beach,Qualicum Beach,BC,British Columbia,49.34783,-124.44231,9303,P,PPL
+bells-corners-on,Bells Corners,Bells Corners,ON,Ontario,45.31588,-75.83012,9272,P,PPL
+huron-east-on,Huron East,Huron East,ON,Ontario,43.61679,-81.29975,9264,P,PPL
+olds-ab,Olds,Olds,AB,Alberta,51.78341,-114.10199,9209,P,PPL
+saint-sauveur-qc,Saint-Sauveur,Saint-Sauveur,QC,Quebec,45.88686,-74.17943,9191,P,PPL
+carleton-north-nb,Carleton North,Carleton North,NB,New Brunswick,46.49895,-67.55754,9170,P,PPL
+cap-acadie-nb,Cap-Acadie,Cap-Acadie,NB,New Brunswick,46.20142,-64.32416,9165,P,PPL
+lewisville-nb,Lewisville,Lewisville,NB,New Brunswick,46.10437,-64.7532,9060,P,PPL
+greely-on,Greely,Greely,ON,Ontario,45.26139,-75.56111,9049,P,PPL
+kitimat-bc,Kitimat,Kitimat,BC,British Columbia,54.05244,-128.65342,8987,P,PPL
+glen-cairn-nb,Glen Cairn,Glen Cairn,NB,New Brunswick,46.11667,-64.85,8960,P,PPL
+la-malbaie-qc,La Malbaie,La Malbaie,QC,Quebec,47.654,-70.15268,8959,P,PPL
+mont-tremblant-qc,Mont-Tremblant,Mont-Tremblant,QC,Quebec,46.21274,-74.58438,8892,P,PPL
+smiths-falls-on,Smiths Falls,Smiths Falls,ON,Ontario,44.90452,-76.02333,8885,P,PPL
+sechelt-bc,Sechelt,Sechelt,BC,British Columbia,49.47512,-123.75903,8832,P,PPL
+oromocto-nb,Oromocto,Oromocto,NB,New Brunswick,45.83512,-66.47917,8805,P,PPL
+arnprior-on,Arnprior,Arnprior,ON,Ontario,45.43341,-76.34939,8795,P,PPL
+bridgewater-ns,Bridgewater,Bridgewater,NS,Nova Scotia,44.37856,-64.51882,8790,P,PPL
+harewood-bc,Harewood,Harewood,BC,British Columbia,49.1474,-123.94739,8769,P,PPLG
+whitecourt-ab,Whitecourt,Whitecourt,AB,Alberta,54.15015,-115.68548,8763,P,PPL
+lavaltrie-qc,Lavaltrie,Lavaltrie,QC,Quebec,45.88338,-73.28245,8762,P,PPL
+pont-rouge-qc,Pont-Rouge,Pont-Rouge,QC,Quebec,46.75468,-71.69566,8723,P,PPL
+whistler-bc,Whistler,Whistler,BC,British Columbia,50.11817,-122.95396,8713,P,PPL
+embrun-on,Embrun,Embrun,ON,Ontario,45.27573,-75.27266,8680,P,PPL
+morden-mb,Morden,Morden,MB,Manitoba,49.1919,-98.10136,8668,P,PPL
+beausoleil-nb,Beausoleil,Beausoleil,NB,New Brunswick,46.29835,-64.60329,8620,P,PPL
+ladysmith-bc,Ladysmith,Ladysmith,BC,British Columbia,48.99016,-123.81699,8537,P,PPL
+albro-lake-ns,Albro Lake,Albro Lake,NS,Nova Scotia,44.68414,-63.58129,8503,P,PPL
+otterburn-park-qc,Otterburn Park,Otterburn Park,QC,Quebec,45.53338,-73.21585,8464,P,PPL
+dauphin-mb,Dauphin,Dauphin,MB,Manitoba,51.14941,-100.05023,8457,P,PPL
+drumheller-ab,Drumheller,Drumheller,AB,Alberta,51.46171,-112.71011,8430,P,PPL
+king-city-on,King City,King City,ON,Ontario,43.92856,-79.52694,8396,P,PPL
+bois-des-filion-qc,Bois-des-Filion,Bois-des-Filion,QC,Quebec,45.66678,-73.74918,8383,P,PPL
+castlegar-bc,Castlegar,Castlegar,BC,British Columbia,49.32317,-117.65831,8338,P,PPL
+banff-ab,Banff,Banff,AB,Alberta,51.17622,-115.56982,8305,P,PPL
+kapuskasing-on,Kapuskasing,Kapuskasing,ON,Ontario,49.41694,-82.43308,8292,P,PPL
+concord-on,Concord,Concord,ON,Ontario,43.80011,-79.48291,8255,P,PPL
+essex-on,Essex,Essex,ON,Ontario,42.17509,-82.82483,8233,P,PPL
+boischatel-qc,Boischatel,Boischatel,QC,Quebec,46.89434,-71.1448,8231,P,PPL
+notre-dame-des-prairies-qc,Notre-Dame-des-Prairies,Notre-Dame-des-Prairies,QC,Quebec,46.05007,-73.43245,8230,P,PPL
+renfrew-on,Renfrew,Renfrew,ON,Ontario,45.46681,-76.68272,8223,P,PPL
+coaldale-ab,Coaldale,Coaldale,AB,Alberta,49.7167,-112.61854,8215,P,PPL
+dryden-on,Dryden,Dryden,ON,Ontario,49.78334,-92.75032,8195,P,PPL
+humphrey-nb,Humphrey,Humphrey,NB,New Brunswick,46.11987,-64.77797,8195,P,PPL
+blackburn-hamlet-on,Blackburn Hamlet,Blackburn Hamlet,ON,Ontario,45.43671,-75.56462,8173,P,PPL
+taber-ab,Taber,Taber,AB,Alberta,49.78703,-112.14603,8163,P,PPL
+shelburne-on,Shelburne,Shelburne,ON,Ontario,44.0787,-80.20408,8126,P,PPL
+saint-hippolyte-qc,Saint-Hippolyte,Saint-Hippolyte,QC,Quebec,45.93338,-74.0159,8083,P,PPL
+chelsea-qc,Chelsea,Chelsea,QC,Quebec,45.5001,-75.78265,8000,P,PPL
+edson-ab,Edson,Edson,AB,Alberta,53.58345,-116.43559,7975,P,PPL
+saint-apollinaire-qc,Saint-Apollinaire,Saint-Apollinaire,QC,Quebec,46.61289,-71.51258,7968,P,PPL
+kahnawake-qc,Kahnawake,Kahnawake,QC,Quebec,45.41076,-73.68139,7965,P,PPL
+amherstview-on,Amherstview,Amherstview,ON,Ontario,44.22327,-76.64538,7959,P,PPL
+trail-bc,Trail,Trail,BC,British Columbia,49.09983,-117.70223,7920,P,PPL
+chandler-qc,Chandler,Chandler,QC,Quebec,48.34935,-64.67926,7914,P,PPL
+three-rivers-pe,Three Rivers,Three Rivers,PE,Prince Edward Island,46.1845,-62.5679,7883,P,PPL
+port-elgin-on,Port Elgin,Port Elgin,ON,Ontario,44.43605,-81.38981,7862,P,PPL
+torbay-nl,Torbay,Torbay,NL,Newfoundland and Labrador,47.66659,-52.73135,7852,P,PPL
+saint-sauveur-des-monts-qc,Saint-Sauveur-des-Monts,Saint-Sauveur-des-Monts,QC,Quebec,45.90008,-74.16591,7849,P,PPL
+hintonburg-on,Hintonburg,Hintonburg,ON,Ontario,45.40379,-75.7283,7844,P,PPL
+elora-on,Elora,Elora,ON,Ontario,43.6834,-80.43299,7800,P,PPL
+kirkland-lake-on,Kirkland Lake,Kirkland Lake,ON,Ontario,48.14461,-80.03767,7775,P,PPL
+fort-frances-on,Fort Frances,Fort Frances,ON,Ontario,48.61667,-93.4003,7739,P,PPL
+la-sarre-qc,La Sarre,La Sarre,QC,Quebec,48.80019,-79.19964,7719,P,PPL
+centennial-place-nb,Centennial Place,Centennial Place,NB,New Brunswick,46.08333,-64.81667,7698,P,PPL
+hanover-on,Hanover,Hanover,ON,Ontario,44.15009,-81.03303,7688,P,PPL
+innisfail-ab,Innisfail,Innisfail,AB,Alberta,52.02688,-113.95071,7672,P,PPL
+acton-vale-qc,Acton Vale,Acton Vale,QC,Quebec,45.65007,-72.56582,7656,P,PPL
+goderich-on,Goderich,Goderich,ON,Ontario,43.74171,-81.71339,7628,P,PPL
+saint-philippe-qc,Saint-Philippe,Saint-Philippe,QC,Quebec,45.37597,-73.48111,7597,P,PPL
+brentwood-bay-bc,Brentwood Bay,Brentwood Bay,BC,British Columbia,48.58294,-123.45262,7581,P,PPL
+happy-valley-goose-bay-nl,Happy Valley-Goose Bay,Happy Valley-Goose Bay,NL,Newfoundland and Labrador,53.3038,-60.32576,7572,P,PPL
+chibougamau-qc,Chibougamau,Chibougamau,QC,Quebec,49.91684,-74.36586,7563,P,PPL
+revelstoke-bc,Revelstoke,Revelstoke,BC,British Columbia,50.99712,-118.1953,7547,P,PPL
+shediac-nb,Shediac,Shediac,NB,New Brunswick,46.21981,-64.54107,7535,P,PPL
+listowel-on,Listowel,Listowel,ON,Ontario,43.7334,-80.94973,7530,P,PPL
+pont-rouge-qc-2,Pont Rouge,Pont Rouge,QC,Quebec,48.88332,-72.08247,7518,P,PPL
+burnside-ns,Burnside,Burnside,NS,Nova Scotia,44.70175,-63.60051,7506,P,PPL
+camlachie-on,Camlachie,Camlachie,ON,Ontario,43.03596,-82.1616,7506,P,PPL
+aylmer-on,Aylmer,Aylmer,ON,Ontario,42.76679,-80.98302,7492,P,PPL
+sunbury-york-south-nb,Sunbury-York South,Sunbury-York South,NB,New Brunswick,45.83776,-66.60984,7455,P,PPL
+napanee-on,Napanee,Napanee,ON,Ontario,44.25012,-76.94944,7439,P,PPL
+iqaluit-nu,Iqaluit,Iqaluit,NU,Nunavut,63.74697,-68.51727,7429,P,PPLA
+carignan-qc,Carignan,Carignan,QC,Quebec,45.45008,-73.29916,7426,P,PPL
+kimberley-bc,Kimberley,Kimberley,BC,British Columbia,49.67071,-115.9776,7425,P,PPL
+st-marys-on,St. Marys,St. Marys,ON,Ontario,43.25009,-81.13304,7386,P,PPL
+beaumont-ab,Beaumont,Beaumont,AB,Alberta,53.35013,-113.41871,7366,P,PPL
+eastern-charlotte-nb,Eastern Charlotte,Eastern Charlotte,NB,New Brunswick,45.10301,-66.79484,7325,P,PPL
+delson-qc,Delson,Delson,QC,Quebec,45.36678,-73.54917,7322,P,PPL
+grand-centre-ab,Grand Centre,Grand Centre,AB,Alberta,54.41628,-110.21304,7256,P,PPL
+labrador-city-nl,Labrador City,Labrador City,NL,Newfoundland and Labrador,52.94626,-66.91137,7220,P,PPL
+donnacona-qc,Donnacona,Donnacona,QC,Quebec,46.68042,-71.7239,7200,P,PPL
+mill-bay-bc,Mill Bay,Mill Bay,BC,British Columbia,48.65,-123.55,7200,P,PPL
+united-townships-of-dysart-dudley-harcourt-guilford-harburn-bruton-havelock-eyre-and-clyde-on,"United Townships of Dysart, Dudley, Harcourt, Guilford, Harburn, Bruton, Havelock, Eyre and Clyde","United Townships of Dysart, Dudley, Harcourt, Guilford, Harburn, Bruton, Havelock, Eyre and Clyde",ON,Ontario,45.2,-78.41667,7182,P,PPLS
+baie-saint-paul-qc,Baie-Saint-Paul,Baie-Saint-Paul,QC,Quebec,47.44109,-70.49858,7146,P,PPL
+merritt-bc,Merritt,Merritt,BC,British Columbia,50.11225,-120.7942,7139,P,PPL
+pointe-du-lac-qc,Pointe-du-Lac,Pointe-du-Lac,QC,Quebec,48.50009,-71.78241,7104,P,PPL
+val-des-sources-qc,Val-des-Sources,Val-des-Sources,QC,Quebec,45.76678,-71.9324,7088,P,PPL
+bluewater-on,Bluewater,Bluewater,ON,Ontario,43.46679,-81.59977,7044,P,PPL
+coteau-du-lac-qc,Coteau-du-Lac,Coteau-du-Lac,QC,Quebec,45.30008,-74.18253,7044,P,PPL
+coaticook-qc,Coaticook,Coaticook,QC,Quebec,45.13339,-71.79907,7021,P,PPL
+hampstead-qc,Hampstead,Hampstead,QC,Quebec,45.48075,-73.6467,6996,P,PPL
+king-on,King,King,ON,Ontario,43.96514,-79.59011,6970,P,PPL
+port-wallace-ns,Port Wallace,Port Wallace,NS,Nova Scotia,44.69882,-63.54767,6963,P,PPL
+sturgeon-falls-on,Sturgeon Falls,Sturgeon Falls,ON,Ontario,46.36679,-79.91636,6939,P,PPL
+central-york-nb,Central York,Central York,NB,New Brunswick,46.0051,-66.90803,6930,P,PPL
+saint-remi-qc,Saint-Rémi,Saint-Remi,QC,Quebec,45.26678,-73.61588,6891,P,PPLA3
+campbellton-nb,Campbellton,Campbellton,NB,New Brunswick,48.00751,-66.67272,6883,P,PPL
+peace-river-ab,Peace River,Peace River,AB,Alberta,56.23715,-117.29176,6842,P,PPL
+slave-lake-ab,Slave Lake,Slave Lake,AB,Alberta,55.28344,-114.76896,6836,P,PPL
+yarmouth-ns,Yarmouth,Yarmouth,NS,Nova Scotia,43.83345,-66.11557,6829,P,PPL
+gibsons-bc,Gibsons,Gibsons,BC,British Columbia,49.39539,-123.50555,6821,P,PPL
+saint-zotique-qc,Saint-Zotique,Saint-Zotique,QC,Quebec,45.25009,-74.24924,6773,P,PPL
+saint-anselme-nb,Saint-Anselme,Saint-Anselme,NB,New Brunswick,46.06395,-64.71261,6740,P,PPL
+kincardine-on,Kincardine,Kincardine,ON,Ontario,44.18339,-81.63307,6725,P,PPLA3
+new-waterford-ns,New Waterford,New Waterford,NS,Nova Scotia,46.25014,-60.08175,6723,P,PPL
+beaubassin-east-nb,Beaubassin East,Beaubassin East,NB,New Brunswick,46.20917,-64.418,6718,P,PPL
+clarenville-nl,Clarenville,Clarenville,NL,Newfoundland and Labrador,48.1666,-53.96482,6704,P,PPL
+hope-bc,Hope,Hope,BC,British Columbia,49.38299,-121.44144,6686,P,PPL
+west-st-paul-mb,West St. Paul,West St. Paul,MB,Manitoba,50.01043,-97.14213,6682,P,PPL
+plessisville-qc,Plessisville,Plessisville,QC,Quebec,46.21856,-71.76201,6677,P,PPL
+brownsburg-chatham-qc,Brownsburg-Chatham,Brownsburg-Chatham,QC,Quebec,45.68342,-74.4159,6664,P,PPL
+ponoka-ab,Ponoka,Ponoka,AB,Alberta,52.6768,-113.58147,6656,P,PPL
+enfield-ns,Enfield,Enfield,NS,Nova Scotia,44.9434,-63.53613,6583,P,PPL
+cornwall-pe,Cornwall,Cornwall,PE,Prince Edward Island,46.22652,-63.21809,6574,P,PPL
+mont-joli-qc,Mont-Joli,Mont-Joli,QC,Quebec,48.58388,-68.19214,6568,P,PPL
+devon-ab,Devon,Devon,AB,Alberta,53.36683,-113.73533,6545,P,PPL
+nanoose-bay-bc,Nanoose Bay,Nanoose Bay,BC,British Columbia,49.27237,-124.19332,6540,P,PPL
+stephenville-nl,Stephenville,Stephenville,NL,Newfoundland and Labrador,48.55001,-58.5818,6540,P,PPL
+millidgeville-nb,Millidgeville,Millidgeville,NB,New Brunswick,45.3017,-66.10319,6527,P,PPL
+rocky-mountain-house-ab,Rocky Mountain House,Rocky Mountain House,AB,Alberta,52.36683,-114.9188,6527,P,PPL
+port-cartier-qc,Port-Cartier,Port-Cartier,QC,Quebec,50.03339,-66.86545,6516,P,PPL
+pointe-calumet-qc,Pointe-Calumet,Pointe-Calumet,QC,Quebec,45.50008,-73.9659,6396,P,PPL
+saint-honore-qc,Saint-Honoré,Saint-Honore,QC,Quebec,48.53338,-71.08236,6376,P,PPL
+beauceville-qc,Beauceville,Beauceville,QC,Quebec,46.21785,-70.77873,6354,P,PPL
+parry-sound-on,Parry Sound,Parry Sound,ON,Ontario,45.34732,-80.03527,6321,P,PPL
+agassiz-bc,Agassiz,Agassiz,BC,British Columbia,49.23298,-121.76926,6300,P,PPL
+wainwright-ab,Wainwright,Wainwright,AB,Alberta,52.83482,-110.85342,6270,P,PPL
+amqui-qc,Amqui,Amqui,QC,Quebec,48.46382,-67.43134,6261,P,PPL
+hammonds-plains-ns,Hammonds Plains,Hammonds Plains,NS,Nova Scotia,44.73386,-63.77551,6242,P,PPL
+saint-joseph-du-lac-qc,Saint-Joseph-du-Lac,Saint-Joseph-du-Lac,QC,Quebec,45.53338,-73.9992,6195,P,PPL
+beaurivage-nb,Beaurivage,Beaurivage,NB,New Brunswick,46.68206,-64.96023,6160,P,PPL
+hautes-terres-nb,Hautes-Terres,Hautes-Terres,NB,New Brunswick,47.62877,-65.09284,6140,P,PPL
+russell-on,Russell,Russell,ON,Ontario,45.2501,-75.36602,6135,P,PPL
+fundy-albert-nb,Fundy Albert,Fundy Albert,NB,New Brunswick,45.80271,-64.65977,6100,P,PPL
+drayton-valley-ab,Drayton Valley,Drayton Valley,AB,Alberta,53.21682,-114.98544,6099,P,PPL
+chippawa-on,Chippawa,Chippawa,ON,Ontario,43.0571,-79.04717,6077,P,PPL
+saint-felix-de-valois-qc,Saint-Félix-de-Valois,Saint-Felix-de-Valois,QC,Quebec,46.16977,-73.42525,6029,P,PPL
+bay-roberts-nl,Bay Roberts,Bay Roberts,NL,Newfoundland and Labrador,47.59989,-53.26478,6012,P,PPL
+beaver-bank-ns,Beaver Bank,Beaver Bank,NS,Nova Scotia,44.82484,-63.68079,6000,P,PPL
+ganges-bc,Ganges,Ganges,BC,British Columbia,48.85342,-123.50032,6000,P,PPL
+bonnyville-ab,Bonnyville,Bonnyville,AB,Alberta,54.26684,-110.73505,5975,P,PPL
+saint-cesaire-qc,Saint-Césaire,Saint-Cesaire,QC,Quebec,45.40948,-73.00104,5972,P,PPLA3
+roxboro-qc,Roxboro,Roxboro,QC,Quebec,45.50841,-73.80752,5948,P,PPL
+mcmasterville-qc,McMasterville,McMasterville,QC,Quebec,45.55008,-73.26585,5936,P,PPL
+douglas-nb,Douglas,Douglas,NB,New Brunswick,45.97832,-66.73108,5935,P,PPL
+dunnville-on,Dunnville,Dunnville,ON,Ontario,42.90011,-79.61631,5907,P,PPL
+flin-flon-mb,Flin Flon,Flin Flon,MB,Manitoba,54.76703,-101.87433,5865,P,PPL
+sioux-lookout-on,Sioux Lookout,Sioux Lookout,ON,Ontario,50.09906,-91.92158,5839,P,PPL
+louiseville-qc,Louiseville,Louiseville,QC,Quebec,46.25594,-72.94145,5819,P,PPL
+melfort-sk,Melfort,Melfort,SK,Saskatchewan,52.86673,-104.61768,5778,P,PPL
+norway-house-mb,Norway House,Norway House,MB,Manitoba,53.98214,-97.83265,5753,P,PPL
+lac-megantic-qc,Lac-Mégantic,Lac-Megantic,QC,Quebec,45.58338,-70.88234,5747,P,PPL
+st-paul-ab,St. Paul,St. Paul,AB,Alberta,53.98347,-111.28507,5728,P,PPL
+grand-lake-nb,Grand Lake,Grand Lake,NB,New Brunswick,46.11258,-65.95682,5725,P,PPL
+vegreville-ab,Vegreville,Vegreville,AB,Alberta,53.50015,-112.05182,5708,P,PPL
+north-sydney-ns,North Sydney,North Sydney,NS,Nova Scotia,46.20777,-60.25489,5699,P,PPL
+princeville-qc,Princeville,Princeville,QC,Quebec,46.17163,-71.87462,5693,P,PPL
+corunna-on,Corunna,Corunna,ON,Ontario,42.88338,-82.43313,5686,P,PPL
+la-ronge-sk,La Ronge,La Ronge,SK,Saskatchewan,55.10013,-105.28422,5671,P,PPL
+nicolet-qc,Nicolet,Nicolet,QC,Quebec,46.23085,-72.61292,5669,P,PPL
+petrolia-on,Petrolia,Petrolia,ON,Ontario,42.882,-82.152,5632,P,PPL
+lac-brome-qc,Lac-Brome,Lac-Brome,QC,Quebec,45.21678,-72.51581,5629,P,PPL
+ile-de-lameque-nb,Île-de-Lamèque,Ile-de-Lameque,NB,New Brunswick,47.84661,-64.59607,5627,P,PPL
+timberlea-ns,Timberlea,Timberlea,NS,Nova Scotia,44.66239,-63.74625,5627,P,PPL
+lively-on,Lively,Lively,ON,Ontario,46.43338,-81.14975,5608,P,PPL
+sainte-anne-des-monts-qc,Sainte-Anne-des-Monts,Sainte-Anne-des-Monts,QC,Quebec,49.12402,-66.49243,5602,P,PPL
+chartersville-nb,Chartersville,Chartersville,NB,New Brunswick,46.08494,-64.73339,5600,P,PPL
+marieville-qc,Marieville,Marieville,QC,Quebec,45.43338,-73.16585,5600,P,PPL
+charlemagne-qc,Charlemagne,Charlemagne,QC,Quebec,45.71678,-73.48247,5594,P,PPL
+creston-bc,Creston,Creston,BC,British Columbia,49.09987,-116.50211,5583,P,PPL
+convoy-place-ns,Convoy Place,Convoy Place,NS,Nova Scotia,44.66785,-63.61431,5581,P,PPL
+redcliff-ab,Redcliff,Redcliff,AB,Alberta,50.08336,-110.78495,5581,P,PPL
+perth-on,Perth,Perth,ON,Ontario,44.90011,-76.24939,5573,P,PPL
+princeville-ns,Princeville,Princeville,NS,Nova Scotia,45.76684,-61.29853,5571,P,PPL
+bearspaw-ab,Bearspaw,Bearspaw,AB,Alberta,51.13341,-114.302,5567,P,PPLL
+osoyoos-bc,Osoyoos,Osoyoos,BC,British Columbia,49.03306,-119.45237,5556,P,PPL
+woodstock-nb,Woodstock,Woodstock,NB,New Brunswick,46.15796,-67.58377,5553,P,PPL
+heron-bay-nb,Heron Bay,Heron Bay,NB,New Brunswick,48.02185,-66.39597,5536,P,PPL
+the-pas-mb,The Pas,The Pas,MB,Manitoba,53.82159,-101.24488,5513,P,PPL
+stettler-ab,Stettler,Stettler,AB,Alberta,52.31683,-112.71861,5494,P,PPL
+gananoque-on,Gananoque,Gananoque,ON,Ontario,44.33342,-76.16607,5458,P,PPL
+saint-roch-de-l-achigan-qc,Saint-Roch-de-l'Achigan,Saint-Roch-de-l'Achigan,QC,Quebec,45.85921,-73.58959,5453,P,PPL
+saint-pie-qc,Saint-Pie,Saint-Pie,QC,Quebec,45.50277,-72.9089,5438,P,PPLA3
+butternut-valley-nb,Butternut Valley,Butternut Valley,NB,New Brunswick,45.83331,-65.5347,5435,P,PPL
+viscount-alexander-park-on,Viscount Alexander Park,Viscount Alexander Park,ON,Ontario,45.45273,-75.6312,5430,P,PPL
+windsor-qc,Windsor,Windsor,QC,Quebec,45.56678,-71.99909,5408,P,PPL
+chisasibi-qc,Chisasibi,Chisasibi,QC,Quebec,53.78333,-78.9,5397,P,PPL
+cochrane-on,Cochrane,Cochrane,ON,Ontario,49.06689,-81.03307,5390,P,PPL
+ayr-on,Ayr,Ayr,ON,Ontario,43.2834,-80.44968,5383,P,PPL
+greenwood-ns,Greenwood,Greenwood,NS,Nova Scotia,44.97413,-64.93169,5369,P,PPL
+smithers-bc,Smithers,Smithers,BC,British Columbia,54.78036,-127.17428,5351,P,PPL
+cookshire-eaton-qc,Cookshire-Eaton,Cookshire-Eaton,QC,Quebec,45.41675,-71.6324,5344,P,PPL
+delhi-on,Delhi,Delhi,ON,Ontario,42.8501,-80.49968,5344,P,PPL
+hildegarde-nb,Hildegarde,Hildegarde,NB,New Brunswick,46.12296,-64.85392,5327,P,PPL
+armstrong-bc,Armstrong,Armstrong,BC,British Columbia,50.44979,-119.20235,5323,P,PPL
+deer-lake-nl,Deer Lake,Deer Lake,NL,Newfoundland and Labrador,49.16671,-57.43163,5319,P,PPL
+sussex-nb,Sussex,Sussex,NB,New Brunswick,45.72266,-65.50663,5298,P,PPL
+meadow-lake-sk,Meadow Lake,Meadow Lake,SK,Saskatchewan,54.13348,-108.43471,5266,P,PPL
+fernie-bc,Fernie,Fernie,BC,British Columbia,49.49996,-115.06871,5249,P,PPL
+fundy-st-martins-nb,Fundy-St. Martins,Fundy-St. Martins,NB,New Brunswick,45.40777,-65.43908,5225,P,PPL
+grand-falls-nb,Grand Falls,Grand Falls,NB,New Brunswick,47.04609,-67.74179,5220,P,PPL
+val-david-qc,Val-David,Val-David,QC,Quebec,46.03338,-74.21592,5209,P,PPL
+richelieu-qc,Richelieu,Richelieu,QC,Quebec,45.44336,-73.24602,5208,P,PPL
+marystown-nl,Marystown,Marystown,NL,Newfoundland and Labrador,47.16663,-55.14829,5204,P,PPL
+sainte-anne-de-bellevue-qc,Sainte-Anne-de-Bellevue,Sainte-Anne-de-Bellevue,QC,Quebec,45.40618,-73.9456,5197,P,PPL
+rawdon-qc,Rawdon,Rawdon,QC,Quebec,46.05007,-73.71587,5188,P,PPL
+montreal-ouest-qc,Montréal-Ouest,Montreal-Ouest,QC,Quebec,45.45286,-73.64918,5184,P,PPL
+tottenham-on,Tottenham,Tottenham,ON,Ontario,44.02437,-79.80553,5143,P,PPL
+champdore-nb,Champdoré,Champdore,NB,New Brunswick,46.38601,-64.78239,5115,P,PPL
+hanwell-nb,Hanwell,Hanwell,NB,New Brunswick,45.88308,-66.76905,5108,P,PPL
+oliver-bc,Oliver,Oliver,BC,British Columbia,49.18306,-119.5524,5094,P,PPL
+hudson-qc,Hudson,Hudson,QC,Quebec,45.45008,-74.14922,5088,P,PPL
+shannon-qc,Shannon,Shannon,QC,Quebec,46.88026,-71.51464,5086,P,PPL
+bible-hill-ns,Bible Hill,Bible Hill,NS,Nova Scotia,45.375,-63.238,5076,P,PPL
+fairvale-nb,Fairvale,Fairvale,NB,New Brunswick,45.40083,-65.97167,5075,P,PPL
+metchosin-bc,Metchosin,Metchosin,BC,British Columbia,48.38293,-123.53591,5067,P,PPL
+spallumcheen-bc,Spallumcheen,Spallumcheen,BC,British Columbia,50.40146,-119.22039,5055,P,PPL
+breslau-on,Breslau,Breslau,ON,Ontario,43.4668,-80.41638,5053,P,PPL
+mount-forest-on,Mount Forest,Mount Forest,ON,Ontario,43.97948,-80.72205,5040,P,PPL
+almonte-on,Almonte,Almonte,ON,Ontario,45.22993,-76.19585,5039,P,PPL
+memramcook-nb,Memramcook,Memramcook,NB,New Brunswick,46.00435,-64.55156,5029,P,PPL
+saint-henri-qc,Saint-Henri,Saint-Henri,QC,Quebec,46.69314,-71.06927,5023,P,PPL
+sainte-catherine-de-la-jacques-cartier-qc,Sainte Catherine de la Jacques Cartier,Sainte Catherine de la Jacques Cartier,QC,Quebec,46.85244,-71.62056,5021,P,PPL
+lakeburn-nb,Lakeburn,Lakeburn,NB,New Brunswick,46.10014,-64.68205,5014,P,PPL
+saint-joseph-de-beauce-qc,Saint-Joseph-de-Beauce,Saint-Joseph-de-Beauce,QC,Quebec,46.3,-70.86667,5014,P,PPL
+peachland-bc,Peachland,Peachland,BC,British Columbia,49.76862,-119.74633,5006,P,PPL
+kingscourt-on,Kingscourt,Kingscourt,ON,Ontario,44.24694,-76.50389,5005,P,PPL
+antigonish-ns,Antigonish,Antigonish,NS,Nova Scotia,45.61685,-61.99858,5003,P,PPL
+breakeyville-qc,Breakeyville,Breakeyville,QC,Quebec,46.68037,-71.22327,5000,P,PPLL
+grand-bay-westfield-nb,Grand Bay-Westfield,Grand Bay-Westfield,NB,New Brunswick,45.34075,-66.25275,4967,P,PPL
+baden-on,Baden,Baden,ON,Ontario,43.4001,-80.6497,4940,P,PPL
+mount-albert-on,Mount Albert,Mount Albert,ON,Ontario,44.13341,-79.3163,4925,P,PPL
+meaford-on,Meaford,Meaford,ON,Ontario,44.60725,-80.61081,4910,P,PPL
+exeter-on,Exeter,Exeter,ON,Ontario,43.34353,-81.47933,4863,P,PPL
+lemoyne-qc,LeMoyne,LeMoyne,QC,Quebec,45.50008,-73.49361,4855,P,PPL
+carbonear-nl,Carbonear,Carbonear,NL,Newfoundland and Labrador,47.73919,-53.2272,4838,P,PPL
+saint-jean-de-matha-qc,Saint-Jean-de-Matha,Saint-Jean-de-Matha,QC,Quebec,46.23147,-73.53416,4838,P,PPL
+chertsey-qc,Chertsey,Chertsey,QC,Quebec,46.07109,-73.89095,4836,P,PPL
+greektown-bc,Greektown,Greektown,BC,British Columbia,49.26412,-123.1757,4836,P,PPL
+humboldt-sk,Humboldt,Humboldt,SK,Saskatchewan,52.20005,-105.1255,4822,P,PPL
+warwick-qc,Warwick,Warwick,QC,Quebec,45.95007,-71.9824,4766,P,PPL
+humphreys-mills-nb,Humphreys Mills,Humphreys Mills,NB,New Brunswick,46.11237,-64.7589,4754,P,PPL
+hearst-on,Hearst,Hearst,ON,Ontario,49.68351,-83.66654,4746,P,PPL
+walkerton-on,Walkerton,Walkerton,ON,Ontario,44.13023,-81.15309,4724,P,PPL
+picton-on,Picton,Picton,ON,Ontario,44.00176,-77.14637,4702,P,PPL
+tilbury-on,Tilbury,Tilbury,ON,Ontario,42.26679,-82.43311,4687,P,PPL
+espanola-on,Espanola,Espanola,ON,Ontario,46.25837,-81.76649,4682,P,PPL
+westlock-ab,Westlock,Westlock,AB,Alberta,54.15016,-113.86876,4678,P,PPL
+azilda-on,Azilda,Azilda,ON,Ontario,46.55008,-81.09975,4663,P,PPL
+mississauga-beach-on,Mississauga Beach,Mississauga Beach,ON,Ontario,43.25876,-79.08625,4662,P,PPL
+new-minas-ns,New Minas,New Minas,NS,Nova Scotia,45.0691,-64.46958,4662,P,PPL
+rusagonis-nb,Rusagonis,Rusagonis,NB,New Brunswick,45.80276,-66.6204,4661,P,PPL
+riviere-rouge-qc,Rivière-Rouge,Riviere-Rouge,QC,Quebec,46.41679,-74.86596,4645,P,PPL
+greenstone-on,Greenstone,Greenstone,ON,Ontario,49.73343,-87.16668,4636,P,PPL
+rockwood-on,Rockwood,Rockwood,ON,Ontario,43.61899,-80.14441,4629,P,PPL
+grand-bank-nl,Grand Bank,Grand Bank,NL,Newfoundland and Labrador,47.09995,-55.76504,4623,P,PPL
+whitney-pier-ns,Whitney Pier,Whitney Pier,NS,Nova Scotia,46.15931,-60.18662,4612,P,PPL
+neepawa-mb,Neepawa,Neepawa,MB,Manitoba,50.22892,-99.46642,4609,P,PPL
+l-epiphanie-qc,L'Épiphanie,L'Epiphanie,QC,Quebec,45.85008,-73.48246,4606,P,PPL
+barrhead-ab,Barrhead,Barrhead,AB,Alberta,54.13345,-114.40211,4579,P,PPL
+la-pocatiere-qc,La Pocatière,La Pocatiere,QC,Quebec,47.36733,-70.03484,4575,P,PPL
+caledon-east-on,Caledon East,Caledon East,ON,Ontario,43.86913,-79.86691,4568,P,PPL
+valley-waters-nb,Valley Waters,Valley Waters,NB,New Brunswick,45.67299,-65.83704,4549,P,PPL
+saint-agapit-qc,Saint-Agapit,Saint-Agapit,QC,Quebec,46.55674,-71.44186,4526,P,PPL
+gabriola-bc,Gabriola,Gabriola,BC,British Columbia,49.17043,-123.8499,4500,P,PPL
+lac-alouette-qc,Lac-Alouette,Lac-Alouette,QC,Quebec,45.81698,-73.9592,4473,P,PPL
+prescott-on,Prescott,Prescott,ON,Ontario,44.71681,-75.51604,4466,P,PPL
+lanoraie-qc,Lanoraie,Lanoraie,QC,Quebec,45.96677,-73.21585,4447,P,PPL
+goulds-nl,Goulds,Goulds,NL,Newfoundland and Labrador,47.45532,-52.77552,4418,P,PPL
+st-stephen-nb,St. Stephen,St. Stephen,NB,New Brunswick,45.18044,-67.29529,4415,P,PPL
+berthierville-qc,Berthierville,Berthierville,QC,Quebec,46.08336,-73.18245,4411,P,PPL
+waterloo-qc,Waterloo,Waterloo,QC,Quebec,45.35008,-72.51582,4410,P,PPL
+nipawin-sk,Nipawin,Nipawin,SK,Saskatchewan,53.36678,-104.00092,4401,P,PPL
+battleford-sk,Battleford,Battleford,SK,Saskatchewan,52.73486,-108.3091,4400,P,PPL
+hampton-nb,Hampton,Hampton,NB,New Brunswick,45.52876,-65.85354,4395,P,PPL
+red-lake-on,Red Lake,Red Lake,ON,Ontario,51.01678,-93.82736,4366,P,PPL
+vanderhoof-bc,Vanderhoof,Vanderhoof,BC,British Columbia,54.01657,-124.01982,4346,P,PPL
+middle-sackville-ns,Middle Sackville,Middle Sackville,NS,Nova Scotia,44.77644,-63.69605,4329,P,PPL
+deep-river-on,Deep River,Deep River,ON,Ontario,46.10012,-77.49949,4296,P,PPL
+beresford-nb,Beresford,Beresford,NB,New Brunswick,47.69128,-65.69893,4294,P,PPL
+caraquet-nb,Caraquet,Caraquet,NB,New Brunswick,47.79413,-64.9386,4285,P,PPL
+terrasse-des-pins-qc,Terrasse-des-Pins,Terrasse-des-Pins,QC,Quebec,45.86449,-74.06627,4268,P,PPL
+bowen-island-bc,Bowen Island,Bowen Island,BC,British Columbia,49.3847,-123.33622,4256,P,PPL
+vallee-des-rivieres-nb,Vallée-des-Rivières,Vallee-des-Rivieres,NB,New Brunswick,47.21512,-67.96074,4250,P,PPL
+kindersley-sk,Kindersley,Kindersley,SK,Saskatchewan,51.46681,-109.16818,4249,P,PPL
+maniwaki-qc,Maniwaki,Maniwaki,QC,Quebec,46.38341,-75.96605,4236,P,PPL
+iroquois-falls-on,Iroquois Falls,Iroquois Falls,ON,Ontario,48.76688,-80.68307,4232,P,PPL
+roxton-pond-qc,Roxton Pond,Roxton Pond,QC,Quebec,45.48338,-72.66582,4224,P,PPL
+altona-mb,Altona,Altona,MB,Manitoba,49.10469,-97.55961,4212,P,PPL
+harrisville-nb,Harrisville,Harrisville,NB,New Brunswick,46.11771,-64.72209,4201,P,PPL
+swan-river-mb,Swan River,Swan River,MB,Manitoba,52.1058,-101.26759,4198,P,PPL
+wolfville-ns,Wolfville,Wolfville,NS,Nova Scotia,45.08345,-64.36546,4195,P,PPL
+stonewall-mb,Stonewall,Stonewall,MB,Manitoba,50.13441,-97.32676,4177,P,PPL
+new-maryland-nb,New Maryland,New Maryland,NB,New Brunswick,45.89662,-66.68225,4153,P,PPL
+beeton-on,Beeton,Beeton,ON,Ontario,44.07988,-79.7816,4151,P,PPL
+rossland-bc,Rossland,Rossland,BC,British Columbia,49.08313,-117.80224,4140,P,PPL
+didsbury-ab,Didsbury,Didsbury,AB,Alberta,51.66681,-114.13529,4134,P,PPL
+melville-sk,Melville,Melville,SK,Saskatchewan,50.91671,-102.80099,4127,P,PPL
+metabetchouan-lac-a-la-croix-qc,Metabetchouan-Lac-a-la-Croix,Metabetchouan-Lac-a-la-Croix,QC,Quebec,48.41,-71.78,4084,P,PPL
+vermilion-ab,Vermilion,Vermilion,AB,Alberta,53.35409,-110.85849,4084,P,PPL
+niverville-mb,Niverville,Niverville,MB,Manitoba,49.60559,-97.04234,4083,P,PPL
+carleton-sur-mer-qc,Carleton-sur-Mer,Carleton-sur-Mer,QC,Quebec,48.10749,-66.128,4077,P,PPL
+carstairs-ab,Carstairs,Carstairs,AB,Alberta,51.56681,-114.102,4077,P,PPL
+vineland-on,Vineland,Vineland,ON,Ontario,43.15132,-79.39449,4074,P,PPL
+bancroft-on,Bancroft,Bancroft,ON,Ontario,45.05752,-77.85702,4065,P,PPL
+richmond-on,Richmond,Richmond,ON,Ontario,45.1834,-75.83266,4055,P,PPL
+grand-forks-bc,Grand Forks,Grand Forks,BC,British Columbia,49.03309,-118.4356,4049,P,PPL
+golden-bc,Golden,Golden,BC,British Columbia,51.29995,-116.9689,4038,P,PPL
+vercheres-qc,Verchères,Vercheres,QC,Quebec,45.78338,-73.34916,4030,P,PPL
+berry-mills-heights-nb,Berry Mills Heights,Berry Mills Heights,NB,New Brunswick,46.1,-64.85,4021,P,PPL
+stellarton-ns,Stellarton,Stellarton,NS,Nova Scotia,45.55854,-62.66069,4007,P,PPL
+koksilah-bc,Koksilah,Koksilah,BC,British Columbia,48.76667,-123.68333,4000,P,PPL
+sparwood-bc,Sparwood,Sparwood,BC,British Columbia,49.73332,-114.88532,3990,P,PPL
+three-rivers-nb,Three Rivers,Three Rivers,NB,New Brunswick,45.91178,-65.15228,3990,P,PPL
+callander-on,Callander,Callander,ON,Ontario,46.2168,-79.36632,3964,P,PPL
+saint-augustin-qc,Saint-Augustin,Saint-Augustin,QC,Quebec,51.22602,-58.65017,3961,P,PPL
+jasper-ab,Jasper,Jasper,AB,Alberta,52.87946,-118.08041,3948,P,PPL
+morin-heights-qc,Morin-Heights,Morin-Heights,QC,Quebec,45.90009,-74.24922,3925,P,PPL
+shawnigan-lake-bc,Shawnigan Lake,Shawnigan Lake,BC,British Columbia,48.65055,-123.64494,3908,P,PPL
+jasper-park-lodge-ab,Jasper Park Lodge,Jasper Park Lodge,AB,Alberta,52.88633,-118.05625,3907,P,PPLL
+sutton-qc,Sutton,Sutton,QC,Quebec,45.10008,-72.61582,3906,P,PPL
+baie-d-urfe-qc,Baie-D'Urfé,Baie-D'Urfe,QC,Quebec,45.41397,-73.91586,3902,P,PPL
+port-hardy-bc,Port Hardy,Port Hardy,BC,British Columbia,50.72086,-127.49231,3902,P,PPL
+bois-joli-nb,Bois-Joli,Bois-Joli,NB,New Brunswick,47.99101,-66.5116,3900,P,PPL
+bromont-qc,Bromont,Bromont,QC,Quebec,45.31678,-72.64912,3895,P,PPL
+saint-tite-qc,Saint-Tite,Saint-Tite,QC,Quebec,46.73336,-72.56581,3880,P,PPL
+windsor-ns,Windsor,Windsor,NS,Nova Scotia,44.98345,-64.13204,3864,P,PPL
+barrington-ns,Barrington,Barrington,NS,Nova Scotia,43.56285,-65.56173,3856,P,PPL
+pincher-creek-ab,Pincher Creek,Pincher Creek,AB,Alberta,49.48328,-113.95195,3855,P,PPL
+montreal-est-qc,Montréal-Est,Montreal-Est,QC,Quebec,45.63202,-73.5075,3850,P,PPL
+lantzville-bc,Lantzville,Lantzville,BC,British Columbia,49.2454,-124.07547,3817,P,PPL
+l-islet-sur-mer-qc,L'Islet-sur-Mer,L'Islet-sur-Mer,QC,Quebec,47.12868,-70.3707,3803,P,PPL
+claresholm-ab,Claresholm,Claresholm,AB,Alberta,50.03332,-113.58524,3780,P,PPL
+nackawic-millville-nb,Nackawic-Millville,Nackawic-Millville,NB,New Brunswick,46.07831,-67.23335,3765,P,PPL
+cumberland-bc,Cumberland,Cumberland,BC,British Columbia,49.61634,-125.03613,3753,P,PPL
+new-richmond-qc,New-Richmond,New-Richmond,QC,Quebec,48.16059,-65.85823,3748,P,PPL
+haut-madawaska-nb,Haut-Madawaska,Haut-Madawaska,NB,New Brunswick,47.26057,-68.63689,3720,P,PPL
+porters-lake-ns,Porters Lake,Porters Lake,NS,Nova Scotia,44.73768,-63.31307,3716,P,PPL
+malartic-qc,Malartic,Malartic,QC,Quebec,48.13633,-78.12533,3710,P,PPL
+raymond-ab,Raymond,Raymond,AB,Alberta,49.46382,-112.66024,3708,P,PPL
+saint-adolphe-d-howard-qc,Saint-Adolphe-d'Howard,Saint-Adolphe-d'Howard,QC,Quebec,45.96679,-74.33253,3702,P,PPL
+arcadia-nb,Arcadia,Arcadia,NB,New Brunswick,45.8081,-66.06383,3700,P,PPL
+calvin-park-on,Calvin Park,Calvin Park,ON,Ontario,44.23282,-76.52405,3685,P,PPL
+black-diamond-ab,Black Diamond,Black Diamond,AB,Alberta,50.68771,-114.23241,3663,P,PPL
+neuville-qc,Neuville,Neuville,QC,Quebec,46.69823,-71.58275,3638,P,PPL
+east-angus-qc,East Angus,East Angus,QC,Quebec,45.48338,-71.66577,3634,P,PPL
+l-ange-gardien-qc,L'Ange-Gardien,L'Ange-Gardien,QC,Quebec,46.91976,-71.08253,3634,P,PPL
+westville-ns,Westville,Westville,NS,Nova Scotia,45.56685,-62.71534,3628,P,PPL
+pasadena-nl,Pasadena,Pasadena,NL,Newfoundland and Labrador,49.01671,-57.59837,3620,P,PPL
+rigaud-qc,Rigaud,Rigaud,QC,Quebec,45.47927,-74.30238,3613,P,PPL
+contrecoeur-qc,Contrecoeur,Contrecoeur,QC,Quebec,45.85008,-73.23245,3587,P,PPL
+cardston-ab,Cardston,Cardston,AB,Alberta,49.19998,-113.3019,3585,P,PPL
+bobcaygeon-on,Bobcaygeon,Bobcaygeon,ON,Ontario,44.5462,-78.54203,3576,P,PPL
+alnwick-nb,Alnwick,Alnwick,NB,New Brunswick,47.21568,-65.18062,3575,P,PPL
+chateau-richer-qc,Château-Richer,Chateau-Richer,QC,Quebec,46.96031,-71.03219,3563,P,PPL
+saint-andre-avellin-qc,Saint-André-Avellin,Saint-Andre-Avellin,QC,Quebec,45.7168,-75.06599,3562,P,PPL
+channel-port-aux-basques-nl,Channel-Port aux Basques,Channel-Port aux Basques,NL,Newfoundland and Labrador,47.57286,-59.13808,3547,P,PPL
+new-edinburgh-on,New Edinburgh,New Edinburgh,ON,Ontario,45.44139,-75.68778,3539,P,PPL
+riviere-du-nord-nb,Rivière-du-Nord,Riviere-du-Nord,NB,New Brunswick,47.72309,-65.1839,3530,P,PPL
+hay-river-nt,Hay River,Hay River,NT,Northwest Territories,60.81555,-115.79993,3528,P,PPL
+sainte-claire-qc,Sainte-Claire,Sainte-Claire,QC,Quebec,46.60134,-70.86319,3526,P,PPL
+eskasoni-3-ns,Eskasoni 3,Eskasoni 3,NS,Nova Scotia,45.94522,-60.61617,3521,P,PPL
+mount-uniacke-ns,Mount Uniacke,Mount Uniacke,NS,Nova Scotia,44.90015,-63.83202,3501,P,PPL
+aldergrove-east-bc,Aldergrove East,Aldergrove East,BC,British Columbia,49.05614,-122.45457,3491,P,PPL
+fruitvale-bc,Fruitvale,Fruitvale,BC,British Columbia,49.11654,-117.55222,3491,P,PPL
+saint-pascal-qc,Saint-Pascal,Saint-Pascal,QC,Quebec,47.51813,-69.80301,3490,P,PPL
+saint-germain-de-grantham-qc,Saint-Germain-de-Grantham,Saint-Germain-de-Grantham,QC,Quebec,45.83337,-72.56582,3485,P,PPL
+clarenville-shoal-harbour-nl,Clarenville-Shoal Harbour,Clarenville-Shoal Harbour,NL,Newfoundland and Labrador,48.1805,-53.96982,3478,P,PPL
+dunham-qc,Dunham,Dunham,QC,Quebec,45.13338,-72.79913,3471,P,PPL
+kingston-ns,Kingston,Kingston,NS,Nova Scotia,44.99185,-64.94092,3466,P,PPL
+havre-saint-pierre-qc,Havre-Saint-Pierre,Havre-Saint-Pierre,QC,Quebec,50.24342,-63.60264,3460,P,PPL
+bonavista-nl,Bonavista,Bonavista,NL,Newfoundland and Labrador,48.64989,-53.11474,3448,P,PPL
+blind-river-on,Blind River,Blind River,ON,Ontario,46.18336,-82.95817,3422,P,PPL
+lawrencetown-ns,Lawrencetown,Lawrencetown,NS,Nova Scotia,44.6596,-63.36732,3402,P,PPL
+five-rivers-nb,Five Rivers,Five Rivers,NB,New Brunswick,46.55684,-64.90456,3400,P,PPL
+invermere-bc,Invermere,Invermere,BC,British Columbia,50.51666,-116.03538,3391,P,PPL
+grande-riviere-qc,Grande-Riviere,Grande-Riviere,QC,Quebec,48.40026,-64.50108,3384,P,PPL
+stillwater-lake-ns,Stillwater Lake,Stillwater Lake,NS,Nova Scotia,44.69895,-63.83524,3379,P,PPL
+campbellford-on,Campbellford,Campbellford,ON,Ontario,44.30842,-77.79949,3372,P,PPL
+sainte-marguerite-du-lac-masson-qc,Sainte-Marguerite-du-Lac-Masson,Sainte-Marguerite-du-Lac-Masson,QC,Quebec,46.03338,-74.0659,3367,P,PPL
+beaverton-on,Beaverton,Beaverton,ON,Ontario,44.43342,-79.1496,3347,P,PPL
+yarrow-bc,Yarrow,Yarrow,BC,British Columbia,49.08207,-122.05034,3326,P,PPL
+kashechewan-on,Kashechewan,Kashechewan,ON,Ontario,52.29126,-81.64026,3309,P,PPLL
+st-jean-port-joli-qc,St-Jean-Port-Joli,St-Jean-Port-Joli,QC,Quebec,47.21418,-70.26969,3304,P,PPL
+magnetic-hill-nb,Magnetic Hill,Magnetic Hill,NB,New Brunswick,46.13466,-64.88852,3300,P,PPL
+atholville-nb,Atholville,Atholville,NB,New Brunswick,47.9894,-66.7125,3290,P,PPL
+lebel-sur-quevillon-qc,Lebel-sur-Quévillon,Lebel-sur-Quevillon,QC,Quebec,49.05018,-76.98273,3289,P,PPL
+placentia-nl,Placentia,Placentia,NL,Newfoundland and Labrador,47.2332,-53.96483,3289,P,PPL
+lewisporte-nl,Lewisporte,Lewisporte,NL,Newfoundland and Labrador,49.24343,-55.06196,3288,P,PPL
+penhold-ab,Penhold,Penhold,AB,Alberta,52.13342,-113.8687,3277,P,PPL
+grande-cache-ab,Grande Cache,Grande Cache,AB,Alberta,53.88335,-119.13585,3276,P,PPL
+sainte-julienne-qc,Sainte-Julienne,Sainte-Julienne,QC,Quebec,45.96677,-73.71587,3263,P,PPL
+mackenzie-bc,Mackenzie,Mackenzie,BC,British Columbia,55.33637,-123.09374,3262,P,PPL
+capreol-on,Capreol,Capreol,ON,Ontario,46.70626,-80.92109,3260,P,PPL
+st-george-on,St. George,St. George,ON,Ontario,43.24495,-80.25144,3255,P,PPL
+sydenham-on,Sydenham,Sydenham,ON,Ontario,44.56679,-80.79972,3249,P,PPL
+amethyst-harbour-on,Amethyst Harbour,Amethyst Harbour,ON,Ontario,48.54267,-88.87291,3247,P,PPL
+haileybury-on,Haileybury,Haileybury,ON,Ontario,47.44904,-79.63732,3247,P,PPL
+shuniah-township-on,Shuniah Township,Shuniah Township,ON,Ontario,48.5242,-89.1147,3247,P,PPL
+wellesley-on,Wellesley,Wellesley,ON,Ontario,43.47691,-80.76209,3246,P,PPL
+inuvik-nt,Inuvik,Inuvik,NT,Northwest Territories,68.36166,-133.72817,3243,P,PPL
+richmond-qc,Richmond,Richmond,QC,Quebec,45.66677,-72.1491,3232,P,PPL
+lake-cowichan-bc,Lake Cowichan,Lake Cowichan,BC,British Columbia,48.82495,-124.05461,3226,P,PPL
+ballantrae-on,Ballantrae,Ballantrae,ON,Ontario,44.03342,-79.2996,3223,P,PPL
+dalhousie-nb,Dalhousie,Dalhousie,NB,New Brunswick,48.06442,-66.37495,3223,P,PPL
+preston-ns,Preston,Preston,NS,Nova Scotia,44.71569,-63.43423,3223,P,PPL
+kearney-lake-ns,Kearney Lake,Kearney Lake,NS,Nova Scotia,44.68695,-63.68498,3220,P,PPL
+headingley-mb,Headingley,Headingley,MB,Manitoba,49.8753,-97.40896,3215,P,PPL
+bradner-bc,Bradner,Bradner,BC,British Columbia,49.1,-122.41667,3213,P,PPL
+port-hawkesbury-ns,Port Hawkesbury,Port Hawkesbury,NS,Nova Scotia,45.61652,-61.35636,3210,P,PPL
+lorette-mb,Lorette,Lorette,MB,Manitoba,49.73919,-96.87232,3208,P,PPL
+cabano-qc,Cabano,Cabano,QC,Quebec,47.68065,-68.8781,3199,P,PPL
+saint-thomas-qc,Saint-Thomas,Saint-Thomas,QC,Quebec,46.01677,-73.34915,3193,P,PPL
+tracadie-sheila-nb,Tracadie-Sheila,Tracadie-Sheila,NB,New Brunswick,47.51444,-64.91806,3184,P,PPL
+high-level-ab,High Level,High Level,AB,Alberta,58.51688,-117.13605,3159,P,PPL
+hanna-ab,Hanna,Hanna,AB,Alberta,51.63343,-111.90181,3140,P,PPL
+strathcona-park-on,Strathcona Park,Strathcona Park,ON,Ontario,44.25528,-76.52444,3135,P,PPL
+waterford-on,Waterford,Waterford,ON,Ontario,42.9334,-80.28296,3132,P,PPL
+beausejour-mb,Beausejour,Beausejour,MB,Manitoba,50.0622,-96.51669,3126,P,PPL
+napierville-qc,Napierville,Napierville,QC,Quebec,45.18648,-73.40468,3124,P,PPL
+trois-pistoles-qc,Trois Pistoles,Trois Pistoles,QC,Quebec,48.11667,-69.16667,3115,P,PPL
+virden-mb,Virden,Virden,MB,Manitoba,49.8508,-100.93262,3114,P,PPL
+clinton-on,Clinton,Clinton,ON,Ontario,43.61679,-81.53307,3113,P,PPL
+pictou-ns,Pictou,Pictou,NS,Nova Scotia,45.67875,-62.70936,3107,P,PPL
+portneuf-qc,Portneuf,Portneuf,QC,Quebec,46.69058,-71.89011,3107,P,PPL
+white-city-sk,White City,White City,SK,Saskatchewan,50.43338,-104.36778,3099,P,PPL
+perce-qc,Perce,Perce,QC,Quebec,48.48794,-64.29852,3095,P,PPL
+ellison-bc,Ellison,Ellison,BC,British Columbia,49.93307,-119.36907,3094,P,PPL
+mont-saint-gregoire-qc,Mont-Saint-Grégoire,Mont-Saint-Gregoire,QC,Quebec,45.33338,-73.16585,3086,P,PPL
+forest-hills-nb,Forest Hills,Forest Hills,NB,New Brunswick,45.31242,-66.0122,3084,P,PPL
+bishop-s-falls-nl,Bishop's Falls,Bishop's Falls,NL,Newfoundland and Labrador,49.01664,-55.4815,3082,P,PPL
+indiantown-nb,Indiantown,Indiantown,NB,New Brunswick,45.27515,-66.07847,3078,P,PPL
+casselman-on,Casselman,Casselman,ON,Ontario,45.3168,-75.0826,3074,P,PPL
+byward-market-on,ByWard Market,ByWard Market,ON,Ontario,45.4271,-75.69234,3063,P,PPLL
+fort-macleod-ab,Fort Macleod,Fort Macleod,AB,Alberta,49.71671,-113.41857,3060,P,PPL
+nouvelle-arcadie-nb,Nouvelle-Arcadie,Nouvelle-Arcadie,NB,New Brunswick,46.69807,-65.36133,3060,P,PPL
+three-hills-ab,Three Hills,Three Hills,AB,Alberta,51.70012,-113.26863,3051,P,PPL
+madeira-park-bc,Madeira Park,Madeira Park,BC,British Columbia,49.61967,-124.02319,3039,P,PPL
+grand-bend-on,Grand Bend,Grand Bend,ON,Ontario,43.31678,-81.74978,3031,P,PPL
+carman-mb,Carman,Carman,MB,Manitoba,49.4992,-98.00156,3027,P,PPL
+chemainus-bc,Chemainus,Chemainus,BC,British Columbia,48.91633,-123.71937,3021,P,PPL
+morrisburg-on,Morrisburg,Morrisburg,ON,Ontario,44.9001,-75.18261,3014,P,PPL
+polson-park-on,Polson Park,Polson Park,ON,Ontario,44.23222,-76.53028,3005,P,PPL
+ridgetown-on,Ridgetown,Ridgetown,ON,Ontario,42.43536,-81.88733,3002,P,PPL
+westmount-ns,Westmount,Westmount,NS,Nova Scotia,46.13548,-60.21924,3000,P,PPL
+fairview-ab,Fairview,Fairview,AB,Alberta,56.06675,-118.38606,2998,P,PPL
+houston-bc,Houston,Houston,BC,British Columbia,54.39976,-126.67008,2993,P,PPL
+rankin-inlet-nu,Rankin Inlet,Rankin Inlet,NU,Nunavut,62.80906,-92.08534,2975,P,PPLL
+fermont-qc,Fermont,Fermont,QC,Quebec,52.79445,-67.08378,2966,P,PPL
+athabasca-ab,Athabasca,Athabasca,AB,Alberta,54.71687,-113.28537,2965,P,PPL
+enderby-bc,Enderby,Enderby,BC,British Columbia,50.5498,-119.15234,2964,P,PPL
+sackville-nb,Sackville,Sackville,NB,New Brunswick,45.89868,-64.36836,2963,P,PPL
+tavistock-on,Tavistock,Tavistock,ON,Ontario,43.31679,-80.83302,2955,P,PPL
+virgil-on,Virgil,Virgil,ON,Ontario,43.21682,-79.13288,2937,P,PPL
+wingham-on,Wingham,Wingham,ON,Ontario,43.88793,-81.31145,2934,P,PPL
+fort-coulonge-qc,Fort-Coulonge,Fort-Coulonge,QC,Quebec,45.842,-76.739,2911,P,PPL
+la-crete-ab,La Crête,La Crete,AB,Alberta,58.18348,-116.40268,2911,P,PPL
+alexandria-on,Alexandria,Alexandria,ON,Ontario,45.31317,-74.63665,2906,P,PPL
+wawa-on,Wawa,Wawa,ON,Ontario,47.98877,-84.77411,2905,P,PPL
+saint-gabriel-qc,Saint-Gabriel,Saint-Gabriel,QC,Quebec,46.30007,-73.38245,2901,P,PPL
+ste-anne-mb,Ste. Anne,Ste. Anne,MB,Manitoba,49.66969,-96.65,2891,P,PPL
+degelis-qc,Dégelis,Degelis,QC,Quebec,47.54734,-68.64309,2884,P,PPL
+high-prairie-ab,High Prairie,High Prairie,AB,Alberta,55.4334,-116.4858,2878,P,PPL
+mistissini-qc,Mistissini,Mistissini,QC,Quebec,50.41832,-73.86895,2869,P,PPL
+huntingdon-qc,Huntingdon,Huntingdon,QC,Quebec,45.08339,-74.16593,2865,P,PPL
+arviat-nu,Arviat,Arviat,NU,Nunavut,61.10883,-94.05848,2864,P,PPLL
+tisdale-sk,Tisdale,Tisdale,SK,Saskatchewan,52.85002,-104.05096,2862,P,PPL
+stanstead-qc,Stanstead,Stanstead,QC,Quebec,45.01455,-72.09131,2857,P,PPL
+kingsclear-nb,Kingsclear,Kingsclear,NB,New Brunswick,45.88437,-66.90853,2839,P,PPL
+cedar-bc,Cedar,Cedar,BC,British Columbia,49.11633,-123.8527,2836,P,PPL
+princeton-bc,Princeton,Princeton,BC,British Columbia,49.45802,-120.51076,2828,P,PPL
+beaupre-qc,Beaupré,Beaupre,QC,Quebec,47.04428,-70.89529,2803,P,PPL
+dundalk-on,Dundalk,Dundalk,ON,Ontario,44.16792,-80.39357,2803,P,PPL
+halfmoon-bay-bc,Halfmoon Bay,Halfmoon Bay,BC,British Columbia,49.51289,-123.9087,2800,P,PPL
+clairmont-ab,Clairmont,Clairmont,AB,Alberta,55.26668,-118.78601,2799,P,PPL
+cowichan-bay-bc,Cowichan Bay,Cowichan Bay,BC,British Columbia,48.73366,-123.61739,2799,P,PPL
+harbour-grace-nl,Harbour Grace,Harbour Grace,NL,Newfoundland and Labrador,47.68647,-53.23257,2796,P,PPL
+gibbons-ab,Gibbons,Gibbons,AB,Alberta,53.83345,-113.33531,2790,P,PPL
+herring-cove-ns,Herring Cove,Herring Cove,NS,Nova Scotia,44.5703,-63.56822,2790,P,PPL
+botwood-nl,Botwood,Botwood,NL,Newfoundland and Labrador,49.14994,-55.34819,2778,P,PPL
+val-morin-qc,Val-Morin,Val-Morin,QC,Quebec,46.00008,-74.18251,2772,P,PPL
+pohenegamook-qc,Pohénégamook,Pohenegamook,QC,Quebec,47.46315,-69.22666,2770,P,PPL
+cocagne-nb,Cocagne,Cocagne,NB,New Brunswick,46.33494,-64.61504,2757,P,PPL
+atikokan-on,Atikokan,Atikokan,ON,Ontario,48.75667,-91.62409,2753,P,PPL
+lakefield-on,Lakefield,Lakefield,ON,Ontario,44.43342,-78.26623,2753,P,PPL
+springhill-ns,Springhill,Springhill,NS,Nova Scotia,45.65015,-64.04873,2743,P,PPL
+tobique-valley-nb,Tobique Valley,Tobique Valley,NB,New Brunswick,46.93494,-67.39112,2740,P,PPL
+elsipogtog-first-nation-nb,Elsipogtog First Nation,Elsipogtog First Nation,NB,New Brunswick,46.58544,-64.98583,2736,P,PPL
+macamic-qc,Macamic,Macamic,QC,Quebec,48.75018,-78.99962,2734,P,PPL
+normandin-qc,Normandin,Normandin,QC,Quebec,48.83328,-72.53209,2728,P,PPL
+piedmont-qc,Piedmont,Piedmont,QC,Quebec,45.90008,-74.13251,2721,P,PPL
+markstay-warren-on,Markstay-Warren,Markstay-Warren,ON,Ontario,46.46678,-80.483,2708,P,PPL
+saint-leonard-nb,Saint-Léonard,Saint-Leonard,NB,New Brunswick,47.16317,-67.9246,2700,P,PPL
+williamsville-on,Williamsville,Williamsville,ON,Ontario,44.23839,-76.49897,2695,P,PPL
+bedford-qc,Bedford,Bedford,QC,Quebec,45.11678,-72.98244,2684,P,PPL
+seaforth-on,Seaforth,Seaforth,ON,Ontario,43.55009,-81.39976,2680,P,PPL
+bonaventure-qc,Bonaventure,Bonaventure,QC,Quebec,48.04573,-65.49259,2673,P,PPL
+ingonish-ns,Ingonish,Ingonish,NS,Nova Scotia,46.70014,-60.36516,2673,P,PPL
+sundre-ab,Sundre,Sundre,AB,Alberta,51.8001,-114.63532,2672,P,PPL
+coalhurst-ab,Coalhurst,Coalhurst,AB,Alberta,49.7464,-112.93246,2668,P,PPL
+kuujjuaq-qc,Kuujjuaq,Kuujjuaq,QC,Quebec,58.10732,-68.39968,2668,P,PPL
+cap-sante-qc,Cap-Santé,Cap-Sante,QC,Quebec,46.67159,-71.78812,2666,P,PPL
+mount-brydges-on,Mount Brydges,Mount Brydges,ON,Ontario,42.90009,-81.48306,2656,P,PPLL
+adstock-qc,Adstock,Adstock,QC,Quebec,46.05007,-71.08235,2643,P,PPL
+maple-bay-bc,Maple Bay,Maple Bay,BC,British Columbia,48.81633,-123.61936,2640,P,PPL
+saint-bruno-qc,Saint-Bruno,Saint-Bruno,QC,Quebec,48.46679,-71.6491,2636,P,PPL
+westmorland-heights-nb,Westmorland Heights,Westmorland Heights,NB,New Brunswick,45.29198,-66.04228,2635,P,PPL
+st-peter-s-ns,St. Peter's,St. Peter's,NS,Nova Scotia,45.65659,-60.87421,2634,P,PPL
+spaniard-s-bay-nl,Spaniard's Bay,Spaniard's Bay,NL,Newfoundland and Labrador,47.61659,-53.28138,2630,P,PPL
+elmvale-acres-on,Elmvale Acres,Elmvale Acres,ON,Ontario,45.39651,-75.63212,2627,P,PPL
+thamesford-on,Thamesford,Thamesford,ON,Ontario,43.0571,-80.99876,2622,P,PPL
+fort-nelson-bc,Fort Nelson,Fort Nelson,BC,British Columbia,58.80533,-122.7002,2611,P,PPL
+turner-valley-ab,Turner Valley,Turner Valley,AB,Alberta,50.66681,-114.2853,2611,P,PPL
+woodhaven-court-nb,Woodhaven Court,Woodhaven Court,NB,New Brunswick,46.11667,-64.86667,2608,P,PPL
+grand-manan-nb,Grand Manan,Grand Manan,NB,New Brunswick,44.69824,-66.82109,2595,P,PPL
+chetwynd-bc,Chetwynd,Chetwynd,BC,British Columbia,55.69988,-121.63627,2587,P,PPL
+elkford-bc,Elkford,Elkford,BC,British Columbia,50.01529,-114.92348,2585,P,PPL
+shippagan-nb,Shippagan,Shippagan,NB,New Brunswick,47.74424,-64.70804,2580,P,PPL
+osgoode-on,Osgoode,Osgoode,ON,Ontario,45.14887,-75.59778,2578,P,PPLA4
+saint-joseph-qc,Saint-Joseph,Saint-Joseph,QC,Quebec,45.95817,-73.22025,2576,P,PPL
+pemberton-bc,Pemberton,Pemberton,BC,British Columbia,50.31641,-122.80273,2574,P,PPL
+rimbey-ab,Rimbey,Rimbey,AB,Alberta,52.6334,-114.23532,2567,P,PPL
+harrow-on,Harrow,Harrow,ON,Ontario,42.03339,-82.91654,2562,P,PPL
+grimshaw-ab,Grimshaw,Grimshaw,AB,Alberta,56.18339,-117.6027,2560,P,PPL
+southern-victoria-nb,Southern Victoria,Southern Victoria,NB,New Brunswick,46.77378,-67.72136,2550,P,PPL
+liverpool-ns,Liverpool,Liverpool,NS,Nova Scotia,44.03639,-64.72044,2546,P,PPL
+fort-smith-nt,Fort Smith,Fort Smith,NT,Northwest Territories,60.00439,-111.88871,2542,P,PPL
+lucan-on,Lucan,Lucan,ON,Ontario,43.18339,-81.39976,2541,P,PPL
+saint-anselme-qc,Saint-Anselme,Saint-Anselme,QC,Quebec,46.62922,-70.9734,2541,P,PPL
+waverley-ns,Waverley,Waverley,NS,Nova Scotia,44.78345,-63.5987,2541,P,PPL
+sainte-martine-qc,Sainte-Martine,Sainte-Martine,QC,Quebec,45.25008,-73.79919,2535,P,PPL
+delaware-on,Delaware,Delaware,ON,Ontario,42.91679,-81.41646,2521,P,PPLL
+westridge-bc,Westridge,Westridge,BC,British Columbia,49.28333,-122.95,2521,P,PPL
+tam-o-shanter-ridge-ns,Tam O'Shanter Ridge,Tam O'Shanter Ridge,NS,Nova Scotia,44.68904,-63.52681,2519,P,PPL
+tofino-bc,Tofino,Tofino,BC,British Columbia,49.15314,-125.90744,2516,P,PPL
+grand-bouctouche-nb,Grand-Bouctouche,Grand-Bouctouche,NB,New Brunswick,46.48888,-64.71034,2513,P,PPL
+crossfield-ab,Crossfield,Crossfield,AB,Alberta,51.43341,-114.03528,2512,P,PPL
+lincoln-nb,Lincoln,Lincoln,NB,New Brunswick,45.90012,-66.58218,2504,P,PPL
+moosomin-sk,Moosomin,Moosomin,SK,Saskatchewan,50.14261,-101.66666,2485,P,PPL
+lac-lapierre-qc,Lac-Lapierre,Lac-Lapierre,QC,Quebec,45.89837,-73.77308,2480,P,PPL
+thurso-qc,Thurso,Thurso,QC,Quebec,45.6001,-75.24931,2476,P,PPL
+unity-sk,Unity,Unity,SK,Saskatchewan,52.45014,-109.16816,2475,P,PPL
+chase-bc,Chase,Chase,BC,British Columbia,50.8165,-119.68571,2471,P,PPL
+holyrood-nl,Holyrood,Holyrood,NL,Newfoundland and Labrador,47.38319,-53.13137,2471,P,PPL
+sexsmith-ab,Sexsmith,Sexsmith,AB,Alberta,55.34998,-118.78602,2461,P,PPL
+saint-raphael-qc,Saint-Raphaël,Saint-Raphael,QC,Quebec,46.796,-70.75576,2458,P,PPL
+fox-creek-ab,Fox Creek,Fox Creek,AB,Alberta,54.40007,-116.80238,2457,P,PPL
+berwick-ns,Berwick,Berwick,NS,Nova Scotia,45.05015,-64.73208,2455,P,PPL
+tumbler-ridge-bc,Tumbler Ridge,Tumbler Ridge,BC,British Columbia,55.13027,-120.99415,2454,P,PPL
+valcourt-qc,Valcourt,Valcourt,QC,Quebec,45.50008,-72.31581,2451,P,PPL
+lakeland-ridges-nb,Lakeland Ridges,Lakeland Ridges,NB,New Brunswick,45.97149,-67.48985,2450,P,PPL
+minnedosa-mb,Minnedosa,Minnedosa,MB,Manitoba,50.24532,-99.84364,2449,P,PPL
+saint-lambert-de-lauzon-qc,Saint-Lambert-de-Lauzon,Saint-Lambert-de-Lauzon,QC,Quebec,46.58624,-71.20892,2443,P,PPL
+cap-pele-nb,Cap-Pele,Cap-Pele,NB,New Brunswick,46.21294,-64.27844,2441,P,PPL
+forest-on,Forest,Forest,ON,Ontario,43.10008,-81.9998,2429,P,PPL
+betsiamites-qc,Betsiamites,Betsiamites,QC,Quebec,48.94133,-68.64601,2428,P,PPL
+ange-gardien-qc,Ange-Gardien,Ange-Gardien,QC,Quebec,45.35008,-72.93244,2420,P,PPL
+langdale-bc,Langdale,Langdale,BC,British Columbia,49.43386,-123.4798,2407,P,PPL
+trenton-ns,Trenton,Trenton,NS,Nova Scotia,45.61548,-62.63743,2407,P,PPL
+reserve-mines-ns,Reserve Mines,Reserve Mines,NS,Nova Scotia,46.18033,-60.01962,2402,P,PPL
+river-john-ns,River John,River John,NS,Nova Scotia,45.75015,-63.04866,2399,P,PPL
+lunenburg-ns,Lunenburg,Lunenburg,NS,Nova Scotia,44.37847,-64.31658,2396,P,PPL
+winchester-on,Winchester,Winchester,ON,Ontario,45.0834,-75.34933,2394,P,PPL
+assiniboia-sk,Assiniboia,Assiniboia,SK,Saskatchewan,49.63336,-105.98446,2389,P,PPL
+clearwater-bc,Clearwater,Clearwater,BC,British Columbia,51.64061,-120.02769,2388,P,PPL
+salisbury-nb,Salisbury,Salisbury,NB,New Brunswick,46.03905,-65.04628,2387,P,PPL
+blind-bay-bc,Blind Bay,Blind Bay,BC,British Columbia,50.88311,-119.38569,2369,P,PPL
+lake-echo-ns,Lake Echo,Lake Echo,NS,Nova Scotia,44.73345,-63.38198,2365,P,PPL
+logy-bay-middle-cove-outer-cove-nl,Logy Bay-Middle Cove-Outer Cove,Logy Bay-Middle Cove-Outer Cove,NL,Newfoundland and Labrador,47.63319,-52.68134,2364,P,PPL
+killarney-mb,Killarney,Killarney,MB,Manitoba,49.18332,-99.66364,2362,P,PPL
+bouctouche-nb,Bouctouche,Bouctouche,NB,New Brunswick,46.46844,-64.73905,2361,P,PPL
+saint-marc-des-carrieres-qc,Saint-Marc-des-Carrières,Saint-Marc-des-Carrieres,QC,Quebec,46.68335,-72.0491,2358,P,PPL
+chester-ns,Chester,Chester,NS,Nova Scotia,44.54225,-64.23891,2348,P,PPL
+wyoming-on,Wyoming,Wyoming,ON,Ontario,42.95008,-82.11651,2348,P,PPL
+colchester-on,Colchester,Colchester,ON,Ontario,41.98339,-82.93314,2334,P,PPL
+coxheath-ns,Coxheath,Coxheath,NS,Nova Scotia,46.11684,-60.23175,2333,P,PPL
+forestville-qc,Forestville,Forestville,QC,Quebec,48.73808,-69.08478,2333,P,PPL
+fundy-heights-nb,Fundy Heights,Fundy Heights,NB,New Brunswick,45.25171,-66.07227,2331,P,PPL
+river-springs-bc,River Springs,River Springs,BC,British Columbia,49.28333,-122.76667,2325,P,PPL
+lillooet-bc,Lillooet,Lillooet,BC,British Columbia,50.6856,-121.942,2324,P,PPL
+constance-bay-on,Constance Bay,Constance Bay,ON,Ontario,45.50011,-76.08267,2314,P,PPL
+elmvale-on,Elmvale,Elmvale,ON,Ontario,44.5834,-79.86636,2314,P,PPL
+lac-la-biche-ab,Lac La Biche,Lac La Biche,AB,Alberta,54.7669,-111.96861,2314,P,PPL
+rosetown-sk,Rosetown,Rosetown,SK,Saskatchewan,51.5501,-108.00136,2309,P,PPL
+outlook-sk,Outlook,Outlook,SK,Saskatchewan,51.48803,-107.05644,2279,P,PPL
+saint-pamphile-qc,Saint-Pamphile,Saint-Pamphile,QC,Quebec,46.9578,-69.7806,2274,P,PPL
+beaverlodge-ab,Beaverlodge,Beaverlodge,AB,Alberta,55.21664,-119.43605,2271,P,PPL
+okanagan-falls-bc,Okanagan Falls,Okanagan Falls,BC,British Columbia,49.35,-119.56667,2266,P,PPL
+grande-digue-nb,Grande-Digue,Grande-Digue,NB,New Brunswick,46.30014,-64.56546,2261,P,PPL
+ilderton-on,Ilderton,Ilderton,ON,Ontario,43.07924,-81.38051,2250,P,PPL
+crabtree-qc,Crabtree,Crabtree,QC,Quebec,45.96677,-73.46586,2248,P,PPL
+gimli-mb,Gimli,Gimli,MB,Manitoba,50.63362,-96.99066,2246,P,PPL
+senneterre-qc,Senneterre,Senneterre,QC,Quebec,48.39302,-77.23951,2239,P,PPL
+burin-nl,Burin,Burin,NL,Newfoundland and Labrador,47.0829,-55.19071,2237,P,PPL
+minto-nb,Minto,Minto,NB,New Brunswick,46.08483,-66.06217,2234,P,PPL
+port-mcneill-bc,Port McNeill,Port McNeill,BC,British Columbia,50.59,-127.08638,2234,P,PPL
+lantz-ns,Lantz,Lantz,NS,Nova Scotia,44.98345,-63.48199,2229,P,PPL
+calmar-ab,Calmar,Calmar,AB,Alberta,53.26683,-113.81874,2228,P,PPL
+marysville-nb,Marysville,Marysville,NB,New Brunswick,45.98341,-66.58218,2223,P,PPL
+pennfield-nb,Pennfield,Pennfield,NB,New Brunswick,45.10157,-66.73896,2222,P,PPL
+disraeli-qc,Disraeli,Disraeli,QC,Quebec,45.90007,-71.34907,2212,P,PPL
+anmore-bc,Anmore,Anmore,BC,British Columbia,49.31637,-122.85263,2210,P,PPLA3
+bridgeview-ns,Bridgeview,Bridgeview,NS,Nova Scotia,44.67125,-63.65586,2206,P,PPL
+wendake-qc,Wendake,Wendake,QC,Quebec,46.86136,-71.35727,2200,P,PPL
+esterhazy-sk,Esterhazy,Esterhazy,SK,Saskatchewan,50.65001,-102.08426,2194,P,PPL
+logan-lake-bc,Logan Lake,Logan Lake,BC,British Columbia,50.49225,-120.8149,2190,P,PPL
+thornhill-ns,Thornhill,Thornhill,NS,Nova Scotia,44.60347,-63.61147,2188,P,PPL
+nanton-ab,Nanton,Nanton,AB,Alberta,50.35008,-113.76866,2181,P,PPL
+upper-miramichi-nb,Upper Miramichi,Upper Miramichi,NB,New Brunswick,46.46603,-66.41116,2175,P,PPL
+saint-come-liniere-qc,Saint-Côme--Linière,Saint-Come--Liniere,QC,Quebec,46.06677,-70.51573,2167,P,PPL
+bella-coola-bc,Bella Coola,Bella Coola,BC,British Columbia,52.37183,-126.7539,2163,P,PPL
+little-current-on,Little Current,Little Current,ON,Ontario,45.97927,-81.9248,2156,P,PPL
+port-stanley-on,Port Stanley,Port Stanley,ON,Ontario,42.66679,-81.21644,2148,P,PPL
+causapscal-qc,Causapscal,Causapscal,QC,Quebec,48.36401,-67.23255,2147,P,PPL
+wabana-nl,Wabana,Wabana,NL,Newfoundland and Labrador,47.63319,-52.94806,2146,P,PPL
+saint-quentin-nb,Saint-Quentin,Saint-Quentin,NB,New Brunswick,47.51326,-67.39288,2141,P,PPL
+pilot-butte-sk,Pilot Butte,Pilot Butte,SK,Saskatchewan,50.48011,-104.41911,2137,P,PPL
+sunny-brae-nb,Sunny Brae,Sunny Brae,NB,New Brunswick,46.10352,-64.7768,2135,P,PPL
+puvirnituq-qc,Puvirnituq,Puvirnituq,QC,Quebec,60.03566,-77.27406,2129,P,PPL
+glencoe-on,Glencoe,Glencoe,ON,Ontario,42.75009,-81.71648,2126,P,PPL
+metabetchouan-qc,Métabetchouan,Metabetchouan,QC,Quebec,48.36679,-72.01583,2123,P,PPL
+maple-creek-sk,Maple Creek,Maple Creek,SK,Saskatchewan,49.90628,-109.48094,2121,P,PPL
+twillingate-nl,Twillingate,Twillingate,NL,Newfoundland and Labrador,49.64992,-54.76486,2121,P,PPL
+fogo-island-nl,Fogo Island,Fogo Island,NL,Newfoundland and Labrador,49.71649,-54.16981,2117,P,PPL
+ferme-neuve-qc,Ferme-Neuve,Ferme-Neuve,QC,Quebec,46.70011,-75.44929,2115,P,PPL
+beechville-ns,Beechville,Beechville,NS,Nova Scotia,44.63619,-63.68205,2100,P,PPL
+magrath-ab,Magrath,Magrath,AB,Alberta,49.41668,-112.86856,2095,P,PPL
+pemberton-heights-bc,Pemberton Heights,Pemberton Heights,BC,British Columbia,49.33056,-123.10833,2090,P,PPL
+provost-ab,Provost,Provost,AB,Alberta,52.35014,-110.26828,2082,P,PPL
+springdale-nl,Springdale,Springdale,NL,Newfoundland and Labrador,49.49995,-56.06492,2080,P,PPL
+strait-shores-nb,Strait Shores,Strait Shores,NB,New Brunswick,46.08969,-64.07635,2077,P,PPL
+heritage-pointe-ab,Heritage Pointe,Heritage Pointe,AB,Alberta,50.84213,-114.00493,2075,P,PPL
+saltair-bc,Saltair,Saltair,BC,British Columbia,48.94963,-123.76939,2069,P,PPL
+biggar-sk,Biggar,Biggar,SK,Saskatchewan,52.05978,-107.98844,2068,P,PPL
+ucluelet-bc,Ucluelet,Ucluelet,BC,British Columbia,48.94153,-125.54635,2066,P,PPL
+lumby-bc,Lumby,Lumby,BC,British Columbia,50.24979,-118.96904,2063,P,PPL
+pouch-cove-nl,Pouch Cove,Pouch Cove,NL,Newfoundland and Labrador,47.76659,-52.76474,2063,P,PPL
+baker-lake-nu,Baker Lake,Baker Lake,NU,Nunavut,64.32009,-96.02123,2061,P,PPLL
+saint-fulgence-qc,Saint-Fulgence,Saint-Fulgence,QC,Quebec,48.45008,-70.89905,2061,P,PPL
+canora-sk,Canora,Canora,SK,Saskatchewan,51.63328,-102.43425,2055,P,PPL
+shad-bay-ns,Shad Bay,Shad Bay,NS,Nova Scotia,44.52293,-63.78745,2053,P,PPL
+fundy-shores-nb,Fundy Shores,Fundy Shores,NB,New Brunswick,45.16663,-66.39178,2050,P,PPL
+igloolik-nu,Igloolik,Igloolik,NU,Nunavut,69.37771,-81.79991,2049,P,PPLL
+st-anthony-nl,St. Anthony,St. Anthony,NL,Newfoundland and Labrador,51.37039,-55.59743,2049,P,PPL
+limoges-on,Limoges,Limoges,ON,Ontario,45.3334,-75.24931,2048,P,PPL
+saint-andrews-nb,Saint Andrews,Saint Andrews,NB,New Brunswick,45.0737,-67.05312,2048,P,PPL
+new-wes-valley-nl,New-Wes-Valley,New-Wes-Valley,NL,Newfoundland and Labrador,49.14988,-53.56475,2044,P,PPL
+mandeville-qc,Mandeville,Mandeville,QC,Quebec,46.36677,-73.34915,2043,P,PPL
+sainte-anne-de-la-perade-qc,Sainte-Anne-de-la-Pérade,Sainte-Anne-de-la-Perade,QC,Quebec,46.58335,-72.1991,2031,P,PPL
+stirling-on,Stirling,Stirling,ON,Ontario,44.30012,-77.54948,2030,P,PPL
+montague-pe,Montague,Montague,PE,Prince Edward Island,46.16681,-62.64866,2027,P,PPL
+bow-island-ab,Bow Island,Bow Island,AB,Alberta,49.86676,-111.36843,2025,P,PPL
+cross-lake-19a-mb,Cross Lake 19A,Cross Lake 19A,MB,Manitoba,54.65135,-97.76848,2018,P,PPL
+saint-esprit-qc,Saint-Esprit,Saint-Esprit,QC,Quebec,45.90007,-73.66587,2011,P,PPL
+digby-ns,Digby,Digby,NS,Nova Scotia,44.62188,-65.7586,2001,P,PPL
+big-eddy-bc,Big Eddy,Big Eddy,BC,British Columbia,51.0,-118.21667,2000,P,PPL
+chute-aux-outardes-qc,Chute-aux-Outardes,Chute-aux-Outardes,QC,Quebec,49.11679,-68.39896,2000,P,PPL
+fossambault-sur-le-lac-qc,Fossambault-sur-le-Lac,Fossambault-sur-le-Lac,QC,Quebec,46.87662,-71.61541,2000,P,PPL
+wakefield-qc,Wakefield,Wakefield,QC,Quebec,45.6668,-75.83265,2000,P,PPL
+miramichi-river-valley-nb,Miramichi River Valley,Miramichi River Valley,NB,New Brunswick,46.61496,-65.90167,1996,P,PPL
+wiarton-on,Wiarton,Wiarton,ON,Ontario,44.74186,-81.13961,1996,P,PPL
+mattawa-on,Mattawa,Mattawa,ON,Ontario,46.31681,-78.69957,1993,P,PPL
+kedgwick-nb,Kedgwick,Kedgwick,NB,New Brunswick,47.64457,-67.34344,1986,P,PPL
+neebing-on,Neebing,Neebing,ON,Ontario,48.1668,-89.41683,1986,P,PPL
+100-mile-house-bc,100 Mile House,100 Mile House,BC,British Columbia,51.64982,-121.28594,1980,P,PPL
+gambo-nl,Gambo,Gambo,NL,Newfoundland and Labrador,48.7832,-54.21482,1978,P,PPL
+fort-qu-appelle-sk,Fort Qu'Appelle,Fort Qu'Appelle,SK,Saskatchewan,50.76677,-103.80103,1972,P,PPL
+caplan-qc,Caplan,Caplan,QC,Quebec,48.10257,-65.68434,1966,P,PPL
+matagami-qc,Matagami,Matagami,QC,Quebec,49.76326,-77.62735,1966,P,PPL
+wabush-nl,Wabush,Wabush,NL,Newfoundland and Labrador,52.90015,-66.86541,1964,P,PPL
+st-jacobs-on,St. Jacobs,St. Jacobs,ON,Ontario,43.53162,-80.55725,1960,P,PPL
+sainte-madeleine-qc,Sainte-Madeleine,Sainte-Madeleine,QC,Quebec,45.60008,-73.09914,1959,P,PPL
+petit-rocher-nb,Petit-Rocher,Petit-Rocher,NB,New Brunswick,47.78271,-65.71747,1954,P,PPL
+dominion-ns,Dominion,Dominion,NS,Nova Scotia,46.21684,-60.01515,1953,P,PPL
+oxford-house-mb,Oxford House,Oxford House,MB,Manitoba,54.94853,-95.26598,1950,P,PPL
+roberts-creek-bc,Roberts Creek,Roberts Creek,BC,British Columbia,49.42359,-123.64778,1949,P,PPL
+glovertown-nl,Glovertown,Glovertown,NL,Newfoundland and Labrador,48.68321,-54.03141,1948,P,PPL
+chapleau-on,Chapleau,Chapleau,ON,Ontario,47.84053,-83.4034,1942,P,PPL
+pelican-narrows-sk,Pelican Narrows,Pelican Narrows,SK,Saskatchewan,55.16685,-102.9341,1942,P,PPL
+vallee-jonction-qc,Vallée-Jonction,Vallee-Jonction,QC,Quebec,46.37441,-70.91881,1940,P,PPL
+cacouna-qc,Cacouna,Cacouna,QC,Quebec,47.91657,-69.50054,1939,P,PPL
+saint-elie-de-caxton-qc,Saint-Élie-de-Caxton,Saint-Elie-de-Caxton,QC,Quebec,46.48336,-72.96584,1934,P,PPL
+manners-sutton-nb,Manners Sutton,Manners Sutton,NB,New Brunswick,45.68885,-67.03985,1920,P,PPL
+vulcan-ab,Vulcan,Vulcan,AB,Alberta,50.40008,-113.25189,1917,P,PPL
+morris-mb,Morris,Morris,MB,Manitoba,49.35499,-97.36567,1916,P,PPL
+fenelon-falls-on,Fenelon Falls,Fenelon Falls,ON,Ontario,44.53342,-78.74957,1915,P,PPL
+tofield-ab,Tofield,Tofield,AB,Alberta,53.36684,-112.66862,1911,P,PPL
+estey-s-bridge-nb,Estey's Bridge,Estey's Bridge,NB,New Brunswick,46.035,-66.714,1908,P,PPL
+harrison-hot-springs-bc,Harrison Hot Springs,Harrison Hot Springs,BC,British Columbia,49.29969,-121.78586,1905,P,PPL
+millet-ab,Millet,Millet,AB,Alberta,53.09415,-113.47056,1905,P,PPL
+swan-hills-ab,Swan Hills,Swan Hills,AB,Alberta,54.71681,-115.40226,1900,P,PPL
+harbour-breton-nl,Harbour Breton,Harbour Breton,NL,Newfoundland and Labrador,47.48325,-55.79833,1898,P,PPL
+kamsack-sk,Kamsack,Kamsack,SK,Saskatchewan,51.56668,-101.90093,1898,P,PPL
+deseronto-on,Deseronto,Deseronto,ON,Ontario,44.20012,-77.04944,1897,P,PPL
+rockcliffe-park-on,Rockcliffe Park,Rockcliffe Park,ON,Ontario,45.4501,-75.68264,1888,P,PPL
+sacre-coeur-qc,Sacré-Coeur,Sacre-Coeur,QC,Quebec,48.2297,-69.80061,1881,P,PPL
+saint-mathieu-qc,Saint-Mathieu,Saint-Mathieu,QC,Quebec,45.31678,-73.51587,1879,P,PPL
+walpole-island-on,Walpole Island,Walpole Island,ON,Ontario,42.6152,-82.51398,1878,P,PPLL
+souris-mb,Souris,Souris,MB,Manitoba,49.6172,-100.2612,1876,P,PPL
+middleton-ns,Middleton,Middleton,NS,Nova Scotia,44.94284,-65.07022,1873,P,PPL
+watrous-sk,Watrous,Watrous,SK,Saskatchewan,51.66677,-105.46788,1865,P,PPL
+greendale-nb,Greendale,Greendale,NB,New Brunswick,45.2532,-66.10327,1863,P,PPL
+valleyview-ab,Valleyview,Valleyview,AB,Alberta,55.06673,-117.28585,1863,P,PPL
+saint-gedeon-qc,Saint-Gédéon,Saint-Gedeon,QC,Quebec,48.50009,-71.76581,1859,P,PPL
+temiscaming-qc,Témiscaming,Temiscaming,QC,Quebec,46.72122,-79.09712,1854,P,PPL
+sainte-beatrix-qc,Sainte-Béatrix,Sainte-Beatrix,QC,Quebec,46.20007,-73.61587,1849,P,PPL
+eel-river-crossing-nb,Eel River Crossing,Eel River Crossing,NB,New Brunswick,48.0159,-66.422,1844,P,PPL
+kippens-nl,Kippens,Kippens,NL,Newfoundland and Labrador,48.55001,-58.6318,1842,P,PPL
+upper-hammonds-plains-ns,Upper Hammonds Plains,Upper Hammonds Plains,NS,Nova Scotia,44.75448,-63.84165,1840,P,PPL
+waskaganish-qc,Waskaganish,Waskaganish,QC,Quebec,51.48333,-78.75,1839,P,PPL
+east-broughton-qc,East Broughton,East Broughton,QC,Quebec,46.21358,-71.07674,1832,P,PPL
+chapais-qc,Chapais,Chapais,QC,Quebec,49.78344,-74.84919,1824,P,PPL
+lumsden-sk,Lumsden,Lumsden,SK,Saskatchewan,50.65009,-104.86783,1824,P,PPL
+inukjuak-qc,Inukjuak,Inukjuak,QC,Quebec,58.45468,-78.10139,1821,P,PPL
+maugerville-nb,Maugerville,Maugerville,NB,New Brunswick,45.87165,-66.44528,1808,P,PPL
+moose-factory-on,Moose Factory,Moose Factory,ON,Ontario,51.26689,-80.61624,1807,P,PPL
+saint-narcisse-qc,Saint-Narcisse,Saint-Narcisse,QC,Quebec,46.56395,-72.47051,1801,P,PPL
+harriston-on,Harriston,Harriston,ON,Ontario,43.91199,-80.87199,1797,P,PPL
+st-andre-nb,St-André,St-Andre,NB,New Brunswick,47.10103,-67.7592,1794,P,PPL
+keremeos-bc,Keremeos,Keremeos,BC,British Columbia,49.19975,-119.8357,1791,P,PPL
+sicamous-bc,Sicamous,Sicamous,BC,British Columbia,50.83312,-118.98565,1786,P,PPL
+saint-placide-qc,Saint-Placide,Saint-Placide,QC,Quebec,45.53338,-74.19923,1784,P,PPL
+burns-lake-bc,Burns Lake,Burns Lake,BC,British Columbia,54.22972,-125.76084,1779,P,PPL
+metcalfe-on,Metcalfe,Metcalfe,ON,Ontario,45.2334,-75.46603,1776,P,PPL
+saint-liboire-qc,Saint-Liboire,Saint-Liboire,QC,Quebec,45.65068,-72.76348,1775,P,PPL
+lamont-ab,Lamont,Lamont,AB,Alberta,53.76686,-112.80195,1774,P,PPL
+chambord-qc,Chambord,Chambord,QC,Quebec,48.43339,-72.06583,1773,P,PPL
+louisdale-ns,Louisdale,Louisdale,NS,Nova Scotia,45.60686,-61.06636,1770,P,PPL
+barriere-bc,Barrière,Barriere,BC,British Columbia,51.18308,-120.1192,1765,P,PPL
+danville-qc,Danville,Danville,QC,Quebec,45.78337,-72.0158,1761,P,PPL
+geraldton-on,Geraldton,Geraldton,ON,Ontario,49.72667,-86.94842,1761,P,PPL
+cambridge-bay-nu,Cambridge Bay,Cambridge Bay,NU,Nunavut,69.11489,-105.05484,1760,P,PPLL
+balgonie-sk,Balgonie,Balgonie,SK,Saskatchewan,50.48338,-104.26778,1756,P,PPL
+warfield-bc,Warfield,Warfield,BC,British Columbia,49.09563,-117.74533,1753,P,PPL
+behchoko-nt,Behchokǫ̀,Behchoko,NT,Northwest Territories,62.8025,-116.04639,1746,P,PPL
+carberry-mb,Carberry,Carberry,MB,Manitoba,49.86893,-99.36021,1738,P,PPL
+parkhill-on,Parkhill,Parkhill,ON,Ontario,43.15993,-81.68464,1737,P,PPL
+ripon-qc,Ripon,Ripon,QC,Quebec,45.7834,-75.09929,1735,P,PPL
+wynyard-sk,Wynyard,Wynyard,SK,Saskatchewan,51.76674,-104.18436,1732,P,PPL
+ormstown-qc,Ormstown,Ormstown,QC,Quebec,45.13338,-73.99922,1730,P,PPL
+bowser-bc,Bowser,Bowser,BC,British Columbia,49.44472,-124.6886,1729,P,PPL
+flatrock-nl,Flatrock,Flatrock,NL,Newfoundland and Labrador,47.69989,-52.71475,1722,P,PPL
+burnt-church-nb,Burnt Church,Burnt Church,NB,New Brunswick,47.19887,-65.13958,1715,P,PPL
+sainte-perpetue-qc,Sainte-Perpétue,Sainte-Perpetue,QC,Quebec,47.06416,-69.92935,1715,P,PPL
+musquodoboit-harbour-ns,Musquodoboit Harbour,Musquodoboit Harbour,NS,Nova Scotia,44.78345,-63.14867,1714,P,PPL
+marion-bridge-ns,Marion Bridge,Marion Bridge,NS,Nova Scotia,45.98088,-60.21232,1711,P,PPL
+popkum-bc,Popkum,Popkum,BC,British Columbia,49.20366,-121.73813,1710,P,PPL
+manitouwadge-on,Manitouwadge,Manitouwadge,ON,Ontario,49.12152,-85.8403,1708,P,PPL
+nakusp-bc,Nakusp,Nakusp,BC,British Columbia,50.24987,-117.80226,1706,P,PPL
+sayabec-qc,Sayabec,Sayabec,QC,Quebec,48.56161,-67.68745,1706,P,PPL
+saint-jean-baptiste-qc,Saint-Jean-Baptiste,Saint-Jean-Baptiste,QC,Quebec,45.3806,-74.0121,1703,P,PPL
+tweed-on,Tweed,Tweed,ON,Ontario,44.47512,-77.31616,1701,P,PPL
+picture-butte-ab,Picture Butte,Picture Butte,AB,Alberta,49.8833,-112.78516,1700,P,PPL
+millbrook-on,Millbrook,Millbrook,ON,Ontario,44.15012,-78.44954,1695,P,PPL
+neguac-nb,Neguac,Neguac,NB,New Brunswick,47.24894,-65.07408,1692,P,PPL
+franklin-qc,Franklin,Franklin,QC,Quebec,45.03338,-73.91591,1688,P,PPL
+belfast-pe,Belfast,Belfast,PE,Prince Edward Island,46.08341,-62.88197,1687,P,PPLL
+florence-ns,Florence,Florence,NS,Nova Scotia,46.25985,-60.26586,1684,P,PPL
+grunthal-mb,Grunthal,Grunthal,MB,Manitoba,49.40668,-96.85873,1680,P,PPL
+saint-ambroise-qc,Saint-Ambroise,Saint-Ambroise,QC,Quebec,48.55447,-71.32148,1678,P,PPLA3
+saint-edouard-qc,Saint-Édouard,Saint-Edouard,QC,Quebec,45.23338,-73.51588,1672,P,PPL
+saint-jacques-le-mineur-qc,Saint-Jacques-le-Mineur,Saint-Jacques-le-Mineur,QC,Quebec,45.28338,-73.41587,1672,P,PPL
+shaunavon-sk,Shaunavon,Shaunavon,SK,Saskatchewan,49.65005,-108.4181,1658,P,PPL
+victoria-nl,Victoria,Victoria,NL,Newfoundland and Labrador,47.76659,-53.23138,1658,P,PPL
+boissevain-mb,Boissevain,Boissevain,MB,Manitoba,49.23062,-100.05586,1656,P,PPL
+keswick-ridge-nb,Keswick Ridge,Keswick Ridge,NB,New Brunswick,46.00011,-66.88218,1652,P,PPL
+north-devon-nb,North Devon,North Devon,NB,New Brunswick,45.97081,-66.63255,1652,P,PPL
+trinity-bay-north-nl,Trinity Bay North,Trinity Bay North,NL,Newfoundland and Labrador,48.5221,-53.0713,1649,P,PPL
+manawan-qc,Manawan,Manawan,QC,Quebec,47.22029,-74.38606,1648,P,PPL
+indian-head-sk,Indian Head,Indian Head,SK,Saskatchewan,50.53336,-103.66775,1642,P,PPL
+witless-bay-nl,Witless Bay,Witless Bay,NL,Newfoundland and Labrador,47.28319,-52.83135,1640,P,PPL
+florenceville-bristol-nb,Florenceville-Bristol,Florenceville-Bristol,NB,New Brunswick,46.44353,-67.61536,1639,P,PPL
+gentilly-qc,Gentilly,Gentilly,QC,Quebec,46.40005,-72.2741,1634,P,PPL
+sainte-sophie-qc,Sainte-Sophie,Sainte-Sophie,QC,Quebec,45.81678,-73.89919,1634,P,PPL
+stephenville-crossing-nl,Stephenville Crossing,Stephenville Crossing,NL,Newfoundland and Labrador,48.50366,-58.43749,1634,P,PPL
+regina-beach-sk,Regina Beach,Regina Beach,SK,Saskatchewan,50.79146,-104.98006,1629,P,PPL
+balmoral-nb,Balmoral,Balmoral,NB,New Brunswick,47.97262,-66.4455,1628,P,PPL
+naramata-bc,Naramata,Naramata,BC,British Columbia,49.59513,-119.59442,1625,P,PPL
+cow-bay-ns,Cow Bay,Cow Bay,NS,Nova Scotia,44.63141,-63.43218,1619,P,PPL
+kensington-pe,Kensington,Kensington,PE,Prince Edward Island,46.43343,-63.64871,1619,P,PPL
+royston-bc,Royston,Royston,BC,British Columbia,49.64703,-124.9467,1616,P,PPL
+burford-on,Burford,Burford,ON,Ontario,43.10292,-80.42869,1615,P,PPL
+roblin-mb,Roblin,Roblin,MB,Manitoba,51.22999,-101.3565,1614,P,PPL
+coombs-bc,Coombs,Coombs,BC,British Columbia,49.29963,-124.41946,1612,P,PPL
+massey-drive-nl,Massey Drive,Massey Drive,NL,Newfoundland and Labrador,48.93331,-57.8984,1606,P,PPL
+papineauville-qc,Papineauville,Papineauville,QC,Quebec,45.6168,-75.01599,1600,P,PPL
+wabasca-desmarais-ab,Wabasca-Desmarais,Wabasca-Desmarais,AB,Alberta,55.96667,-113.85,1594,P,PPL
+saint-joseph-de-sorel-qc,Saint-Joseph-de-Sorel,Saint-Joseph-de-Sorel,QC,Quebec,46.03336,-73.11585,1581,P,PPL
+st-george-nb,St. George,St. George,NB,New Brunswick,45.12654,-66.83138,1579,P,PPL
+perth-andover-nb,Perth-Andover,Perth-Andover,NB,New Brunswick,46.73551,-67.70393,1574,P,PPL
+saint-ulric-qc,Saint-Ulric,Saint-Ulric,QC,Quebec,48.78698,-67.70226,1567,P,PPL
+bay-bulls-nl,Bay Bulls,Bay Bulls,NL,Newfoundland and Labrador,47.31659,-52.81475,1566,P,PPL
+saanichton-bc,Saanichton,Saanichton,BC,British Columbia,48.6,-123.41667,1565,P,PPL
+sainte-clotilde-de-horton-qc,Sainte-Clotilde-de-Horton,Sainte-Clotilde-de-Horton,QC,Quebec,45.98336,-72.2324,1563,P,PPL
+sainte-elisabeth-qc,Sainte-Élisabeth,Sainte-Elisabeth,QC,Quebec,46.09502,-73.35176,1559,P,PPL
+ashcroft-bc,Ashcroft,Ashcroft,BC,British Columbia,50.72372,-121.28207,1558,P,PPL
+mount-lehman-bc,Mount Lehman,Mount Lehman,BC,British Columbia,49.11667,-122.38333,1558,P,PPL
+stewiacke-ns,Stewiacke,Stewiacke,NS,Nova Scotia,45.13345,-63.34868,1557,P,PPL
+pond-inlet-nu,Pond Inlet,Pond Inlet,NU,Nunavut,72.6992,-77.9595,1555,P,PPLL
+venise-en-quebec-qc,Venise-en-Québec,Venise-en-Quebec,QC,Quebec,45.08338,-73.13245,1547,P,PPL
+watson-lake-yt,Watson Lake,Watson Lake,YT,Yukon,60.06349,-128.70893,1547,P,PPL
+ile-des-chenes-mb,Ile des Chênes,Ile des Chenes,MB,Manitoba,49.7106,-96.98893,1546,P,PPL
+amigo-beach-on,Amigo Beach,Amigo Beach,ON,Ontario,44.6919,-79.39317,1545,P,PPL
+humber-arm-south-nl,Humber Arm South,Humber Arm South,NL,Newfoundland and Labrador,49.00912,-58.1348,1537,P,PPL
+mcgregor-on,McGregor,McGregor,ON,Ontario,42.15008,-82.96654,1536,P,PPL
+watford-on,Watford,Watford,ON,Ontario,42.95008,-81.88309,1536,P,PPL
+madoc-on,Madoc,Madoc,ON,Ontario,44.50842,-77.47448,1535,P,PPL
+sussex-corner-nb,Sussex Corner,Sussex Corner,NB,New Brunswick,45.71024,-65.48334,1532,P,PPL
+bon-accord-ab,Bon Accord,Bon Accord,AB,Alberta,53.83345,-113.41872,1529,P,PPL
+greater-lakeburn-nb,Greater Lakeburn,Greater Lakeburn,NB,New Brunswick,46.07651,-64.66818,1529,P,PPL
+lacolle-qc,Lacolle,Lacolle,QC,Quebec,45.08338,-73.36585,1528,P,PPL
+terrace-bay-on,Terrace Bay,Terrace Bay,ON,Ontario,48.78341,-87.09996,1528,P,PPL
+grindrod-bc,Grindrod,Grindrod,BC,British Columbia,50.6331,-119.11905,1526,P,PPL
+blairmore-ab,Blairmore,Blairmore,AB,Alberta,49.60002,-114.4353,1522,P,PPL
+wembley-ab,Wembley,Wembley,AB,Alberta,55.14995,-119.13602,1516,P,PPL
+leblanc-qc,Leblanc,Leblanc,QC,Quebec,48.26683,-74.34914,1513,P,PPL
+carlyle-sk,Carlyle,Carlyle,SK,Saskatchewan,49.63334,-102.26765,1508,P,PPL
+springbrook-ab,Springbrook,Springbrook,AB,Alberta,52.1792,-113.87981,1507,P,PPL
+dalmeny-sk,Dalmeny,Dalmeny,SK,Saskatchewan,52.34077,-106.7712,1504,P,PPL
+hudson-bay-sk,Hudson Bay,Hudson Bay,SK,Saskatchewan,52.85003,-102.38425,1504,P,PPL
+pangnirtung-nu,Pangnirtung,Pangnirtung,NU,Nunavut,66.14642,-65.69996,1504,P,PPLL
+attawapiskat-on,Attawapiskat,Attawapiskat,ON,Ontario,52.92774,-82.41669,1501,P,PPL
+anahim-lake-bc,Anahim Lake,Anahim Lake,BC,British Columbia,52.46652,-125.3066,1500,P,PPL
+east-sooke-bc,East Sooke,East Sooke,BC,British Columbia,48.36639,-123.68361,1500,P,PPL
+ohsweken-on,Ohsweken,Ohsweken,ON,Ontario,43.06681,-80.11635,1500,P,PPL
+oyster-river-bc,Oyster River,Oyster River,BC,British Columbia,49.86667,-125.13333,1500,P,PPL
+penobsquis-nb,Penobsquis,Penobsquis,NB,New Brunswick,45.77626,-65.381,1500,P,PPL
+pritchard-bc,Pritchard,Pritchard,BC,British Columbia,50.6831,-119.81911,1500,P,PPL
+red-head-nb,Red Head,Red Head,NB,New Brunswick,45.24936,-66.00041,1500,P,PPL
+springfield-lake-ns,Springfield Lake,Springfield Lake,NS,Nova Scotia,44.81349,-63.74456,1500,P,PPL
+marmora-on,Marmora,Marmora,ON,Ontario,44.48342,-77.68279,1499,P,PPL
+henryville-qc,Henryville,Henryville,QC,Quebec,45.13338,-73.18245,1497,P,PPL
+langham-sk,Langham,Langham,SK,Saskatchewan,52.35892,-106.96167,1496,P,PPL
+quinton-heights-nb,Quinton Heights,Quinton Heights,NB,New Brunswick,45.25214,-66.12015,1493,P,PPL
+lac-au-saumon-qc,Lac-au-Saumon,Lac-au-Saumon,QC,Quebec,48.421,-67.34756,1488,P,PPL
+tingwick-qc,Tingwick,Tingwick,QC,Quebec,45.88007,-71.94221,1484,P,PPL
+saint-charles-qc,Saint-Charles,Saint-Charles,QC,Quebec,45.70288,-73.55417,1482,P,PPL
+rougemont-qc,Rougemont,Rougemont,QC,Quebec,45.43338,-73.04914,1481,P,PPL
+kingsey-falls-qc,Kingsey Falls,Kingsey Falls,QC,Quebec,45.85007,-72.0658,1480,P,PPL
+englehart-on,Englehart,Englehart,ON,Ontario,47.82397,-79.87386,1479,P,PPL
+carp-on,Carp,Carp,ON,Ontario,45.3501,-76.03267,1477,P,PPL
+devon-nb,Devon,Devon,NB,New Brunswick,45.96378,-66.61696,1477,P,PPL
+petitcodiac-nb,Petitcodiac,Petitcodiac,NB,New Brunswick,45.93935,-65.1802,1476,P,PPL
+telkwa-bc,Telkwa,Telkwa,BC,British Columbia,54.69696,-127.05346,1474,P,PPL
+nipigon-on,Nipigon,Nipigon,ON,Ontario,49.01681,-88.26673,1473,P,PPL
+waswanipi-qc,Waswanipi,Waswanipi,QC,Quebec,49.73346,-76.16604,1473,P,PPL
+nauwigewauk-nb,Nauwigewauk,Nauwigewauk,NB,New Brunswick,45.46686,-65.89884,1472,P,PPL
+parrsboro-ns,Parrsboro,Parrsboro,NS,Nova Scotia,45.40567,-64.32585,1472,P,PPL
+cap-chat-qc,Cap-Chat,Cap-Chat,QC,Quebec,49.09736,-66.68514,1466,P,PPL
+dowling-on,Dowling,Dowling,ON,Ontario,46.59111,-81.33917,1466,P,PPL
+mcewen-nb,McEwen,McEwen,NB,New Brunswick,46.1452,-64.78615,1462,P,PPL
+saint-antoine-de-tilly-qc,Saint-Antoine-de-Tilly,Saint-Antoine-de-Tilly,QC,Quebec,46.66346,-71.57335,1462,P,PPL
+saint-ubalde-qc,Saint-Ubalde,Saint-Ubalde,QC,Quebec,46.75006,-72.2658,1456,P,PPL
+l-orignal-on,L'Orignal,L'Orignal,ON,Ontario,45.6198,-74.6915,1450,P,PPL
+crofton-bc,Crofton,Crofton,BC,British Columbia,48.86633,-123.65266,1446,P,PPL
+east-wellington-bc,East Wellington,East Wellington,BC,British Columbia,49.17385,-124.01745,1444,P,PPL
+coleman-ab,Coleman,Coleman,AB,Alberta,49.63332,-114.502,1441,P,PPL
+brookside-ns,Brookside,Brookside,NS,Nova Scotia,44.554,-63.72388,1439,P,PPL
+lappe-on,Lappe,Lappe,ON,Ontario,48.5668,-89.35013,1436,P,PPL
+les-cedres-qc,Les Cèdres,Les Cedres,QC,Quebec,45.31009,-74.05926,1434,P,PPL
+tobermory-on,Tobermory,Tobermory,ON,Ontario,45.25007,-81.66647,1427,P,PPL
+debert-ns,Debert,Debert,NS,Nova Scotia,45.43345,-63.46539,1422,P,PPL
+shilo-mb,Shilo,Shilo,MB,Manitoba,49.80551,-99.64634,1419,P,PPL
+noyan-qc,Noyan,Noyan,QC,Quebec,45.06678,-73.29915,1418,P,PPL
+richibucto-nb,Richibucto,Richibucto,NB,New Brunswick,46.68073,-64.88044,1411,P,PPL
+godefroy-qc,Godefroy,Godefroy,QC,Quebec,51.75012,-68.08213,1410,P,PPL
+norton-nb,Norton,Norton,NB,New Brunswick,45.63884,-65.69843,1410,P,PPL
+moosonee-on,Moosonee,Moosonee,ON,Ontario,51.27931,-80.6345,1405,P,PPL
+rosthern-sk,Rosthern,Rosthern,SK,Saskatchewan,52.66679,-106.33446,1405,P,PPL
+keating-bc,Keating,Keating,BC,British Columbia,48.56667,-123.4,1403,P,PPL
+sainte-croix-qc,Sainte-Croix,Sainte-Croix,QC,Quebec,45.13368,-72.80083,1401,P,PPL
+clarke-s-beach-nl,Clarke's Beach,Clarke's Beach,NL,Newfoundland and Labrador,47.54246,-53.28395,1400,P,PPL
+sharbot-lake-on,Sharbot Lake,Sharbot Lake,ON,Ontario,44.77389,-76.68722,1400,P,PPL
+sun-peaks-bc,Sun Peaks,Sun Peaks,BC,British Columbia,50.8762,-119.91075,1400,P,PPL
+elk-point-ab,Elk Point,Elk Point,AB,Alberta,53.90017,-110.9017,1399,P,PPL
+kinngait-nu,Kinngait,Kinngait,NU,Nunavut,64.23378,-76.54372,1396,P,PPLL
+stoney-point-pointe-aux-roches-on,Stoney Point/Pointe-aux-Roches,Stoney Point/Pointe-aux-Roches,ON,Ontario,42.30472,-82.54861,1394,P,PPL
+puntledge-bc,Puntledge,Puntledge,BC,British Columbia,49.67322,-125.02907,1387,P,PPLL
+saint-barnabe-sud-qc,Saint-Barnabé-Sud,Saint-Barnabe-Sud,QC,Quebec,45.72977,-72.92244,1387,P,PPL
+fort-st-james-bc,Fort St. James,Fort St. James,BC,British Columbia,54.45597,-124.26275,1386,P,PPL
+liniere-qc,Linière,Liniere,QC,Quebec,46.00007,-70.41572,1385,P,PPL
+saint-ephrem-de-beauce-qc,Saint-Éphrem-de-Beauce,Saint-Ephrem-de-Beauce,QC,Quebec,46.06677,-70.94905,1385,P,PPL
+kugluktuk-nu,Kugluktuk,Kugluktuk,NU,Nunavut,67.82743,-115.09649,1382,P,PPLL
+norwood-on,Norwood,Norwood,ON,Ontario,44.38342,-77.98281,1380,P,PPL
+dawson-city-yt,Dawson City,Dawson City,YT,Yukon,64.06013,-139.43328,1375,P,PPL
+plattsville-on,Plattsville,Plattsville,ON,Ontario,43.30794,-80.61618,1366,P,PPL
+westlake-ab,Westlake,Westlake,AB,Alberta,55.22228,-118.80415,1363,P,PPL
+st-adolphe-mb,St. Adolphe,St. Adolphe,MB,Manitoba,49.6744,-97.11124,1362,P,PPL
+manning-ab,Manning,Manning,AB,Alberta,56.92166,-117.63117,1359,P,PPL
+new-carlisle-qc,New Carlisle,New Carlisle,QC,Quebec,48.00956,-65.33621,1358,P,PPL
+l-isle-verte-qc,L'Isle-Verte,L'Isle-Verte,QC,Quebec,48.01347,-69.34064,1356,P,PPL
+two-hills-ab,Two Hills,Two Hills,AB,Alberta,53.71031,-111.74595,1352,P,PPL
+gjoa-haven-nu,Gjoa Haven,Gjoa Haven,NU,Nunavut,68.62602,-95.87836,1349,P,PPLL
+saint-damase-qc,Saint-Damase,Saint-Damase,QC,Quebec,45.53341,-72.99914,1349,P,PPL
+hillsborough-nb,Hillsborough,Hillsborough,NB,New Brunswick,45.91985,-64.65516,1348,P,PPL
+pointe-a-la-croix-qc,Pointe-à-la-Croix,Pointe-a-la-Croix,QC,Quebec,48.01634,-66.68186,1344,P,PPL
+herouxville-qc,Hérouxville,Herouxville,QC,Quebec,46.66617,-72.62512,1340,P,PPL
+les-escoumins-qc,Les Escoumins,Les Escoumins,QC,Quebec,48.35191,-69.40724,1339,P,PPL
+radium-hot-springs-bc,Radium Hot Springs,Radium Hot Springs,BC,British Columbia,50.61667,-116.06878,1339,P,PPL
+west-lorne-on,West Lorne,West Lorne,ON,Ontario,42.60009,-81.59976,1337,P,PPL
+saint-leonard-d-aston-qc,Saint-Léonard-d'Aston,Saint-Leonard-d'Aston,QC,Quebec,46.10723,-72.3735,1336,P,PPL
+lions-bay-bc,Lions Bay,Lions Bay,BC,British Columbia,49.45218,-123.2376,1334,P,PPL
+sainte-thecle-qc,Sainte-Thècle,Sainte-Thecle,QC,Quebec,46.81676,-72.49911,1333,P,PPL
+shelburne-ns,Shelburne,Shelburne,NS,Nova Scotia,43.76325,-65.32355,1330,P,PPL
+smooth-rock-falls-on,Smooth Rock Falls,Smooth Rock Falls,ON,Ontario,49.28349,-81.63307,1330,P,PPL
+christina-lake-bc,Christina Lake,Christina Lake,BC,British Columbia,49.03967,-118.20847,1329,P,PPL
+labrecque-qc,Labrecque,Labrecque,QC,Quebec,48.66679,-71.53239,1328,P,PPL
+tidnish-ns,Tidnish,Tidnish,NS,Nova Scotia,45.99367,-64.00949,1327,P,PPL
+belledune-nb,Belledune,Belledune,NB,New Brunswick,47.88581,-65.8113,1325,P,PPL
+charlo-nb,Charlo,Charlo,NB,New Brunswick,48.00072,-66.32875,1323,P,PPL
+omemee-on,Omemee,Omemee,ON,Ontario,44.29897,-78.55989,1323,P,PPL
+mayerthorpe-ab,Mayerthorpe,Mayerthorpe,AB,Alberta,53.95015,-115.13547,1320,P,PPL
+north-oyster-yellow-point-bc,North Oyster/Yellow Point,North Oyster/Yellow Point,BC,British Columbia,49.04807,-123.83395,1320,P,PPL
+ootischenia-bc,Ootischenia,Ootischenia,BC,British Columbia,49.28314,-117.63554,1320,P,PPL
+baie-ste-anne-nb,Baie Ste. Anne,Baie Ste. Anne,NB,New Brunswick,47.05231,-64.95355,1319,P,PPL
+saint-joseph-de-coleraine-qc,Saint-Joseph-de-Coleraine,Saint-Joseph-de-Coleraine,QC,Quebec,45.96677,-71.36577,1319,P,PPL
+daveluyville-qc,Daveluyville,Daveluyville,QC,Quebec,46.20006,-72.13239,1318,P,PPL
+taylor-bc,Taylor,Taylor,BC,British Columbia,56.15282,-120.68138,1317,P,PPL
+longlac-on,Longlac,Longlac,ON,Ontario,49.78169,-86.5348,1316,P,PPLL
+maliotenam-qc,Maliotenam,Maliotenam,QC,Quebec,50.21119,-66.18164,1316,P,PPL
+baie-verte-nl,Baie Verte,Baie Verte,NL,Newfoundland and Labrador,49.93325,-56.18152,1311,P,PPL
+bas-caraquet-nb,Bas-Caraquet,Bas-Caraquet,NB,New Brunswick,47.80059,-64.83195,1311,P,PPL
+saint-louis-du-ha-ha-qc,Saint-Louis-du-Ha Ha,Saint-Louis-du-Ha Ha,QC,Quebec,47.66602,-68.97638,1311,P,PPL
+sorrento-bc,Sorrento,Sorrento,BC,British Columbia,50.87808,-119.47067,1309,P,PPL
+burgeo-nl,Burgeo,Burgeo,NL,Newfoundland and Labrador,47.61668,-57.61516,1307,P,PPL
+wadena-sk,Wadena,Wadena,SK,Saskatchewan,51.94999,-103.80102,1306,P,PPL
+saint-alexandre-qc,Saint-Alexandre,Saint-Alexandre,QC,Quebec,45.5001,-75.74935,1304,P,PPL
+wendover-on,Wendover,Wendover,ON,Ontario,45.57275,-75.12757,1302,P,PPL
+youbou-bc,Youbou,Youbou,BC,British Columbia,48.86632,-124.20271,1302,P,PPL
+alberton-pe,Alberton,Alberton,PE,Prince Edward Island,46.81685,-64.06542,1301,P,PPL
+lameque-nb,Lamèque,Lameque,NB,New Brunswick,47.79361,-64.6475,1301,P,PPL
+wilkie-sk,Wilkie,Wilkie,SK,Saskatchewan,52.41683,-108.70142,1301,P,PPL
+port-hood-ns,Port Hood,Port Hood,NS,Nova Scotia,46.01684,-61.53185,1300,P,PPL
+saint-simeon-qc,Saint-Siméon,Saint-Simeon,QC,Quebec,47.84431,-69.87837,1300,P,PPL
+landmark-mb,Landmark,Landmark,MB,Manitoba,49.67169,-96.82232,1292,P,PPL
+la-conception-qc,La Conception,La Conception,QC,Quebec,46.15009,-74.69925,1287,P,PPL
+albert-bridge-ns,Albert Bridge,Albert Bridge,NS,Nova Scotia,46.01654,-60.05951,1285,P,PPL
+fortune-nl,Fortune,Fortune,NL,Newfoundland and Labrador,47.06665,-55.83164,1285,P,PPL
+bowden-ab,Bowden,Bowden,AB,Alberta,51.9288,-114.0349,1280,P,PPL
+arborg-mb,Arborg,Arborg,MB,Manitoba,50.90721,-97.21757,1279,P,PPL
+saint-cyrille-de-wendover-qc,Saint-Cyrille-de-Wendover,Saint-Cyrille-de-Wendover,QC,Quebec,45.93336,-72.43241,1279,P,PPL
+louisbourg-ns,Louisbourg,Louisbourg,NS,Nova Scotia,45.92046,-59.97099,1265,P,PPL
+mcadam-nb,McAdam,McAdam,NB,New Brunswick,45.59232,-67.307,1261,P,PPL
+riviere-bleue-qc,Riviere-Bleue,Riviere-Bleue,QC,Quebec,47.43407,-69.04283,1261,P,PPL
+irishtown-summerside-nl,Irishtown-Summerside,Irishtown-Summerside,NL,Newfoundland and Labrador,48.98331,-57.9817,1260,P,PPL
+macklin-sk,Macklin,Macklin,SK,Saskatchewan,52.33344,-109.93484,1257,P,PPL
+rivers-mb,Rivers,Rivers,MB,Manitoba,50.03081,-100.24029,1257,P,PPL
+oka-qc,Oka,Oka,QC,Quebec,45.46489,-74.08892,1254,P,PPL
+hantsport-ns,Hantsport,Hantsport,NS,Nova Scotia,45.06657,-64.17968,1253,P,PPL
+saint-antoine-nb,Saint-Antoine,Saint-Antoine,NB,New Brunswick,46.36294,-64.74985,1252,P,PPL
+gold-river-bc,Gold River,Gold River,BC,British Columbia,49.78091,-126.05013,1246,P,PPL
+lac-simon-qc,Lac-Simon,Lac-Simon,QC,Quebec,46.15699,-74.74129,1243,P,PPL
+powassan-on,Powassan,Powassan,ON,Ontario,46.0334,-79.34961,1243,P,PPL
+mount-currie-bc,Mount Currie,Mount Currie,BC,British Columbia,50.31667,-122.71667,1242,P,PPL
+st-clements-on,St. Clements,St. Clements,ON,Ontario,43.5168,-80.6497,1240,P,PPL
+yamachiche-qc,Yamachiche,Yamachiche,QC,Quebec,46.28175,-72.82873,1240,P,PPL
+labelle-qc,Labelle,Labelle,QC,Quebec,46.28339,-74.73255,1239,P,PPL
+ardrossan-ab,Ardrossan,Ardrossan,AB,Alberta,53.55014,-113.13529,1238,P,PPL
+waldheim-sk,Waldheim,Waldheim,SK,Saskatchewan,52.621,-106.653,1237,P,PPL
+la-minerve-qc,La Minerve,La Minerve,QC,Quebec,46.25009,-74.93257,1234,P,PPL
+saint-victor-qc,Saint-Victor,Saint-Victor,QC,Quebec,45.61118,-73.51527,1233,P,PPL
+inverness-ns,Inverness,Inverness,NS,Nova Scotia,46.23344,-61.29852,1228,P,PPL
+moose-lake-mb,Moose Lake,Moose Lake,MB,Manitoba,49.20559,-95.30629,1225,P,PPLL
+naujaat-nu,Naujaat,Naujaat,NU,Nunavut,66.52913,-86.24371,1225,P,PPLL
+vauxhall-ab,Vauxhall,Vauxhall,AB,Alberta,50.06678,-112.11853,1222,P,PPL
+mildmay-on,Mildmay,Mildmay,ON,Ontario,44.043,-81.11889,1219,P,PPL
+irricana-ab,Irricana,Irricana,AB,Alberta,51.32372,-113.60475,1216,P,PPL
+markdale-on,Markdale,Markdale,ON,Ontario,44.3168,-80.64971,1216,P,PPL
+cookstown-on,Cookstown,Cookstown,ON,Ontario,44.18341,-79.69964,1214,P,PPL
+saint-donat-de-montcalm-qc,Saint-Donat-de-Montcalm,Saint-Donat-de-Montcalm,QC,Quebec,46.31868,-74.22171,1213,P,PPL
+lac-connelly-qc,Lac-Connelly,Lac-Connelly,QC,Quebec,45.89788,-73.9723,1212,P,PPL
+mabou-ns,Mabou,Mabou,NS,Nova Scotia,46.06684,-61.38183,1207,P,PPL
+bassano-ab,Bassano,Bassano,AB,Alberta,50.78998,-112.46805,1206,P,PPL
+coldbrook-ns,Coldbrook,Coldbrook,NS,Nova Scotia,45.06685,-64.58207,1206,P,PPLL
+ignace-on,Ignace,Ignace,ON,Ontario,49.41633,-91.65902,1206,P,PPL
+emo-on,Emo,Emo,ON,Ontario,48.63323,-93.83363,1204,P,PPL
+lanigan-sk,Lanigan,Lanigan,SK,Saskatchewan,51.85006,-105.03443,1204,P,PPL
+nain-nl,Nain,Nain,NL,Newfoundland and Labrador,56.54193,-61.69549,1204,P,PPLL
+creighton-sk,Creighton,Creighton,SK,Saskatchewan,54.75014,-101.90078,1203,P,PPL
+shawville-qc,Shawville,Shawville,QC,Quebec,45.60011,-76.4827,1203,P,PPL
+chipman-nb,Chipman,Chipman,NB,New Brunswick,46.16934,-65.88386,1201,P,PPL
+mont-carmel-qc,Mont-Carmel,Mont-Carmel,QC,Quebec,47.44084,-69.85657,1200,P,PPL
+union-bay-bc,Union Bay,Union Bay,BC,British Columbia,49.58377,-124.88611,1200,P,PPL
+vermilion-bay-on,Vermilion Bay,Vermilion Bay,ON,Ontario,49.86045,-93.38782,1200,P,PPL
+windsor-junction-ns,Windsor Junction,Windsor Junction,NS,Nova Scotia,44.78938,-63.64228,1199,P,PPL
+bella-bella-bc,Bella Bella,Bella Bella,BC,British Columbia,52.16311,-128.14399,1193,P,PPL
+rogersville-nb,Rogersville,Rogersville,NB,New Brunswick,46.73452,-65.42705,1193,P,PPL
+shellbrook-sk,Shellbrook,Shellbrook,SK,Saskatchewan,53.21679,-106.40109,1192,P,PPL
+st-alban-s-nl,St. Alban's,St. Alban's,NL,Newfoundland and Labrador,47.86665,-55.84832,1189,P,PPL
+south-pender-harbour-bc,South Pender Harbour,South Pender Harbour,BC,British Columbia,49.62202,-124.02484,1187,P,PPL
+kaleden-bc,Kaleden,Kaleden,BC,British Columbia,49.39835,-119.60421,1186,P,PPL
+notre-dame-du-lac-qc,Notre-Dame-du-Lac,Notre-Dame-du-Lac,QC,Quebec,46.75012,-79.04961,1184,P,PPL
+clyde-river-nu,Clyde River,Clyde River,NU,Nunavut,70.47233,-68.58987,1181,P,PPLL
+ayer-s-cliff-qc,Ayer's Cliff,Ayer's Cliff,QC,Quebec,45.16773,-72.04001,1180,P,PPL
+barraute-qc,Barraute,Barraute,QC,Quebec,48.43349,-77.63279,1180,P,PPL
+bath-on,Bath,Bath,ON,Ontario,44.18342,-76.78273,1180,P,PPL
+deep-cove-bc,Deep Cove,Deep Cove,BC,British Columbia,48.68333,-123.46667,1177,P,PPL
+shediac-bridge-shediac-river-nb,Shediac Bridge-Shediac River,Shediac Bridge-Shediac River,NB,New Brunswick,46.26886,-64.60047,1177,P,PPL
+thessalon-on,Thessalon,Thessalon,ON,Ontario,46.25006,-83.5666,1175,P,PPL
+new-dundee-on,New Dundee,New Dundee,ON,Ontario,43.35101,-80.53657,1174,P,PPL
+oxford-ns,Oxford,Oxford,NS,Nova Scotia,45.73345,-63.86542,1170,P,PPL
+bourget-on,Bourget,Bourget,ON,Ontario,45.43475,-75.16028,1169,P,PPLL
+fundy-bay-nb,Fundy Bay,Fundy Bay,NB,New Brunswick,44.741,-66.76041,1167,P,PPL
+denman-island-trust-area-bc,Denman Island Trust Area,Denman Island Trust Area,BC,British Columbia,49.55189,-124.79881,1165,P,PPL
+langenburg-sk,Langenburg,Langenburg,SK,Saskatchewan,50.84999,-101.71763,1165,P,PPL
+cultus-lake-bc,Cultus Lake,Cultus Lake,BC,British Columbia,49.06667,-121.96667,1164,P,PPL
+davidson-sk,Davidson,Davidson,SK,Saskatchewan,51.26676,-105.98449,1164,P,PPL
+nelson-miramichi-nb,Nelson-Miramichi,Nelson-Miramichi,NB,New Brunswick,46.9786,-65.54061,1164,P,PPL
+centreville-ns,Centreville,Centreville,NS,Nova Scotia,45.13345,-64.53207,1159,P,PPL
+brussels-on,Brussels,Brussels,ON,Ontario,43.74316,-81.24998,1158,P,PPL
+spirit-river-ab,Spirit River,Spirit River,AB,Alberta,55.78327,-118.83607,1157,P,PPL
+golden-on,Golden,Golden,ON,Ontario,51.05917,-93.73568,1154,P,PPL
+lucknow-on,Lucknow,Lucknow,ON,Ontario,43.96054,-81.51284,1154,P,PPL
+bertrand-nb,Bertrand,Bertrand,NB,New Brunswick,47.75675,-65.0655,1153,P,PPL
+eganville-on,Eganville,Eganville,ON,Ontario,45.53341,-77.09945,1149,P,PPL
+haliburton-village-on,Haliburton Village,Haliburton Village,ON,Ontario,45.04921,-78.50854,1149,P,PPL
+newcastle-nb,Newcastle,Newcastle,NB,New Brunswick,47.00011,-65.56544,1149,P,PPL
+island-view-heights-nb,Island View Heights,Island View Heights,NB,New Brunswick,45.23366,-66.12661,1148,P,PPL
+fairwinds-bc,Fairwinds,Fairwinds,BC,British Columbia,49.27588,-124.12782,1147,P,PPL
+munster-on,Munster,Munster,ON,Ontario,45.16476,-75.9396,1145,P,PPL
+upper-island-cove-nl,Upper Island Cove,Upper Island Cove,NL,Newfoundland and Labrador,47.64989,-53.21478,1142,P,PPL
+salmo-bc,Salmo,Salmo,BC,British Columbia,49.19554,-117.27704,1141,P,PPL
+belmont-on,Belmont,Belmont,ON,Ontario,42.88339,-81.08303,1140,P,PPL
+green-acres-ns,Green Acres,Green Acres,NS,Nova Scotia,44.59496,-63.59942,1140,P,PPL
+st-george-s-nl,St. George's,St. George's,NL,Newfoundland and Labrador,48.42852,-58.48151,1139,P,PPL
+foam-lake-sk,Foam Lake,Foam Lake,SK,Saskatchewan,51.65001,-103.53431,1138,P,PPL
+l-ascension-de-notre-seigneur-qc,L'Ascension-de-Notre-Seigneur,L'Ascension-de-Notre-Seigneur,QC,Quebec,48.68339,-71.6658,1134,P,PPL
+saint-michel-des-saints-qc,Saint-Michel-des-Saints,Saint-Michel-des-Saints,QC,Quebec,46.67702,-73.91881,1131,P,PPLA3
+parc-boutin-qc,Parc-Boutin,Parc-Boutin,QC,Quebec,45.29209,-73.26154,1127,P,PPL
+hensall-on,Hensall,Hensall,ON,Ontario,43.43339,-81.49976,1126,P,PPL
+welcome-beach-bc,Welcome Beach,Welcome Beach,BC,British Columbia,49.47959,-123.89239,1125,P,PPLL
+maria-qc,Maria,Maria,QC,Quebec,48.1749,-65.98595,1124,P,PPL
+saint-isidore-qc,Saint-Isidore,Saint-Isidore,QC,Quebec,47.43345,-79.29965,1122,P,PPL
+hayes-subdivision-ns,Hayes Subdivision,Hayes Subdivision,NS,Nova Scotia,45.05519,-64.58795,1121,P,PPL
+pierreville-qc,Pierreville,Pierreville,QC,Quebec,46.07034,-72.81125,1119,P,PPL
+saint-valere-qc,Saint-Valère,Saint-Valere,QC,Quebec,46.06676,-72.09909,1118,P,PPL
+centreville-wareham-trinity-nl,Centreville-Wareham-Trinity,Centreville-Wareham-Trinity,NL,Newfoundland and Labrador,49.011,-53.889,1116,P,PPL
+essondale-bc,Essondale,Essondale,BC,British Columbia,49.22972,-122.81111,1116,P,PPL
+le-bic-qc,Le Bic,Le Bic,QC,Quebec,48.37549,-68.69415,1115,P,PPL
+st-lawrence-nl,St. Lawrence,St. Lawrence,NL,Newfoundland and Labrador,46.91664,-55.39832,1115,P,PPL
+south-river-on,South River,South River,ON,Ontario,45.8334,-79.38293,1114,P,PPL
+luceville-qc,Luceville,Luceville,QC,Quebec,48.54498,-68.39658,1112,P,PPL
+lower-economy-ns,Lower Economy,Lower Economy,NS,Nova Scotia,45.40129,-63.98589,1111,P,PPL
+port-williams-ns,Port Williams,Port Williams,NS,Nova Scotia,45.10015,-64.41546,1110,P,PPL
+gravelbourg-sk,Gravelbourg,Gravelbourg,SK,Saskatchewan,49.88336,-106.55122,1109,P,PPL
+howie-centre-ns,Howie Centre,Howie Centre,NS,Nova Scotia,46.07518,-60.26849,1106,P,PPL
+viking-ab,Viking,Viking,AB,Alberta,53.09606,-111.77527,1106,P,PPL
+maskinonge-qc,Maskinongé,Maskinonge,QC,Quebec,46.2286,-73.01917,1105,P,PPL
+bay-st-george-south-nl,Bay St. George South,Bay St. George South,NL,Newfoundland and Labrador,48.22781,-58.84162,1103,P,PPL
+port-rowan-on,Port Rowan,Port Rowan,ON,Ontario,42.6168,-80.46638,1102,P,PPL
+carleton-qc,Carleton,Carleton,QC,Quebec,48.10252,-66.11962,1101,P,PPLL
+sainte-jeanne-d-arc-qc,Sainte-Jeanne-d'Arc,Sainte-Jeanne-d'Arc,QC,Quebec,48.86673,-72.08221,1101,P,PPL
+fort-simpson-nt,Fort Simpson,Fort Simpson,NT,Northwest Territories,61.86269,-121.35159,1100,P,PPL
+hornby-island-bc,Hornby Island,Hornby Island,BC,British Columbia,49.53448,-124.66923,1100,P,PPL
+milford-station-ns,Milford Station,Milford Station,NS,Nova Scotia,45.0408,-63.43636,1100,P,PPL
+saint-bruno-de-guigues-qc,Saint-Bruno-de-Guigues,Saint-Bruno-de-Guigues,QC,Quebec,47.46685,-79.43296,1100,P,PPL
+eel-ground-nb,Eel Ground,Eel Ground,NB,New Brunswick,46.96537,-65.62883,1094,P,PPL
+new-victoria-ns,New Victoria,New Victoria,NS,Nova Scotia,46.25367,-60.12781,1093,P,PPL
+notre-dame-du-mont-carmel-qc,Notre-Dame-du-Mont-Carmel,Notre-Dame-du-Mont-Carmel,QC,Quebec,46.0168,-75.08259,1091,P,PPL
+lac-du-bonnet-mb,Lac du Bonnet,Lac du Bonnet,MB,Manitoba,50.2536,-96.06116,1089,P,PPL
+dunmore-ab,Dunmore,Dunmore,AB,Alberta,49.96676,-110.60163,1088,P,PPL
+snow-lake-mb,Snow Lake,Snow Lake,MB,Manitoba,54.87903,-100.0374,1088,P,PPL
+albanel-qc,Albanel,Albanel,QC,Quebec,48.88324,-72.44867,1087,P,PPL
+saint-pacome-qc,Saint-Pacôme,Saint-Pacome,QC,Quebec,47.40457,-69.95025,1087,P,PPL
+stoney-point-on,Stoney Point,Stoney Point,ON,Ontario,44.26681,-79.53292,1087,P,PPLL
+scotchtown-ns,Scotchtown,Scotchtown,NS,Nova Scotia,46.23888,-60.09968,1082,P,PPL
+canoe-bc,Canoe,Canoe,BC,British Columbia,50.75,-119.23333,1081,P,PPL
+sydney-forks-ns,Sydney Forks,Sydney Forks,NS,Nova Scotia,46.0604,-60.30385,1081,P,PPL
+souris-pe,Souris,Souris,PE,Prince Edward Island,46.3501,-62.24862,1079,P,PPL
+salluit-qc,Salluit,Salluit,QC,Quebec,62.20411,-75.64344,1075,P,PPL
+la-broquerie-mb,La Broquerie,La Broquerie,MB,Manitoba,49.51688,-96.50029,1073,P,PPL
+mineville-ns,Mineville,Mineville,NS,Nova Scotia,44.69163,-63.37466,1073,P,PPL
+cobden-on,Cobden,Cobden,ON,Ontario,45.63341,-76.88273,1071,P,PPL
+deloraine-mb,Deloraine,Deloraine,MB,Manitoba,49.19082,-100.49477,1068,P,PPL
+black-river-hardwicke-nb,Black River-Hardwicke,Black River-Hardwicke,NB,New Brunswick,47.02116,-65.20756,1067,P,PPL
+cap-de-richibucto-nb,Cap-de-Richibucto,Cap-de-Richibucto,NB,New Brunswick,46.59458,-64.77935,1067,P,PPL
+saint-denis-sur-richelieu-qc,Saint-Denis-sur-Richelieu,Saint-Denis-sur-Richelieu,QC,Quebec,45.78338,-73.14915,1067,P,PPL
+whitbourne-nl,Whitbourne,Whitbourne,NL,Newfoundland and Labrador,47.4166,-53.5314,1066,P,PPL
+harbour-main-chapel-s-cove-lakeview-nl,Harbour Main-Chapel's Cove-Lakeview,Harbour Main-Chapel's Cove-Lakeview,NL,Newfoundland and Labrador,47.41659,-53.16478,1065,P,PPL
+mahone-bay-ns,Mahone Bay,Mahone Bay,NS,Nova Scotia,44.44882,-64.38158,1064,P,PPL
+smoky-lake-ab,Smoky Lake,Smoky Lake,AB,Alberta,54.11687,-112.46863,1063,P,PPL
+cache-creek-bc,Cache Creek,Cache Creek,BC,British Columbia,50.81011,-121.3246,1061,P,PPL
+kerrobert-sk,Kerrobert,Kerrobert,SK,Saskatchewan,51.91682,-109.13479,1061,P,PPL
+saint-norbert-qc,Saint-Norbert,Saint-Norbert,QC,Quebec,46.16949,-73.31494,1059,P,PPL
+weedon-centre-qc,Weedon Centre,Weedon Centre,QC,Quebec,45.70802,-71.45986,1059,P,PPL
+english-corner-ns,English Corner,English Corner,NS,Nova Scotia,44.73345,-63.78201,1058,P,PPL
+oxbow-sk,Oxbow,Oxbow,SK,Saskatchewan,49.23335,-102.1676,1058,P,PPL
+saint-elzear-qc,Saint-Elzéar,Saint-Elzear,QC,Quebec,45.60338,-73.72698,1057,P,PPL
+killam-ab,Killam,Killam,AB,Alberta,52.78344,-111.85175,1056,P,PPL
+valemount-bc,Valemount,Valemount,BC,British Columbia,52.83329,-119.2525,1052,P,PPL
+hornepayne-on,Hornepayne,Hornepayne,ON,Ontario,49.21451,-84.77617,1050,P,PPL
+kaslo-bc,Kaslo,Kaslo,BC,British Columbia,49.91658,-116.91887,1049,P,PPL
+sheshatshiu-nl,Sheshatshiu,Sheshatshiu,NL,Newfoundland and Labrador,53.51868,-60.14594,1049,P,PPL
+paisley-on,Paisley,Paisley,ON,Ontario,44.30641,-81.27265,1045,P,PPL
+108-mile-ranch-bc,108 Mile Ranch,108 Mile Ranch,BC,British Columbia,51.74891,-121.36895,1043,P,PPL
+melita-mb,Melita,Melita,MB,Manitoba,49.26811,-100.99669,1042,P,PPL
+noonan-nb,Noonan,Noonan,NB,New Brunswick,45.96682,-66.53218,1042,P,PPL
+cawston-bc,Cawston,Cawston,BC,British Columbia,49.18254,-119.75965,1040,P,PPL
+schreiber-on,Schreiber,Schreiber,ON,Ontario,48.81252,-87.26458,1039,P,PPL
+weymontachie-qc,Weymontachie,Weymontachie,QC,Quebec,47.8994,-73.7772,1038,P,PPL
+jarvis-on,Jarvis,Jarvis,ON,Ontario,42.88559,-80.1122,1037,P,PPL
+quarryville-nb,Quarryville,Quarryville,NB,New Brunswick,46.8334,-65.78205,1036,P,PPL
+coral-harbour-nu,Coral Harbour,Coral Harbour,NU,Nunavut,64.13829,-83.16539,1035,P,PPL
+saint-boniface-qc,Saint-Boniface,Saint-Boniface,QC,Quebec,46.50011,-75.98264,1035,P,PPL
+upper-sackville-ns,Upper Sackville,Upper Sackville,NS,Nova Scotia,44.819,-63.76,1035,P,PPL
+desbiens-qc,Desbiens,Desbiens,QC,Quebec,48.41792,-71.9477,1034,P,PPL
+six-mile-bc,Six Mile,Six Mile,BC,British Columbia,48.45767,-123.46088,1031,P,PPL
+hubley-ns,Hubley,Hubley,NS,Nova Scotia,44.67343,-63.82215,1029,P,PPL
+sainte-genevieve-de-batiscan-qc,Sainte-Geneviève-de-Batiscan,Sainte-Genevieve-de-Batiscan,QC,Quebec,46.53005,-72.33881,1028,P,PPL
+norman-wells-nt,Norman Wells,Norman Wells,NT,Northwest Territories,65.28201,-126.8329,1027,P,PPL
+chalk-river-on,Chalk River,Chalk River,ON,Ontario,46.01682,-77.44948,1025,P,PPL
+bentley-ab,Bentley,Bentley,AB,Alberta,52.46544,-114.05008,1024,P,PPL
+delisle-sk,Delisle,Delisle,SK,Saskatchewan,51.9236,-107.13518,1024,P,PPL
+french-creek-bc,French Creek,French Creek,BC,British Columbia,49.34123,-124.35541,1024,P,PPL
+cookshire-qc,Cookshire,Cookshire,QC,Quebec,45.41536,-71.62962,1021,P,PPL
+saint-prime-qc,Saint-Prime,Saint-Prime,QC,Quebec,48.59242,-72.33555,1021,P,PPL
+denman-island-bc,Denman Island,Denman Island,BC,British Columbia,49.53294,-124.8195,1020,P,PPL
+ardmore-bc,Ardmore,Ardmore,BC,British Columbia,48.63854,-123.46933,1014,P,PPLL
+buffalo-narrows-sk,Buffalo Narrows,Buffalo Narrows,SK,Saskatchewan,55.86086,-108.479,1014,P,PPL
+eckville-ab,Eckville,Eckville,AB,Alberta,52.36274,-114.37011,1014,P,PPL
+sanikiluaq-nu,Sanikiluaq,Sanikiluaq,NU,Nunavut,56.54106,-79.22576,1010,P,PPLL
+gillam-mb,Gillam,Gillam,MB,Manitoba,56.34745,-94.70808,1007,P,PPL
+preeceville-sk,Preeceville,Preeceville,SK,Saskatchewan,51.94998,-102.66766,1003,P,PPL
+mannheim-on,Mannheim,Mannheim,ON,Ontario,43.39812,-80.54538,1002,P,PPL
+plaster-rock-nb,Plaster Rock,Plaster Rock,NB,New Brunswick,46.90654,-67.38997,1002,P,PPL
+falher-ab,Falher,Falher,AB,Alberta,55.73339,-117.20262,1001,P,PPL
+irishtown-nb,Irishtown,Irishtown,NB,New Brunswick,46.18789,-64.79206,1000,P,PPL
+lake-louise-ab,Lake Louise,Lake Louise,AB,Alberta,51.42544,-116.17887,1000,P,PPL
+saint-roch-des-aulnaies-qc,Saint-Roch-des-Aulnaies,Saint-Roch-des-Aulnaies,QC,Quebec,47.31078,-70.17719,1000,P,PPL

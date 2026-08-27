@@ -10,15 +10,30 @@ export type JobRow = {
   first_seen_at: string;
   ats_platform: string;
   category?: string | null;
+  location_status?: string | null;
+  distance_km?: number | null;
+};
+
+export type PlaceOption = {
+  slug: string;
+  name: string;
+  province: string;
+  job_count: number;
 };
 
 export type DateFilter = "24h" | "7d" | "30d" | "all";
-export type SortField = "posted_at" | "title";
+export type SortField = "posted_at" | "title" | "distance";
 export type SortOrder = "asc" | "desc";
 
 export type BoardSearchParams = {
   q?: string;
+  /** Free-text location, kept so old bookmarked URLs and "remote" still work. */
   location?: string;
+  /** places.slug — set when a suggestion is picked, enabling true radius search. */
+  place?: string;
+  radius?: string;
+  /** "0" hides remote and Canada-wide roles from a radius search. */
+  remote?: string;
   company?: string;
   date?: string;
   sort?: string;
@@ -65,3 +80,6 @@ export const LEVELS = [
   { value: "mid", label: "Mid-level" },
   { value: "senior", label: "Senior+" },
 ] as const;
+
+export const RADIUS_OPTIONS = [10, 25, 50, 100] as const;
+export const DEFAULT_RADIUS_KM = 25;

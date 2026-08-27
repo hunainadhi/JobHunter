@@ -3,7 +3,9 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Search, X } from "lucide-react";
-import { CATEGORIES, LEVELS, PLATFORMS } from "@/lib/types";
+import { CATEGORIES, LEVELS, PLATFORMS, DEFAULT_RADIUS_KM } from "@/lib/types";
+import type { PlaceOption } from "@/lib/types";
+import { LocationCombobox } from "./location-combobox";
 
 const selectStyle: React.CSSProperties = {
   background: "var(--bg-neutral-secondary-medium)",
@@ -42,7 +44,7 @@ function useFocusHandlers() {
   };
 }
 
-export function SearchFilters() {
+export function SearchFilters({ places = [] }: { places?: PlaceOption[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const focus = useFocusHandlers();
@@ -55,9 +57,12 @@ export function SearchFilters() {
   const currentCategory = searchParams.get("category") || "";
   const currentLevel = searchParams.get("level") || "";
   const currentPlatform = searchParams.get("platform") || "";
+  const currentPlace = searchParams.get("place") || "";
+  const currentRadius = parseInt(searchParams.get("radius") || "", 10) || DEFAULT_RADIUS_KM;
+  const currentRemote = searchParams.get("remote") !== "0";
+  const selectedPlace = places.find((p) => p.slug === currentPlace) || null;
 
   const [q, setQ] = useState(currentQ);
-  const [location, setLocation] = useState(currentLocation);
   const [company, setCompany] = useState(currentCompany);
 
   const searchParamsRef = useRef(searchParams);
@@ -85,26 +90,18 @@ export function SearchFilters() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      updateParams({ location });
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [location, updateParams]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
       updateParams({ company });
     }, 300);
     return () => clearTimeout(timer);
   }, [company, updateParams]);
 
   const hasFilters =
-    currentQ || currentLocation || currentCompany ||
+    currentQ || currentLocation || currentPlace || currentCompany ||
     currentDate !== "all" || currentSort !== "posted_at" ||
     currentCategory || currentLevel || currentPlatform;
 
   const clearAll = () => {
     setQ("");
-    setLocation("");
     setCompany("");
     router.replace("?");
   };
@@ -140,13 +137,25 @@ export function SearchFilters() {
           <option value="30d">Last 30 days</option>
         </select>
 
-        <input
-          type="text"
-          placeholder="Location or remote"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          style={{ ...inputStyle, width: 180 }}
-          {...focus}
+        <LocationCombobox
+          places={places}
+          selectedPlace={selectedPlace}
+          locationText={currentLocation}
+          radius={currentRadius}
+          includeRemote={currentRemote}
+          onSelectPlace={(place) =>
+            updateParams({
+              place: place ? place.slug : "",
+              // A place and free text are alternatives, never both.
+              location: "",
+              radius: place ? String(currentRadius) : "",
+              remote: "",
+              sort: "",
+            })
+          }
+          onFreeText={(value) => updateParams({ location: value, place: "" })}
+          onRadiusChange={(km) => updateParams({ radius: String(km) })}
+          onRemoteChange={(include) => updateParams({ remote: include ? "" : "0" })}
         />
 
         <div className="flex" style={{ gap: 0 }}>

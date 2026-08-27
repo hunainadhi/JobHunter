@@ -60,7 +60,7 @@ aws s3 sync lambdas/ingestion/data/ "s3://$DEPLOY_BUCKET/data/" --region $REGION
 echo "Deploying ingestion Lambda..."
 cd lambdas/ingestion
 rm -f ../ingestion.zip
-zip -r ../ingestion.zip handler.py location_filter.py data/
+zip -r ../ingestion.zip handler.py location_filter.py location_resolver.py data/
 cd ../..
 aws lambda update-function-code \
   --function-name $INGESTION_FUNCTION \

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { fetchJobs, fetchLastScrape, PAGE_SIZE } from "@/lib/queries";
+import { fetchJobs, fetchLastScrape, fetchPlacesWithJobs, PAGE_SIZE } from "@/lib/queries";
 import type { BoardSearchParams } from "@/lib/types";
 import { SearchFilters } from "@/components/search-filters";
 import { JobBoardTable } from "@/components/job-board-table";
@@ -37,6 +37,9 @@ export default async function BoardPage({
   const params: BoardSearchParams = {
     q: typeof raw.q === "string" ? raw.q : undefined,
     location: typeof raw.location === "string" ? raw.location : undefined,
+    place: typeof raw.place === "string" ? raw.place : undefined,
+    radius: typeof raw.radius === "string" ? raw.radius : undefined,
+    remote: typeof raw.remote === "string" ? raw.remote : undefined,
     company: typeof raw.company === "string" ? raw.company : undefined,
     date: typeof raw.date === "string" ? raw.date : undefined,
     sort: typeof raw.sort === "string" ? raw.sort : undefined,
@@ -47,9 +50,10 @@ export default async function BoardPage({
     platform: typeof raw.platform === "string" ? raw.platform : undefined,
   };
 
-  const [{ jobs, totalCount }, lastScrape] = await Promise.all([
+  const [{ jobs, totalCount }, lastScrape, places] = await Promise.all([
     fetchJobs(params),
     fetchLastScrape(),
+    fetchPlacesWithJobs(),
   ]);
   const currentPage = Math.max(1, parseInt(params.page || "1", 10) || 1);
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
@@ -88,7 +92,7 @@ export default async function BoardPage({
 
         {/* Filters */}
         <Suspense>
-          <SearchFilters />
+          <SearchFilters places={places} />
         </Suspense>
 
         {/* Table */}
