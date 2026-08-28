@@ -434,6 +434,65 @@ def discover_slugs_wayback(
 # Validation
 # ---------------------------------------------------------------------------
 
+ASHBY_GRAPHQL_URL = "https://jobs.ashbyhq.com/api/non-user-graphql?op=ApiJobBoardWithTeams"
+ASHBY_BOARD_QUERY = """
+query ApiJobBoardWithTeams($organizationHostedJobsPageName: String!) {
+  jobBoard: jobBoardWithTeams(
+    organizationHostedJobsPageName: $organizationHostedJobsPageName
+  ) {
+    jobPostings {
+      locationName
+      secondaryLocations { locationName }
+    }
+  }
+}
+"""
+
+
+def _any_canadian(locations) -> bool:
+    """True if any of these location strings reads as Canadian.
+
+    Multi-site postings scatter their cities across a primary field and an
+    ATS-specific side list, so every candidate has to be checked — a role open
+    in both San Francisco and Toronto is a Canadian role either way.
+    """
+    return any(is_canadian_location(loc or "", None) for loc in locations)
+
+
+def validate_ashby_graphql(client: httpx.Client, slug: str) -> tuple[bool, bool]:
+    """Second opinion for Ashby boards that 404 on the public posting API."""
+    try:
+        resp = client.post(
+            ASHBY_GRAPHQL_URL,
+            json={
+                "operationName": "ApiJobBoardWithTeams",
+                "query": ASHBY_BOARD_QUERY,
+                "variables": {"organizationHostedJobsPageName": slug},
+            },
+            timeout=REQUEST_TIMEOUT,
+        )
+        if resp.status_code != 200:
+            return False, False
+        board = (resp.json().get("data") or {}).get("jobBoard")
+    except (httpx.HTTPError, json.JSONDecodeError):
+        return False, False
+
+    # A null board is the real "no such org" signal; an existing board with no
+    # open roles is still a live company worth keeping in the CSV.
+    if board is None:
+        return False, False
+
+    locations = []
+    for posting in board.get("jobPostings") or []:
+        locations.append(posting.get("locationName"))
+        locations += [
+            loc.get("locationName")
+            for loc in posting.get("secondaryLocations") or []
+            if isinstance(loc, dict)
+        ]
+    return True, _any_canadian(locations)
+
+
 def validate_company(
     client: httpx.Client,
     platform: str,
@@ -446,17 +505,24 @@ def validate_company(
     if canada_check == "ashby":
         try:
             resp = client.get(api_url.format(slug=slug), timeout=REQUEST_TIMEOUT)
-            if resp.status_code in (404, 403, 401):
-                return False, False
-            if resp.status_code != 200:
-                return False, False
-            data = resp.json()
-            jobs = data.get("jobs", [])
-            has_ca = any(
-                is_canadian_location(job.get("location", ""), None)
-                for job in jobs
-            )
-            return True, has_ca
+            if resp.status_code == 200:
+                jobs = resp.json().get("jobs", [])
+                locations = []
+                for job in jobs:
+                    locations.append(job.get("location", ""))
+                    locations += [
+                        loc.get("location", "")
+                        for loc in job.get("secondaryLocations") or []
+                        if isinstance(loc, dict)
+                    ]
+                return True, _any_canadian(locations)
+            if resp.status_code == 404:
+                # The public posting API is opt-in. A 404 only means this board
+                # never switched it on — ask the endpoint jobs.ashbyhq.com uses
+                # before writing the company off as inactive, or boards like
+                # EvenUp's never make it into the CSV at all.
+                return validate_ashby_graphql(client, slug)
+            return False, False
         except (httpx.HTTPError, json.JSONDecodeError):
             return False, False
 
@@ -480,26 +546,26 @@ def validate_company(
 
             if canada_check == "greenhouse":
                 jobs = data.get("jobs", [])
-                has_ca = any(
-                    is_canadian_location(
-                        job.get("location", {}).get("name", ""), None
-                    )
-                    for job in jobs
-                )
-                return True, has_ca
+                locations = []
+                for job in jobs:
+                    locations.append(job.get("location", {}).get("name", ""))
+                    # ``offices`` carries the other sites a role is open in.
+                    locations += [
+                        office.get("name", "")
+                        for office in job.get("offices") or []
+                        if isinstance(office, dict)
+                    ]
+                return True, _any_canadian(locations)
 
             elif canada_check == "lever":
                 jobs = data if isinstance(data, list) else data.get("postings", [])
-                has_ca = any(
-                    is_canadian_location(
-                        p.get("categories", {}).get("location", ""), None
-                    )
-                    or is_canadian_location(
-                        p.get("categories", {}).get("country", ""), None
-                    )
-                    for p in jobs
-                )
-                return True, has_ca
+                locations = []
+                for p in jobs:
+                    categories = p.get("categories") or {}
+                    locations.append(categories.get("location", ""))
+                    locations.append(categories.get("country", ""))
+                    locations += categories.get("allLocations") or []
+                return True, _any_canadian(locations)
 
             elif canada_check == "smartrecruiters":
                 jobs = data.get("content", [])
@@ -514,12 +580,21 @@ def validate_company(
 
             elif canada_check == "workable":
                 jobs = data.get("jobs", [])
-                has_ca = any(
-                    is_canadian_location(job.get("location", ""), None)
-                    or is_canadian_location(job.get("location_country", ""), None)
-                    for job in jobs
-                )
-                return True, has_ca
+                locations = []
+                for job in jobs:
+                    locations.append(job.get("location", ""))
+                    locations.append(job.get("location_country", ""))
+                    for entry in job.get("locations") or []:
+                        if isinstance(entry, dict):
+                            locations.append(", ".join(
+                                part for part in (
+                                    entry.get("city"), entry.get("region"),
+                                    entry.get("country"),
+                                ) if part
+                            ))
+                        else:
+                            locations.append(entry)
+                return True, _any_canadian(locations)
 
             return True, False
         except (httpx.HTTPError, json.JSONDecodeError):

@@ -11,7 +11,10 @@ DEPLOY_BUCKET="jobhunter-deploy-ca"
 
 echo "Building Lambda layer..."
 rm -rf lambdas/layer
-pip install \
+# Bare `pip` isn't on PATH in every shell (Homebrew/framework Python only
+# ship `pip3`); go through the interpreter so the script doesn't depend on it.
+PIP="${PIP:-python3 -m pip}"
+$PIP install \
   --platform manylinux2014_x86_64 \
   --implementation cp \
   --python-version 3.12 \
@@ -19,7 +22,7 @@ pip install \
   --target lambdas/layer/python \
   httpx supabase pandas beautifulsoup4
 
-pip install \
+$PIP install \
   --target lambdas/layer/python \
   --no-deps \
   "jobhive-py @ git+https://github.com/kalil0321/ats-scrapers.git@d825caefc8e97c3533efe1707b4daddfeed58706"
@@ -60,7 +63,7 @@ aws s3 sync lambdas/ingestion/data/ "s3://$DEPLOY_BUCKET/data/" --region $REGION
 echo "Deploying ingestion Lambda..."
 cd lambdas/ingestion
 rm -f ../ingestion.zip
-zip -r ../ingestion.zip handler.py location_filter.py location_resolver.py data/
+zip -r ../ingestion.zip handler.py location_filter.py location_resolver.py ashby_graphql.py data/
 cd ../..
 aws lambda update-function-code \
   --function-name $INGESTION_FUNCTION \

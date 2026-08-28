@@ -27,7 +27,10 @@ BATCH_SIZE = 40
 ATS_SCRAPERS = {
     "greenhouse": "jobhive.scrapers.greenhouse.GreenhouseScraper",
     "lever": "jobhive.scrapers.lever.LeverScraper",
-    "ashby": "jobhive.scrapers.ashby.AshbyScraper",
+    # Local subclass, not the upstream scraper: it adds a GraphQL fallback for
+    # Ashby boards that never enabled the public posting API. See
+    # ashby_graphql.py for why it can't live in the vendored layer.
+    "ashby": "ashby_graphql.AshbyGraphQLScraper",
     "smartrecruiters": "jobhive.scrapers.smartrecruiters.SmartRecruitersScraper",
     "workable": "jobhive.scrapers.workable.WorkableScraper",
     "rippling": "jobhive.scrapers.rippling.RipplingScraper",
@@ -170,8 +173,48 @@ def resolve_cached(raw: str | None, gazetteer: Gazetteer):
     return _RESOLUTIONS[key]
 
 
+def candidate_locations(job) -> list:
+    """Every location a job is open in — primary first, then the rest.
+
+    Multi-site postings put one city in the primary slot and the others in a
+    side list, and which one wins the primary slot is arbitrary: EvenUp's
+    Toronto roles list "San Francisco (hybrid)" first. Every ATS names that
+    side list differently, and the scrapers pass each through verbatim:
+
+        Ashby       raw["secondary_locations"]         ["Toronto (hybrid)"]
+        Greenhouse  raw["offices"]                     ["Toronto", "New York"]
+        Lever       raw["categories"]["allLocations"]  ["Toronto, ON"]
+        Workable    raw["locations"]                   [{city, region, country}]
+    """
+    locations = [job.location]
+    raw = getattr(job, "raw", None) or {}
+
+    extra = []
+    extra += raw.get("secondary_locations") or []
+    extra += raw.get("offices") or []
+    categories = raw.get("categories")
+    if isinstance(categories, dict):
+        extra += categories.get("allLocations") or []
+    # Workable keeps structured dicts here and only ever reads the first one
+    # for the primary; the rest are as real as any other office.
+    for entry in raw.get("locations") or []:
+        if isinstance(entry, dict):
+            extra.append(", ".join(
+                part for part in
+                (entry.get("city"), entry.get("region"), entry.get("country"))
+                if part
+            ))
+        else:
+            extra.append(entry)
+
+    for candidate in extra:
+        if isinstance(candidate, str) and candidate.strip() and candidate not in locations:
+            locations.append(candidate)
+    return locations
+
+
 def filter_canadian(jobs: list, supabase, stats: dict) -> list:
-    """Keep jobs whose location resolves to Canada; log the rest.
+    """Keep jobs open in Canada at any of their locations; log the rest.
 
     Replaces the keyword matching in location_filter.py, which could not tell
     Saskatchewan's 'sk' from Slovakia's, Ontario the province from Ontario
@@ -184,15 +227,35 @@ def filter_canadian(jobs: list, supabase, stats: dict) -> list:
     for job in jobs:
         if not job.description:
             continue
-        resolution = resolve_cached(job.location, gazetteer)
-        if resolution.is_canadian:
-            kept.append(job)
-        else:
+
+        matched = None
+        primary_resolution = None
+        for candidate in candidate_locations(job):
+            resolution = resolve_cached(candidate, gazetteer)
+            if primary_resolution is None:
+                primary_resolution = resolution
+            if resolution.is_canadian:
+                matched = candidate
+                break
+
+        if matched is None:
             stats.setdefault("jobs_rejected", 0)
             stats["jobs_rejected"] += 1
             stats.setdefault("reject_reasons", {})
-            bucket = f"{resolution.status}: {resolution.reason[:60]}"
+            bucket = f"{primary_resolution.status}: {primary_resolution.reason[:60]}"
             stats["reject_reasons"][bucket] = stats["reject_reasons"].get(bucket, 0) + 1
+            continue
+
+        if matched != job.location:
+            # Persist the Canadian string, not the foreign primary. job_locations
+            # joins on the stored location, so a job saved as "San Francisco
+            # (hybrid)" resolves to 'unresolved' and never surfaces on the board
+            # even though it was ingested.
+            job.raw = {**(job.raw or {}), "primary_location": job.location}
+            job.location = matched
+            stats["jobs_kept_via_secondary"] = stats.get("jobs_kept_via_secondary", 0) + 1
+
+        kept.append(job)
     return kept
 
 
