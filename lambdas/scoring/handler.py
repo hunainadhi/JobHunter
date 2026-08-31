@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import time
 import traceback
 from datetime import datetime, timezone
 
@@ -14,11 +15,13 @@ OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"]
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 SCORING_MODEL = os.environ.get("OPENROUTER_MODEL", "qwen/qwen3-30b-a3b")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
-BATCH_SIZE = 10
+# 10 jobs per call produced enough output to hit the token ceiling and truncate
+# the JSON array; 5 halves the response size for the same work.
+BATCH_SIZE = 5
 MATCH_THRESHOLD = 25
-# 10 jobs x (scores + skills + rationale + category) can exceed 2000 tokens and
-# truncate the JSON array, failing the whole batch — keep generous headroom.
-MAX_COMPLETION_TOKENS = 4000
+# 5 jobs x (scores + skills + rationale + category), plus the reasoning tokens
+# this model emits before its answer, which are billed against the same ceiling.
+MAX_COMPLETION_TOKENS = 8000
 # Safety valve: stop self-chaining after this many chained invocations even if
 # jobs remain, so a persistent failure can't re-bill the model API + Lambda forever.
 MAX_CHAIN_DEPTH = 30
@@ -262,12 +265,78 @@ def score_batch(jobs: list[dict]) -> list[dict]:
         response.raise_for_status()
 
     result = response.json()
-    text = result["choices"][0]["message"]["content"]
+    choice = result["choices"][0]
+    text = choice["message"]["content"] or ""
     clean = text.strip().removeprefix("```json").removesuffix("```").strip()
-    return json.loads(clean)
+
+    try:
+        return json.loads(clean)
+    except json.JSONDecodeError:
+        # A truncated array used to fail the whole batch, discarding every job
+        # in it — including the ones the model had already scored correctly.
+        # Keep the complete objects and let the rest be retried.
+        salvaged = salvage_json_objects(clean)
+        finish = choice.get("finish_reason") or choice.get("native_finish_reason")
+        print(
+            f"Batch response was not valid JSON (finish_reason={finish}); "
+            f"salvaged {len(salvaged)} of ~{len(jobs)} job(s)"
+        )
+        if not salvaged:
+            raise
+        return salvaged
 
 
+def salvage_json_objects(text: str) -> list[dict]:
+    """Pull every complete top-level object out of a truncated JSON array.
+
+    Scans for balanced brace pairs, ignoring braces inside strings, so a
+    response cut off mid-object still yields the objects that came before it.
+    """
+    objects: list[dict] = []
+    depth = 0
+    start = None
+    in_string = False
+    escaped = False
+
+    for i, ch in enumerate(text):
+        if in_string:
+            if escaped:
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == '"':
+                in_string = False
+            continue
+        if ch == '"':
+            in_string = True
+        elif ch == "{":
+            if depth == 0:
+                start = i
+            depth += 1
+        elif ch == "}":
+            if depth > 0:
+                depth -= 1
+                if depth == 0 and start is not None:
+                    try:
+                        parsed = json.loads(text[start : i + 1])
+                    except json.JSONDecodeError:
+                        pass
+                    else:
+                        if isinstance(parsed, dict):
+                            objects.append(parsed)
+                    start = None
+    return objects
+
+
+# Wall-clock budget for one invocation. The Lambda's own ceiling is 900s; the
+# loop must stop early enough to release its claims and fire the self-chain,
+# both of which are skipped when the runtime kills the process.
 MAX_RUNTIME_SECONDS = 14 * 60
+# A single batch's API call plus its writes. The old guard only checked the
+# clock between rounds of 100 jobs — a round takes 400-550s, so one starting at
+# 800s ran straight through the 900s wall. Checking between batches with this
+# much held back keeps the release and self-chain reachable.
+BATCH_TIME_RESERVE_SECONDS = 150
 
 
 def claim_jobs(supabase, count: int = 100) -> list[dict]:
@@ -299,7 +368,7 @@ def claim_jobs(supabase, count: int = 100) -> list[dict]:
     return all_jobs
 
 
-def score_round(supabase, failed_ids: set) -> dict:
+def score_round(supabase, failed_ids: set, deadline: float | None = None) -> dict:
     claimed = claim_jobs(supabase, 100)
 
     # Skip jobs that already failed this invocation — retrying them in a tight
@@ -322,7 +391,7 @@ def score_round(supabase, failed_ids: set) -> dict:
         null_ids = [job["id"] for job in null_desc_resp.data]
         supabase.table("jobs").update({"status": "scored"}).in_("id", null_ids).execute()
 
-    stats = {"scored": 0, "matched": 0, "errors": [], "discarded": discarded}
+    stats = {"scored": 0, "matched": 0, "errors": [], "discarded": discarded, "ran_out_of_time": False}
 
     if not all_jobs:
         # Release anything claimed but skipped (all-failed claim). Scope to our
@@ -332,6 +401,14 @@ def score_round(supabase, failed_ids: set) -> dict:
         return stats
 
     for i in range(0, len(all_jobs), BATCH_SIZE):
+        # Stop before a batch that can't finish inside the invocation. Whatever
+        # is left stays 'scoring' only until the release below hands it back.
+        if deadline is not None and time.monotonic() + BATCH_TIME_RESERVE_SECONDS > deadline:
+            stats["ran_out_of_time"] = True
+            remaining_jobs = len(all_jobs) - i
+            print(f"Stopping round early: {remaining_jobs} claimed job(s) released for the next invocation")
+            break
+
         batch = all_jobs[i : i + BATCH_SIZE]
         batch_ids = {str(j["id"]) for j in batch}
         try:
@@ -408,20 +485,37 @@ def score_round(supabase, failed_ids: set) -> dict:
 
 
 def lambda_handler(event, context):
-    import time
-    start_time = time.time()
+    start_time = time.monotonic()
     supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+
+    # Prefer the runtime's own view of the deadline over a hardcoded budget, so
+    # the guard tracks the configured timeout instead of drifting from it.
+    budget = MAX_RUNTIME_SECONDS
+    if context is not None and hasattr(context, "get_remaining_time_in_millis"):
+        try:
+            budget = min(budget, context.get_remaining_time_in_millis() / 1000.0 - 30)
+        except Exception:
+            pass
+    deadline = start_time + budget
 
     chain_depth = (event or {}).get("chain_depth", 0)
     total_stats = {"scored": 0, "matched": 0, "errors": [], "discarded": 0, "rounds": 0}
     failed_ids: set = set()
 
+    # Hand back claims leaked by an earlier invocation that was killed mid-round
+    # before it could release them, otherwise those jobs are never scored again.
+    try:
+        reclaimed = supabase.rpc("reclaim_stalled_scoring_jobs", {"stale_minutes": 30}).execute().data
+        if reclaimed:
+            print(f"Reclaimed {reclaimed} job(s) stranded in 'scoring' by a previous run")
+    except Exception as e:
+        print(f"reclaim_stalled_scoring_jobs unavailable (non-fatal): {e}")
+
     while True:
-        elapsed = time.time() - start_time
-        if elapsed >= MAX_RUNTIME_SECONDS:
+        if time.monotonic() + BATCH_TIME_RESERVE_SECONDS > deadline:
             break
 
-        round_stats = score_round(supabase, failed_ids)
+        round_stats = score_round(supabase, failed_ids, deadline)
         if round_stats["scored"] == 0 and round_stats["discarded"] == 0:
             break
 
@@ -431,7 +525,12 @@ def lambda_handler(event, context):
         total_stats["errors"].extend(round_stats["errors"])
         total_stats["rounds"] += 1
 
-        print(f"Round {total_stats['rounds']}: scored={round_stats['scored']} matched={round_stats['matched']} errors={len(round_stats['errors'])} elapsed={int(elapsed)}s")
+        # Elapsed is read after the round, not before it: the old ordering
+        # printed the time the round started, which hid how long rounds ran.
+        print(f"Round {total_stats['rounds']}: scored={round_stats['scored']} matched={round_stats['matched']} errors={len(round_stats['errors'])} elapsed={int(time.monotonic() - start_time)}s")
+
+        if round_stats.get("ran_out_of_time"):
+            break
 
     remaining = (
         supabase.table("jobs")
@@ -442,7 +541,7 @@ def lambda_handler(event, context):
         .execute()
     )
     remaining_count = remaining.count or 0
-    elapsed = int(time.time() - start_time)
+    elapsed = int(time.monotonic() - start_time)
     print(f"Scoring complete. rounds={total_stats['rounds']} scored={total_stats['scored']} matched={total_stats['matched']} discarded={total_stats['discarded']} remaining={remaining_count} elapsed={elapsed}s")
 
     made_progress = total_stats["scored"] > 0 or total_stats["discarded"] > 0
