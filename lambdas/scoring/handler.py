@@ -262,6 +262,13 @@ def score_batch(jobs: list[dict]) -> list[dict]:
             },
             json=payload,
         )
+        if response.is_error:
+            # A bare raise_for_status() drops the body, which is the only part
+            # of an OpenRouter 4xx that says *why* it was refused.
+            print(
+                f"OpenRouter {response.status_code} on {SCORING_MODEL}: "
+                f"{response.text[:800]}"
+            )
         response.raise_for_status()
 
     result = response.json()
