@@ -120,8 +120,15 @@ _s3 = boto3.client("s3", region_name="ca-central-1")
 def load_existing_slugs_s3(platform: str) -> set[str]:
     try:
         resp = _s3.get_object(Bucket=S3_BUCKET, Key=f"{S3_DATA_PREFIX}{platform}.csv")
-        reader = csv.DictReader(io.StringIO(resp["Body"].read().decode()))
-        return {row["slug"].lower().strip() for row in reader}
+        # Read by position, not by header: a copy of these files once landed in
+        # S3 without its name,slug,url row, and DictReader then raised KeyError
+        # on every weekly run.
+        reader = csv.reader(io.StringIO(resp["Body"].read().decode()))
+        return {
+            row[1].lower().strip()
+            for row in reader
+            if len(row) >= 2 and row != ["name", "slug", "url"]
+        }
     except _s3.exceptions.NoSuchKey:
         return set()
 
